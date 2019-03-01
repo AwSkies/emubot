@@ -4,4 +4,4 @@ To check what will be done: git status
 To say what files to do stuff with: git add (file name(s))
 To commit to the local repository: git commit -m "(changes)"
 To commit to the GitHub repository: git push origin master (goes to the master branch)
-To apply changes made remotely: git pull
+To apply changes made remotely: git pull origin master
