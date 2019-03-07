@@ -197,14 +197,14 @@ async def on_message(message):
             user_add_value(message.author.id, 20000, 'credits')
             user_add_value(message.author.id, maxemus - maxdefense, 'emustorage')
             user_add_value(message.author.id, maxdefense, 'emudefense')
-            msg = 'You are topped off, tester!'
+            msg = 'You are maxed out, tester!'
             await client.send_message(message.channel, msg)
         else:
             msg = "You do not have permission to use this command!"
             await client.send_message(message.channel, msg)
 
     #putting emus on defense command ----------------------------------------------
-    if message.content.upper ().startswith('E!DEFEND'):
+    if message.content.upper ().startswith('E!DEFEND') or message.content.upper ().startswith('E!DEFENCE') or message.content.upper ().startswith('E!DEFENSE'):
         if get_value(message.author.id, 'emustorage') > 0:
             args = message.content.split(" ")
             if len(args) == 1:
@@ -258,7 +258,7 @@ async def on_message(message):
                     else:
                         if numemus == 1:
                             user_add_value(message.author.id, -1, 'emudefense')
-                            user_add_value(message.author.id, 1, 'emustorge')
+                            user_add_value(message.author.id, 1, 'emustorage')
                             msg = '''One emu taken off defense! Remember you can check your stats with e!stats!'''
                             await client.send_message(message.channel, msg)
                         else:
