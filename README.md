@@ -1,5 +1,5 @@
 # Emu Bot
-Code for the Emu Bot discord bot
+Code for the Emu Bot Discord bot
 
 When making a new command, make a new file in the prototypes and drafts folder
 
