@@ -30,6 +30,10 @@ spamprotection = dict()
 #makes spamprotection (to run at end of timer) -------------------------------
 def spamtimer(authorid):
     spamprotection[authorid] = False
+    
+#makes attacktimer (to run at end of timer) ----------------------------------
+def attacktimer(authorid):
+    attacktimer[authorid]  = False
 
 #does something for the storing of values ------------------------------------
 all_value_types = ['credits', 'emustorage', 'emudefense']
@@ -40,6 +44,7 @@ async def on_message(message):
     #makes vairables global ------------------------------------------------------
     global askedforbuyemu
     global spamprotection
+    global attacktimer
     global maxemus
     global maxdefense
     global maxattack
@@ -275,56 +280,65 @@ async def on_message(message):
 
     #attack command ---------------------------------------------------------------
     if message.content.upper ().startswith('E!ATTACK'):
-        args = message.content.split(" ")
-        #checks for improper format
-        if len (args) == 1 or len (args) == 2 or len (args) >= 4:
-            msg = '''Say how many emus you would like to attack with and the person you would like to attack. Ex. e!attack [number] [@person]'''
-            await client.send_message(message.channel, msg)
-        else:
-            emuattacknum = intify(args[1])
-            #checks if user has emus at all 
-            if get_value(message.author.id, 'emustorage') == 0:
-                msg = '''You have no emus to attack with! Remember, you can buy emus with e!buy!'''
+        if (not message.author.id in attacktimer) or (message.author.id in attacktimer and not attacktimer[message.author.id]):
+            args = message.content.split(" ")
+            #checks for improper format
+            if len (args) == 1 or len (args) == 2 or len (args) >= 4:
+                msg = '''Say how many emus you would like to attack with and the person you would like to attack. Ex. e!attack [number] [@person]'''
                 await client.send_message(message.channel, msg)
-            #checks if the number you are trying to attack with is negative
-            elif emuattacknum <= 0:
-                msg = "You can't put no or negative emus on attack!"
-                await client.send_message(message.channel, msg)
-            #makes sure it is within the limit of emus on attack
-            elif emuattacknum > maxattack:
-                msg = '''That's more than you are allowed to send on attack. (''' + str(maxattack) + ')'
-                await client.send_message(message.channel, msg)
-            #checks if user has enough emus
-            elif emuattacknum > get_value(message.author.id, 'emustorage'):
-                msg = 'You are trying to attack with more emus that you have in your storage, you silly emu warlord!'
-            #gets uid
-            #uidstr = the string version of the uid (Ex. <@!213676807651255>)
             else:
-                uidstr = args[2][2:-1]
-                #checks if uid has a !
-                if uidstr[0] == '!':
-                    uidstr = uidstr[1:]
-                if uidstr == client.user.id:
-                    msg = '''You can't attack me!!!'''
+                emuattacknum = intify(args[1])
+                #checks if user has emus at all 
+                if get_value(message.author.id, 'emustorage') == 0:
+                    msg = '''You have no emus to attack with! Remember, you can buy emus with e!buy!'''
                     await client.send_message(message.channel, msg)
+                #checks if the number you are trying to attack with is negative
+                elif emuattacknum <= 0:
+                    msg = "You can't put no or negative emus on attack!"
+                    await client.send_message(message.channel, msg)
+                #makes sure it is within the limit of emus on attack
+                elif emuattacknum > maxattack:
+                    msg = '''That's more than you are allowed to send on attack. (''' + str(maxattack) + ')'
+                    await client.send_message(message.channel, msg)
+                #checks if user has enough emus
+                elif emuattacknum > get_value(message.author.id, 'emustorage'):
+                    msg = 'You are trying to attack with more emus that you have in your storage, you silly emu warlord!'
+                #gets uid
+                #uidstr = the string version of the uid (Ex. <@!213676807651255>)
                 else:
-                    prebattlecredits = get_value(uidstr, 'credits')
-                    creditcalnum = 700*(emuattacknum - get_value(uidstr, 'emudefense'))
-                    #checks if user broke other user's defenses
-                    if creditcalnum < 0:
-                        user_add_value(uidstr, -emuattacknum, 'emudefense')
-                    #checks if user being attacked can pay attackee
-                    elif prebattlecredits - creditcalnum < 0:
-                        user_add_value(message.author.id, prebattlecredits, 'credits')
-                        user_add_value(uidstr, -prebattlecredits, 'credits')
-                    else: 
-                        user_add_value(message.author.id, creditcalnum, 'credits')
-                        user_add_value(uidstr, -creditcalnum, 'credits')
-                    user_add_value(uidstr, -maxdefense, 'emudefense')
-                    user_add_value(message.author.id, -emuattacknum, 'emustorage')
-                    msg = '<@' + uidstr + '> was attacked by {0.author.mention} with `'.format(message) + str(emuattacknum) + '` emus and now has `{}` emus left on defense, '.format(get_value(uidstr, 'emudefense')) + '{0.author.mention} stole `'.format(message) + str(creditcalnum) + '` credits.'
-                    await client.send_message(message.channel, msg)
-
+                    uidstr = args[2][2:-1]
+                    #checks if uid has a !
+                    if uidstr[0] == '!':
+                        uidstr = uidstr[1:]
+                    if uidstr == client.user.id:
+                        msg = '''You can't attack me!!!'''
+                        await client.send_message(message.channel, msg)
+                    else:
+                        prebattlecredits = get_value(uidstr, 'credits')
+                        creditcalnum = 700*(emuattacknum - get_value(uidstr, 'emudefense'))
+                        #checks if user broke other user's defenses
+                        if creditcalnum < 0:
+                            user_add_value(uidstr, -emuattacknum, 'emudefense')
+                        #checks if user being attacked can pay attackee
+                        elif prebattlecredits - creditcalnum < 0:
+                            user_add_value(message.author.id, prebattlecredits, 'credits')
+                            user_add_value(uidstr, -prebattlecredits, 'credits')
+                        else: 
+                            user_add_value(message.author.id, creditcalnum, 'credits')
+                            user_add_value(uidstr, -creditcalnum, 'credits')
+                        user_add_value(uidstr, -maxdefense, 'emudefense')
+                        user_add_value(message.author.id, -emuattacknum, 'emustorage')
+                        msg = '<@' + uidstr + '> was attacked by {0.author.mention} with `'.format(message) + str(emuattacknum) + '` emus and now has `{}` emus left on defense, '.format(get_value(uidstr, 'emudefense')) + '{0.author.mention} stole `'.format(message) + str(creditcalnum) + '` credits.'
+                        await client.send_message(message.channel, msg)
+                        attacktimer[message.author.id] = True
+                        def inattacktimer():
+                            attacktimer(message.author.id)
+                        t = threading.Timer(43200.0, inattacktimer)
+                        t.start()
+        else:
+            msg = "You can't attack yet!"
+            await client.send_message(message.channel, msg)
+            
     #help commands ----------------------------------------------------------------
     if message.content.upper () == 'E!HELP':
         embed=discord.Embed(title="How to use the Emu Bot", url="https://sites.google.com/view/emu-bot-habitat/commands")
