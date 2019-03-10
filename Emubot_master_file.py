@@ -307,6 +307,9 @@ async def on_message(message):
                 if uidstr == client.user.id:
                     msg = '''You can't attack me!!!'''
                     await client.send_message(message.channel, msg)
+                elif uidstr == message.author.id:
+                    msg = '''You can't attack yourself!'''
+                    await client.send_message(message.channel, msg)
                 else:
                     prebattlecredits = get_value(uidstr, 'credits')
                     creditcalnum = 700*(emuattacknum - get_value(uidstr, 'emudefense'))
