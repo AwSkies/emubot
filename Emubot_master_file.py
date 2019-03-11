@@ -31,6 +31,10 @@ spamprotection = dict()
 def spamtimer(authorid):
     spamprotection[authorid] = False
 
+#makes attacktimer (to run at end of timer) ----------------------------------
+def attacktimer(authorid):
+    attacktimer[authorid]  = False
+
 #does something for the storing of values ------------------------------------
 all_value_types = ['credits', 'emustorage', 'emudefense']
 
@@ -40,6 +44,7 @@ async def on_message(message):
     #makes variables global ------------------------------------------------------
     global askedforbuyemu
     global spamprotection
+    global attacktimer
     global maxemus
     global maxdefense
     global maxattack
@@ -276,8 +281,11 @@ async def on_message(message):
     #attack command ---------------------------------------------------------------
     if message.content.upper ().startswith('E!ATTACK'):
         args = message.content.split(" ")
+        if (message.author.id in attacktimer) or (not message.author.id in attacktimer and attacktimer[message.author.id]):
+            msg = "You can't attack yet!"
+            await client.send_message(message.channel, msg)
         #checks for improper format
-        if len (args) == 1 or len (args) == 2 or len (args) >= 4:
+        elif len (args) == 1 or len (args) == 2 or len (args) >= 4:
             msg = '''Say how many emus you would like to attack with and the person you would like to attack. Ex. e!attack [number] [@person]'''
             await client.send_message(message.channel, msg)
         else:
@@ -325,6 +333,10 @@ async def on_message(message):
                         user_add_value(uidstr, -creditcalnum, 'credits')
                     user_add_value(uidstr, -maxdefense, 'emudefense')
                     user_add_value(message.author.id, -emuattacknum, 'emustorage')
+                    def inattacktimer():
+                        attacktimer(message.author.id)
+                    t = threading.Timer(14400.0, inattacktimer)
+                    t.start()
                     msg = '<@' + uidstr + '> was attacked by {0.author.mention} with `'.format(message) + str(emuattacknum) + '` emus and now has `{}` emus left on defense, '.format(get_value(uidstr, 'emudefense')) + '{0.author.mention} stole `'.format(message) + str(creditcalnum) + '` credits.'
                     await client.send_message(message.channel, msg)
 
