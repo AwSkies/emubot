@@ -333,7 +333,7 @@ async def on_message(message):
                         attacktimer[message.author.id] = True
                         def inattacktimer():
                             attacktimer(message.author.id)
-                        t = threading.Timer(43200.0, inattacktimer)
+                        t = threading.Timer(14400.0, inattacktimer)
                         t.start()
         else:
             msg = "You can't attack yet!"
