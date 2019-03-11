@@ -20,7 +20,7 @@ maxdefense = 5
 
 maxattack = 2*maxdefense
 
-#makes dictionaries for varibles that need them ------------------------------
+#makes dictionaries for variables that need them ------------------------------
 askedforbuyemu = dict()
 
 askedforreset = dict()
@@ -37,7 +37,7 @@ all_value_types = ['credits', 'emustorage', 'emudefense']
 #here are all the things triggered by messages -------------------------------
 @client.event
 async def on_message(message):
-    #makes vairables global ------------------------------------------------------
+    #makes variables global ------------------------------------------------------
     global askedforbuyemu
     global spamprotection
     global maxemus
