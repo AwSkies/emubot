@@ -288,7 +288,7 @@ async def on_message(message):
                 msg = "You can't attack yet!"
                 await client.send_message(message.channel, msg)
         #checks for improper format
-        elif len (args) == 1 or len (args) == 2 or len (args) >= 4:
+        if len (args) == 1 or len (args) == 2 or len (args) >= 4:
             msg = '''Say how many emus you would like to attack with and the person you would like to attack. Ex. e!attack [number] [@person]'''
             await client.send_message(message.channel, msg)
         else:
