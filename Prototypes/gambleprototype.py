@@ -13,25 +13,23 @@ import random
           msg = "You can't gamble that number of emus!"
           await client.send_message(message.channel, msg)
       else:
-          #chances of winning: 1 in 5
+          #chances of winning: 1 in 3
           emucalnum = numemus * 2
-          gamble = random.randint(0,9)
-          #losing outcome
-          if gamble <= 7:
-              user_add_value(message.author.id, -numemus, "emustorage")
-              msg = "You lost, sorry... :("
+          gamble = random.randint(1,3)
+          msg = "Input a number between 1 and 3" 
+          #winning outcome outcome
+          if message.content ()startswith == int (gamble):
+              user_add_value(message.author.id, numemus, "emustorage")
+              msg = "You won! You now have " + str(fullemus) + " emus in storage!"
               await client.send_message(message.channel, msg) 
-          #winning outcome
-          else:
+          #losing outcome
+          elif message.content ()startswith == "1" and gamble != 1 or message.content ()startswith == "2" and gamble != 2 or message.content ()startswith == "3" and gamble != 3:
               fullemus = maxemus - get_value(message.author.id, "emudefense")
               #if 
               if emucalnum > fullemus:
                   user_add_value(message.author.id, -get_value(message.author.id, "emustorage"), "emustorage")
                   user_add_value(message.author.id, fullemus, "emustorage")
-                  msg = "You won! You now have " + str(fullemus) + " emus in storage!"
+                  msg = "You lost, sorry... :("
                   await client.send_message(message.channel, msg)
-              else:
-                  user_add_value(message.author.id, numemus, "emustorage")
-                  msg = "You won! You gained " + str(numemus) + " emus!"
-                  await client.send_message(message.channel, msg)
-          
+          else
+              msg = "Invalid number"
