@@ -16,14 +16,16 @@ import random
           gamble = random.randint(0,9)
           #losing outcome
           if gamble <= 4:
+              outcome = 'lost'
               user_add_value(message.author.id, -numemus, "emustorage")
-              msg = "You lost, sorry... :("
-              await client.send_message(message.channel, msg) 
           else:
               #big winning outcome
-              if gamble >=8:    
+              if gamble >= 8:
+                  outcome = 'big'
                   emucalnum = numemus * 2
+              #medium winning outcome
               elif gamble > 4 and <= 7:
+                  outcome = 'medium'
                   emucalnum = numemus * 1.5
                   emucalnum = int(emucalnum)
               fullemus = maxemus - get_value(message.author.id, "emudefense")
@@ -37,3 +39,51 @@ import random
                   user_add_value(message.author.id, numemus, "emustorage")
                   msg = "You won! You gained " + str(numemus) + " emus!"
                   await client.send_message(message.channel, msg)
+          gambleeditoutcomes(outcome)
+
+    def dicepicker
+        dicenum = random.randint(1,6)
+        dicenum2 = random.randint(1,6)
+        if dicenum == 1:
+            diceface = <insert dice emoji here>
+        elif dicenum == 2:
+            diceface = <insert dice emoji here>
+        elif dicenum == 3:
+            diceface = <insert dice emoji here>
+        elif dicenum == 4:
+            diceface = <insert dice emoji here>
+        elif dicenum == 5:
+            diceface = <insert dice emoji here>
+        elif dicenum == 6:
+            diceface = <insert dice emoji here>
+        if dicenum2 == 1:
+            diceface2 = <insert dice emoji here>
+        elif dicenum2 == 2:
+            diceface2 = <insert dice emoji here>
+        elif dicenum2 == 3:
+            diceface2 = <insert dice emoji here>
+        elif dicenum2 == 4:
+            diceface2 = <insert dice emoji here>
+        elif dicenum2 == 5:
+            diceface2 = <insert dice emoji here>
+        elif dicenum2 == 6:
+            diceface2 = <insert dice emoji here>
+
+    def gambleedit:
+        msg = 
+        edit = await client.send_message(message.author, msg)
+        await asyncio.sleep(1)
+        await client.edit_message(edit, '40')
+            
+    #edits message
+    def gambleeditoutcomes(x):
+        gambleedit
+        gambleedit
+        if x == 'lost': 
+            msg = "You lost, sorry... :("
+            await client.send_message(message.channel, msg) 
+        elif x == 'big' or x == 'medium':
+            msg = 
+            edit = await client.send_message(message.author, msg)
+            await asyncio.sleep(1)
+            await client.edit_message(edit, '40')
