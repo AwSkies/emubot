@@ -1,4 +1,3 @@
-import random
 
   #gamble command
   if message.content.upper ().startswith == "E!GAMBLE":
