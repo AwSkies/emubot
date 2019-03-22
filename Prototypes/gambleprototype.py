@@ -39,7 +39,17 @@ import random
                   user_add_value(message.author.id, numemus, "emustorage")
                   msg = "You won! You gained " + str(numemus) + " emus!"
                   await client.send_message(message.channel, msg)
-          gambleeditoutcomes(outcome)
+          gambleedit
+          gambleedit
+          #makes outcome
+          if outcome == 'lost': 
+              msg = "You lost, sorry... :("
+              await client.send_message(message.channel, msg) 
+          elif (outcome == 'big') or (outcome == 'medium'):
+              msg = 
+              edit = await client.send_message(message.author, msg)
+              await asyncio.sleep(1)
+              await client.edit_message(edit, '40')
 
     def dicepicker
         dicenum = random.randint(1,6)
@@ -68,22 +78,12 @@ import random
             diceface2 = <insert dice emoji here>
         elif dicenum2 == 6:
             diceface2 = <insert dice emoji here>
+        return(diceface, diceface2)
 
+    #edits message
     def gambleedit:
         msg = 
         edit = await client.send_message(message.author, msg)
         await asyncio.sleep(1)
         await client.edit_message(edit, '40')
             
-    #edits message
-    def gambleeditoutcomes(x):
-        gambleedit
-        gambleedit
-        if x == 'lost': 
-            msg = "You lost, sorry... :("
-            await client.send_message(message.channel, msg) 
-        elif x == 'big' or x == 'medium':
-            msg = 
-            edit = await client.send_message(message.author, msg)
-            await asyncio.sleep(1)
-            await client.edit_message(edit, '40')
