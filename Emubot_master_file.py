@@ -4,6 +4,7 @@ import discord
 import json
 import os.path
 import threading
+import random
 
 #gives token -----------------------------------------------------------------
 TOKEN = 'NDM5NDk4OTc0NDg3OTA0MjU2.DcUs6w.KBOU--o7DtDHLnm87a5MqtRbwSw'
@@ -13,20 +14,14 @@ client = discord.Client()
 
 #defines master variables ----------------------------------------------------
 emuprice = 500
-
 maxemus = 20
-
 maxdefense = 5
-
 maxattack = 2*maxdefense
 
 #makes dictionaries for variables that need them ------------------------------
 askedforbuyemu = dict()
-
 askedforreset = dict()
-
 spamprotection = dict()
-
 attacktimer1 = dict()
 
 #makes spamprotection (to run at end of timer) -------------------------------
