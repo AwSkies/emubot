@@ -20,11 +20,9 @@
           else:
               #big winning outcome
               if gamble >= 8:
-                  outcome = 'big'
                   emucalnum = numemus * 2
               #medium winning outcome
               elif gamble > 4 and <= 7:
-                  outcome = 'medium'
                   emucalnum = numemus * 1.5
                   emucalnum = int(emucalnum)
               fullemus = maxemus - get_value(message.author.id, "emudefense")
@@ -32,27 +30,28 @@
               if emucalnum > fullemus:
                   user_add_value(message.author.id, -get_value(message.author.id, "emustorage"), "emustorage")
                   user_add_value(message.author.id, fullemus, "emustorage")
-                  msg = "You won! You now have " + str(fullemus) + " emus in storage!"
-                  await client.send_message(message.channel, msg)
               else:
                   user_add_value(message.author.id, numemus, "emustorage")
-                  msg = "You won! You gained " + str(numemus) + " emus!"
-                  await client.send_message(message.channel, msg)
-          gambleedit
-          gambleedit
+              outcome = 'won'
+          msg = 'Rolling the dice...' + dicepicker1 + dicepicker2
+          edit = await client.send_message(message.channel, msg)
+          await asyncio.sleep(1)
+          edited = 'Rolling the dice...' + dicepicker1 + dicepicker2
+          await client.edit_message(edit, edited)
+          await asyncio.sleep(1)
+          edited = 'Rolling the dice...' + dicepicker1 + dicepicker2
+          await client.edit_message(edit, edited)
+          await asyncio.sleep(1)
           #makes outcome
           if outcome == 'lost': 
-              msg = "You lost, sorry... :("
-              await client.send_message(message.channel, msg) 
-          elif (outcome == 'big') or (outcome == 'medium'):
-              msg = 
-              edit = await client.send_message(message.author, msg)
-              await asyncio.sleep(1)
-              await client.edit_message(edit, '40')
+              edited = 'You lost, sorry... :('
+              await client.edit_message(edit, edited) 
+          elif outcome == 'won':
+              edited = 'You won! you now have `{}` emus in storage!'.format(get_value(message.author.id, emustorage))
+              await client.edit_message(edit, edited)
 
-    def dicepicker
+    def dicepicker1():
         dicenum = random.randint(1,6)
-        dicenum2 = random.randint(1,6)
         if dicenum == 1:
             diceface = <insert dice emoji here>
         elif dicenum == 2:
@@ -65,6 +64,10 @@
             diceface = <insert dice emoji here>
         elif dicenum == 6:
             diceface = <insert dice emoji here>
+        return(diceface)
+
+    def dicepicker2():
+        dicenum2 = random.randint(1,6)
         if dicenum2 == 1:
             diceface2 = <insert dice emoji here>
         elif dicenum2 == 2:
@@ -77,12 +80,5 @@
             diceface2 = <insert dice emoji here>
         elif dicenum2 == 6:
             diceface2 = <insert dice emoji here>
-        return(diceface, diceface2)
+        return(diceface2)
 
-    #edits message
-    def gambleedit:
-        msg = 
-        edit = await client.send_message(message.author, msg)
-        await asyncio.sleep(1)
-        await client.edit_message(edit, '40')
-            
