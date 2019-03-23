@@ -341,59 +341,6 @@ async def on_message(message):
                     msg = '<@' + uidstr + '> was attacked by {0.author.mention} with `'.format(message) + str(emuattacknum) + '` emus and now has `{}` emus left on defense, '.format(get_value(uidstr, 'emudefense')) + '{0.author.mention} stole `'.format(message) + str(creditcalnum) + '` credits.'
                     await client.send_message(message.channel, msg)
 
-    if message.content.upper () == 'E!TEST':
-        def dicepicker1():
-            dicenum = random.randint(1,6)
-            if dicenum == 1:
-                diceface = 'dice1'
-            elif dicenum == 2:
-                diceface = 'dice2'
-            elif dicenum == 3:
-                diceface = 'dice3'
-            elif dicenum == 4:
-                diceface = 'dice4'
-            elif dicenum == 5:
-                diceface = 'dice5'
-            elif dicenum == 6:
-                diceface = 'dice6'
-            return(diceface)
-        def dicepicker2():
-            dicenum2 = random.randint(1,6)
-            if dicenum2 == 1:
-                diceface2 = 'dice1'
-            elif dicenum2 == 2:
-                diceface2 = 'dice2'
-            elif dicenum2 == 3:
-                diceface2 = 'dice3'
-            elif dicenum2 == 4:
-                diceface2 = 'dice4'
-            elif dicenum2 == 5:
-                diceface2 = 'dice5'
-            elif dicenum2 == 6:
-                diceface2 = 'dice6'
-            return(diceface2)
-        x = random.randint(1,2)
-        if x == 1:
-            outcome = 'won'
-        if x == 2:
-            outcome = 'lost'
-        msg = 'Rolling the dice...' + str(dicepicker1) + str(dicepicker2)
-        edit = await client.send_message(message.author, msg)
-        await asyncio.sleep(1)
-        edited = 'Rolling the dice...' + str(dicepicker1) + str(dicepicker2)
-        await client.edit_message(edit, edited)
-        await asyncio.sleep(1)
-        edited = 'Rolling the dice...' + str(dicepicker1) + str(dicepicker2)
-        await client.edit_message(edit, edited)
-        await asyncio.sleep(1)
-        #makes outcome
-        if outcome == 'lost': 
-          edited = 'You lost, sorry... :('
-          await client.edit_message(edit, edited) 
-        elif outcome == 'won':
-          edited = 'You won! you now have `{}` emus in storage!'.format(get_value(message.author.id, emustorage))
-          await client.edit_message(edit, edited)
-
     #help commands ----------------------------------------------------------------
     if message.content.upper () == 'E!HELP':
         embed=discord.Embed(title="How to use the Emu Bot", url="https://sites.google.com/view/emu-bot-habitat/commands")
@@ -493,10 +440,6 @@ The amount of emus you attack someone with that go over the amount of emus they 
         else:
             msg = 'You do not have permission to use this command.'
             await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!TEST':
-        print(client.user.id)
-        print(type(client.user.id))
 
     #image commands ---------------------------------------------------------------
     if message.content.upper () == 'E!EMU':
