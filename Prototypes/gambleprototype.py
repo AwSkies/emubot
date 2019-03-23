@@ -15,17 +15,17 @@
           def dicepicker():
             dicenum = random.randint(1,6)
             if dicenum == 1:
-                diceface = 'dice1'
+                diceface = '<:dice1:559092222545625089>'
             elif dicenum == 2:
-                diceface = 'dice2'
+                diceface = '<:dice2:559092223044485140>'
             elif dicenum == 3:
-                diceface = 'dice3'
+                diceface = '<:dice3:559092223040552970>'
             elif dicenum == 4:
-                diceface = 'dice4'
+                diceface = '<:dice4:559092222935564301>'
             elif dicenum == 5:
-                diceface = 'dice5'
+                diceface = '<:dice5:559092223052873739>'
             elif dicenum == 6:
-                diceface = 'dice6'
+                diceface = '<:dice6:559092223145279491>'
             return(diceface)
           gamble = random.randint(0,9)
           #losing outcome
