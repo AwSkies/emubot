@@ -304,6 +304,7 @@ async def on_message(message):
             #checks if user has enough emus
             elif emuattacknum > get_value(message.author.id, 'emustorage'):
                 msg = 'You are trying to attack with more emus that you have in your storage, you silly emu warlord!'
+                await client.send_message(message.channel, msg)
             #gets uid
             #uidstr = the string version of the uid (Ex. <@!213676807651255>)
             else:
