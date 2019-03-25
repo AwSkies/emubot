@@ -56,7 +56,7 @@ async def on_message(message):
         try:
             out = int(x)
         except ValueError:
-            print(str(x) + 'is not an integer')
+            print(str(x) + 'can not be converted into an integer')
             out = x
         return(out)
 
