@@ -56,13 +56,13 @@ gamblecreds = dict()
                     return(diceface)
                 gamble = random.randint(1,gamblerange)
                 #losing outcome
-                if not gamble == guessnum:
+                if gamble != guessnum:
                     outcome = 'lost'
                     user_add_value(message.author.id, -numcreds, "credits")
                 else:
                 #winning outcome
                     outcome = 'won'
-                    credcalnum = numcreds * int(gamblerange / 2)
+                    credcalnum = numcreds * int(gamblerange/2)
                     user_add_value(message.author.id, credcalnum, 'credits')
                 msg = 'Rolling the dice...' + dicepicker() + dicepicker()
                 edit = await client.send_message(message.channel, msg)
@@ -80,12 +80,11 @@ gamblecreds = dict()
                 elif outcome == 'won':
                     edited = 'You won! you gained ' + str(credcalnum) + ' credits!'
                     await client.edit_message(edit, edited)
+                    
         except ValueError:
-
             elif message.content.upper () == "CANCEL":
                 msg = 'Canceled'
                 await client.send_message(message.author, msg)
-
             else:
                 msg = 'Pick a number between 1 and ' + str(gamble_range_storage[message.author.id]) + '''. If you wish to cancel, say "cancel".'''
                 await client.send_message(message.channel, msg)
