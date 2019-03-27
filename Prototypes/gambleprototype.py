@@ -80,6 +80,7 @@ gamblecreds = dict()
                 elif outcome == 'won':
                     edited = 'You won! you gained ' + str(credcalnum) + ' credits!'
                     await client.edit_message(edit, edited)
+                gamblesetup[message.author.id] = False
         except ValueError:
 
             elif message.content.upper () == "CANCEL":
