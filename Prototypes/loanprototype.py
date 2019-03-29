@@ -9,7 +9,7 @@
             msg = "You can't loan lessa than one credit!"
             await client.send_message(message.channel, msg)
         elif numcreds > get_value(message.author, 'credits':
-            msg = "You can't loan lessa than one credit!"
+            msg = "You can't loan less than one credit!"
             await client.send_message(message.channel, msg)
         else:
             uidstr = args[2][2:-1]
