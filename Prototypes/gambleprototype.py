@@ -56,7 +56,7 @@ gamblecreds = dict()
                     return(diceface)
                 gamble = random.randint(1,gamblerange)
                 #losing outcome
-                if not gamble == guessnum:
+                if gamble != guessnum:
                     outcome = 'lost'
                     user_add_value(message.author.id, -numcreds, "credits")
                 else:
@@ -88,5 +88,5 @@ gamblecreds = dict()
                 await client.send_message(message.author, msg)
 
             else:
-                msg = 'Pick a number between 1 and ' + str(gamble_range_storage[message.author.id]) + '''. If you wish to cancel, say "cancel".'''
+                msg = 'Pick a number between 1 and ' + str(gamble_range_storage[message.author.id]) + '. If you wish to cancel, say "cancel".'
                 await client.send_message(message.channel, msg)
