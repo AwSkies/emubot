@@ -2,10 +2,11 @@
 #imports stuff
 import discord
 import json
-import os.path
+import os
 import threading
 import random
 import asyncio
+import shutil
 
 #gives token -----------------------------------------------------------------
 TOKEN = 'NDM5NDk4OTc0NDg3OTA0MjU2.DcUs6w.KBOU--o7DtDHLnm87a5MqtRbwSw'
@@ -538,15 +539,16 @@ https://cdn.discordapp.com/attachments/446775303310671874/446780976090054656/tum
 
 #adding stats funtion ---------------------------------------------------------
 def user_add_value(user_id: int, amount: int, valuetype: str):
-    if os.path.isfile("users.json"):
+    if os.path.isfile("usersmain.json"):
+        shutil.copy("usersmain.json", "usersnew.json")
         try:
-            with open('users.json', 'r') as fp:
+            with open('usersnew.json', 'r') as fp:
                 users = json.load(fp)
             users[user_id][valuetype] += amount
             with open('users.json', 'w') as fp:
                 json.dump(users, fp, sort_keys=True, indent=4)
         except KeyError:
-            with open('users.json', 'r') as fp:
+            with open('usersnew.json', 'r') as fp:
                 users = json.load(fp)
             users[user_id] = {}
             #users[user_id][valuetype] = amount
@@ -555,8 +557,10 @@ def user_add_value(user_id: int, amount: int, valuetype: str):
                     users[user_id][valuetype] = amount
                 else:
                     users[user_id][vt] = 0
-            with open('users.json', 'w') as fp:
+            with open('usersnew.json', 'w') as fp:
                 json.dump(users, fp, sort_keys=True, indent=4)
+        os.remove("usersmain.json")
+        os.rename("usersnew.json", "usersnew.json")
     else:
         users = {user_id: {}}
         users[user_id][valuetype] = amount
@@ -565,13 +569,13 @@ def user_add_value(user_id: int, amount: int, valuetype: str):
 
 #getting stats values function ------------------------------------------------
 def get_value(user_id: int, valuetype: str):
-    if os.path.isfile('users.json'):
+    if os.path.isfile('usersmain.json'):
         try:
-            with open('users.json', 'r') as fp:
+            with open('usersmain.json', 'r') as fp:
                 users = json.load(fp)
             return users[user_id][valuetype]
         except KeyError:
-            with open('users.json', 'r') as fp:
+            with open('usersmain.json', 'r') as fp:
                 users = json.load(fp)
             users[user_id] = {}
             users[user_id][valuetype] = 0
