@@ -6,7 +6,7 @@
             msg = "Say e!loan `number` `@person` to give `@person` `number` credits!"
             await client.send_message(message.channel, msg)
         elif numcreds < 1:
-            msg = "You can't loan lessa than one credit!"
+            msg = "You can't loan less than one credit!"
             await client.send_message(message.channel, msg)
         elif numcreds > get_value(message.author, 'credits':
             msg = "You can't loan less than one credit!"
