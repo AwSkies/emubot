@@ -3,7 +3,7 @@ gamble_range_storage = dict()
 gamblecreds = dict()
 
     #gamble command----------------------------------------------------------------
-    if message.content.upper ().startswith == "E!GAMBLE":
+    if message.content.upper ().startswith("E!GAMBLE"):
         args = message.content.split
         numcreds = intify(args[1])
         gamblerange = intify(args[2])
