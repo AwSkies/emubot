@@ -1,5 +1,5 @@
     #give command------------------------------------------
-    if message.content.upper ().startswith == "E!GIVE":
+    if message.content.upper ().startswith("E!GIVE"):
         args = message.content.split(" ")
         numcreds = intify(args[1])
         if (len(args) < 2) or (len(args) > 2):
