@@ -1,8 +1,8 @@
 import datetime
 
-loanstartday = dict()
+loanstarttime = dict()
 
     #loan command------------------------------------------
     if message.content.upper () == "E!LOAN":
-        loanstartday[message.author] = int(datetime.datetime.today().strftime('%j')
+        loanstarttime[message.author] = int(datetime.datetime.today().strftime('%j')
         
