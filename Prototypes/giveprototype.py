@@ -1,12 +1,12 @@
-    #loan command------------------------------------------
-    if message.content.upper ().startswith == "E!LOAN":
+    #give command------------------------------------------
+    if message.content.upper ().startswith == "E!GIVE":
         args = message.content.split(" ")
         numcreds = intify(args[1])
         if (len(args) < 2) or (len(args) > 2):
-            msg = "Say e!loan `number` `@person` to give `@person` `number` credits!"
+            msg = "Say e!give `number` `@person` to give `@person` `number` credits!"
             await client.send_message(message.channel, msg)
         elif numcreds < 1:
-            msg = "You can't loan less than one credit!"
+            msg = "You can't give someone less than one credit!"
             await client.send_message(message.channel, msg)
         elif numcreds > get_value(message.author, 'credits':
             msg = "You don't have enough credits for that!"
@@ -14,16 +14,16 @@
         else:
             uidstr = args[2][2:-1]
             #checks if uid has a !
-            if uidstr[0] == '!':
+            if uidstr[0] == '!': #does this work for all bots? If so, make it say "You can't give bots credits!!!"
                 uidstr = uidstr[1:]
             if uidstr == client.user.id:
-                msg = "You can't loan me credits!!!"
+                msg = "You can't give me credits!!!"
                 await client.send_message(message.channel, msg)
             elif uidstr == message.author.id:
-                msg = "You can't loan yourself credits!"
+                msg = "You can't give yourself credits!"
                 await client.send_message(message.channel, msg)
             else:
                 user_add_value(message.author.id, -numcreds, 'credits')
                 user_add_value(uidstr, numcreds, 'credits')
-                msg = "{0.author.mention} loaned".format(message) + "<@" + uidstr + "> `{}` credits!".format(str(numcreds))
+                msg = "{0.author.mention} gave".format(message) + "<@" + uidstr + "> `{}` credits!".format(str(numcreds))
                 await client.send_message(message.channel, msg)
