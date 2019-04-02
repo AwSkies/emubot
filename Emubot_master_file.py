@@ -560,7 +560,7 @@ def user_add_value(user_id: int, amount: int, valuetype: str):
             with open('usersnew.json', 'w') as fp:
                 json.dump(users, fp, sort_keys=True, indent=4)
         os.remove("usersmain.json")
-        os.rename("usersnew.json", "usersnew.json")
+        os.rename("usersnew.json", "usersmain.json")
     else:
         users = {user_id: {}}
         users[user_id][valuetype] = amount
