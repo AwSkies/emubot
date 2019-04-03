@@ -1,6 +1,12 @@
+#for insertion in dictonary section
 gamblesetup = dict()
 gamble_range_storage = dict()
 gamblecreds = dict()
+
+    #for insertion in global section
+    global gamblesetup
+    global gamble_range_storage
+    global gamblecreds
 
     #gamble command----------------------------------------------------------------
     if message.content.upper ().startswith("E!GAMBLE"):
@@ -83,7 +89,7 @@ gamblecreds = dict()
                 gamblesetup[message.author.id] = False
         except ValueError:
 
-            elif message.content.upper () == "CANCEL":
+            if message.content.upper () == "CANCEL":
                 msg = 'Canceled'
                 await client.send_message(message.author, msg)
 
