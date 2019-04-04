@@ -48,7 +48,7 @@ async def on_message(message):
     global maxattack
     global askedforreset
 
-    #disables the ability for the bot to reply to itself -------------------------
+    #we do not want the bot to reply to itself -------------------------
     if message.author == client.user:
         return
 
