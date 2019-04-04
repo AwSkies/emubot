@@ -432,8 +432,7 @@ The amount of emus you attack someone with that go over the amount of emus they 
 
     #image commands ---------------------------------------------------------------
     if message.content.upper () == 'E!EMU':
-        msg = 'https://www.denverzoo.org/sites/default/files/denver_zoo_emu_480x490.jpg'.format(message)
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Downloads/binary.png')
         
     if message.content.upper () == 'E!SERVER':
         msg = '''Emu Bot Habitat the Emu Bot testing and support server link:\nhttps://discord.gg/2xEQkKs'''  
@@ -444,8 +443,7 @@ The amount of emus you attack someone with that go over the amount of emus they 
         await client.send_message(message.channel, msg)
 
     if message.content.upper () == 'E!EMO':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/448274669494075392/download.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Downloads/binary.png')
 
     if message.content.upper () == 'E!HISTORY':
         msg = '''https://www.youtube.com/watch?v=QzYlI-W4sg8'''  
@@ -464,69 +462,52 @@ The amount of emus you attack someone with that go over the amount of emus they 
         await client.send_message(message.channel, msg)
 
     if message.content.upper () == 'E!GODNOW':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446778154011590656/emu-smile.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/emu-smile.jpg')
 
     if message.content.upper () == 'E!NEWS':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446778461340696577/lol.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/news.jpg')
 
     if message.content.upper () == 'E!WARSTATS':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446778650394886172/tumblr_inline_mhver4umj31qz4rgp.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/stats.jpg')
 
     if message.content.upper () == 'E!GODMAKESEMU':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446778757127340042/485cf3e15a68a0f0aa81c3e4b3eca281.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/making-emu.jpg')
 
     if message.content.upper () == 'E!SCREECH':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446778883489005569/download.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/screech.jpg')
 
     if message.content.upper () == 'E!REALIZATIONS':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446779378441912331/download.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/realize.jpg')
 
     if message.content.upper () == 'E!VETERAN':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446780303214641172/veteran.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/veteran.jpg')
 
     if message.content.upper () == 'E!MLE':
-        msg = '''Major League Emu:
-https://cdn.discordapp.com/attachments/446775303310671874/446780976090054656/tumblr_static_tumblr_static_7hqbfsh5kqkgsgw4sws44cg40_640.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/mle.jpg')
 
     if message.content.upper () == 'E!ONDUTY':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446860410810007563/unknown.png'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/on-guard.png')
 
     if message.content.upper () == 'E!GRUMPY':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446861072817979394/unknown.png'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/grumpy.png')
 
     if message.content.upper () == 'E!SMOILE':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446861169810997268/unknown.png'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/smoile.png')
 
     if message.content.upper () == 'E!SHARK':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446861285108350987/unknown.png'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/shark.png')
 
     if message.content.upper () == 'E!VAMPIRE':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446861368813944852/unknown.png'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/vampire.png')
 
     if message.content.upper () == 'E!UPSIDEDOWN':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446861675883397132/unknown.png'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/umE.png')
 
     if message.content.upper () == 'E!AAA':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446861841726046218/unknown.png'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '//home/pi/Desktop/EmuBot/Pictures/aaa.png')
 
     if message.content.upper () == 'E!XING':
-        msg = '''https://cdn.discordapp.com/attachments/446775303310671874/446983950565638164/images.jpg'''  
-        await client.send_message(message.channel, msg)
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/xing.jpg')
 
     if message.content.upper () == 'E!SCOUT':
         msg = '''http://www.abc.net.au/news/2016-10-22/emu-found-wandering-along-arizona-highway/7957198'''  
