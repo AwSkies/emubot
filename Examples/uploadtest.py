@@ -8,7 +8,7 @@ client = discord.Client()
 async def on_message(message):
 
     if message.content == 'd!upload':
-        await client.send_file(message.channel, '/home/pi/Downloads/binary.png',)
+        await client.send_file(message.channel, '/home/pi/Downloads/binary.png')
 
 @client.event
 async def on_ready():
