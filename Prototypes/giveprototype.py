@@ -14,10 +14,10 @@
         else:
             uidstr = args[2][2:-1]
             #checks if uid has a !
-            if uidstr[0] == '!': #does this work for all bots?
+            if uidstr[0] == '!': 
                 uidstr = uidstr[1:]
             if uidstr == client.user.id:
-                msg = "You can't give bots credits!!!"
+                msg = "You can't give me credits!!!"
                 await client.send_message(message.channel, msg)
             elif uidstr == message.author.id:
                 msg = "You can't give yourself credits!"
