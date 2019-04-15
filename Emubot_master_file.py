@@ -8,7 +8,9 @@ import random
 import asyncio
 
 #gives token -----------------------------------------------------------------
-TOKEN = 'NDM5NDk4OTc0NDg3OTA0MjU2.DcUs6w.KBOU--o7DtDHLnm87a5MqtRbwSw'
+with open('/home/pi/Desktop/EmuBot/TOKEN.txt', 'r') as tokenfile:
+    TOKEN = tokenfile.readline()
+    tokenfile.close()
 
 #creates client shortcut -----------------------------------------------------
 client = discord.Client()
