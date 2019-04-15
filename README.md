@@ -1,11 +1,8 @@
 # Emu Bot
 Code for the Emu Bot Discord bot
 
-When making a new command, make a new file in the prototypes and drafts folder
+The Prototypes folder is for drafting new commands/concepts in a safe and clutter-free environment.
 
-Git commands:
-To check what will be done: git status
-To say what files to do stuff with: git add (file name(s))
-To commit to the local repository: git commit -m "(changes)"
-To commit to the GitHub repository: git push origin master (goes to the master branch)
-To apply changes made remotely: git pull origin (branch (usually master))
+The Examples/Tests folder is for files that give an example for how to do something/I used to test probably using the dummy bot
+
+The Pictures folder is for the picture commands (it will upload them)

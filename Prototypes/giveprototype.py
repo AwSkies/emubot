@@ -14,7 +14,7 @@
         else:
             uidstr = args[2][2:-1]
             #checks if uid has a !
-            if uidstr[0] == '!': #does this work for all bots? If so, make it say "You can't give bots credits!!!"
+            if uidstr[0] == '!': 
                 uidstr = uidstr[1:]
             if uidstr == client.user.id:
                 msg = "You can't give me credits!!!"
@@ -25,5 +25,5 @@
             else:
                 user_add_value(message.author.id, -numcreds, 'credits')
                 user_add_value(uidstr, numcreds, 'credits')
-                msg = "{0.author.mention} gave".format(message) + "<@" + uidstr + "> `{}` credits!".format(str(numcreds))
+                msg = "{0.author.mention} gave ".format(message) + "<@" + uidstr + "> `{}` credits!".format(str(numcreds))
                 await client.send_message(message.channel, msg)
