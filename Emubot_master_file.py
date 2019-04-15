@@ -188,12 +188,10 @@ async def on_message(message):
             msg = 'You do not have permission to use this command.'
             await client.send_message(message.channel, msg)
 
-    if message.content.upper () == "E!TEST":
-        args = message.content.split(" ")
-        print(args[0])
-        await client.send_message(message.channel, "you are all tested up!")
+    if message.content.upper ().startswith("E!TEST"):
+        print(message.mentions)
 
-        #fills testers to a 20,000 credits, 15 emus in storage, and 5 emus on defense -
+    #fills testers to a 20,000 credits, 15 emus in storage, and 5 emus on defense -
     if message.content.upper ().startswith('E!FILLMEUP'):
         if "448272810561896448" in [role.id for role in message.author.roles]:
             #sets credits to zero
@@ -210,7 +208,6 @@ async def on_message(message):
             msg = "You do not have permission to use this command!"
             await client.send_message(message.channel, msg)
             
-
     #putting emus on defense command ----------------------------------------------
     if message.content.upper ().startswith('E!DEFEND') or message.content.upper ().startswith('E!DEFENCE') or message.content.upper ().startswith('E!DEFENSE'):
         if get_value(message.author.id, 'emustorage') > 0:
