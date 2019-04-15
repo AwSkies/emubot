@@ -327,14 +327,15 @@ async def on_message(message):
                     #checks if user broke other user's defenses
                     if creditcalnum < 0:
                         user_add_value(uidstr, -emuattacknum, 'emudefense')
-                    #checks if user being attacked can pay attackee
-                    elif prebattlecredits - creditcalnum < 0:
-                        user_add_value(message.author.id, prebattlecredits, 'credits')
-                        user_add_value(uidstr, -prebattlecredits, 'credits')
-                    else: 
-                        user_add_value(message.author.id, creditcalnum, 'credits')
-                        user_add_value(uidstr, -creditcalnum, 'credits')
-                    user_add_value(uidstr, -maxdefense, 'emudefense')
+                    else: #if user broke other user's defenses
+                        #checks if user being attacked can pay attackee
+                        if prebattlecredits - creditcalnum < 0:
+                            user_add_value(message.author.id, prebattlecredits, 'credits')
+                            user_add_value(uidstr, -prebattlecredits, 'credits')
+                        else: 
+                            user_add_value(message.author.id, creditcalnum, 'credits')
+                            user_add_value(uidstr, -creditcalnum, 'credits')
+                        user_add_value(uidstr, -get_value(uidstr, 'emudefense'), 'emudefense')
                     user_add_value(message.author.id, -emuattacknum, 'emustorage')
                     if not "448272810561896448" in [role.id for role in message.author.roles]:
                         def inattacktimer():
