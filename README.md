@@ -1,5 +1,5 @@
 # Emu Bot
-[![Discord Bots](https://discordbots.org/api/widget/439498974487904256.svg)](https://discordbots.org/bot/439498974487904256)  
+[![Discord Bots](https://discordbots.org/api/widget/439498974487904256.svg)](https://discordbots.org/bot/439498974487904256 "Emu Bot (discordbots.org)")  
 ### About the Emu Bot
 ###### What is the Emu Bot
 The Emu Bot is a discord bot that can be added to your server whenever you like.  It has tons of fun commands including but not limited to cool pictures (of emus)  fun facts (about emus) and attack your friends (with emus). (Can you tell we like emus?)  
