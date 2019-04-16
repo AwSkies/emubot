@@ -1,4 +1,5 @@
 # Emu Bot
+[![Discord Bots](https://discordbots.org/api/widget/439498974487904256.svg)](https://discordbots.org/bot/439498974487904256)
 Code for the Emu Bot Discord bot
 
 The Prototypes folder is for drafting new commands/concepts in a safe and clutter-free environment.
