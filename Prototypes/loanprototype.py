@@ -1,5 +1,9 @@
 import datetime
 
+LOAN_INTREST_RATE = 0.01 #per minute
+
+    global LOAN_INTREST_RATE
+
     #loan command -----------------------------------------------------------------
     if message.content.upper ().startswith("E!LOAN"):
         args = message.content.split(" ")
@@ -8,7 +12,8 @@ import datetime
             msg = 'To take out a loan, say e!loan `number` to be loaned `number` credits.'
             await client.send_message(message.channel, msg)
         elif principal < 1:
-            msg =
+            msg = "You can't choose a principal less than one, silly!"
+            await client.send_message(message.channel, msg)
         else:
             with open('loans.json', 'r') as f:
                 loans = json.load(f)
@@ -20,14 +25,10 @@ import datetime
                 loaninfo = {message.author.id: {}}
                 loaninfo[message.author.id]['time'] = loantime
                 loaninfo[message.author.id]['principal'] = principal
-                if os.path.isfile('loans.json'):
-                    loan = loaninfo[message.author.id]
-                    with open('loans.json', 'w') as fp:
-                        json.dump(loan, fp, sort_keys = True, indent = 4)
-                else:
-                    something
-                user_add_value(message.author.id, <principal>, 'credits')
-                msg = 'You were loaned <principal> credits with a <tbdintrest> intrest rate! You must return it by '
+                with open('loans.json', 'w') as fp:
+                    json.dump(loaninfo, fp, sort_keys = True, indent = 4)
+                user_add_value(message.author.id, principal, 'credits')
+                msg = 'You were loaned `' + str(principal) + '` credits with a ' + str(LOAN_INTREST_RATE) + " intrest rate (per minute)! You must return it by (hmmmmmmmmmmmmmmmm this is that part we still don't know yet...). (Remember that final amount is calculated using simple intrest and that if you don't give it back in time, all of your stats will be reset.)"
                 await client.send_message(message.channel, msg)
     
     if message.content.upper () == 'E!RETURNLOAN':
@@ -38,19 +39,20 @@ import datetime
                 principal = loaninfo['principal']
                 time = loaninfo['time']
             time -= (int(datetime.datetime.now().strftime('%d')) * 1440) + int(datetime.datetime.now().strftime('%H') * 60) + int(datetime.datetime.now().strftime('%H')
-            if not loaninfo[message.author.id] == None
-                loancalnum = principal * <rate> * time
+            loancalnum = int(principal * LOAN_INTREST_RATE * time)
+            if loaninfo[message.author.id] == None
+                msg = "You don't have a loan to return!"
+                await client.send_message(messsage.channel, msg)
+            elif not get_value(message.author.id, 'credits') - loancalnum > 0:
+                msg = 'You cannot pay back your loan, as the loan is {} credits and you have '.format(loancalnum) + '{} credits.'.format(get_value(message.author.id, 'credits'))
+                await client.send_message(message.channel, msg)
+            else:
                 loaninfo[message.author.id] = None
                 with open('loans.json', 'w') as f:
                     json.dump(loaninfo, f, sort_keys = True, indent = 4)
-                if not get_value(message.author.id, 'credits') - principal < 0:
-                    user_add_value(message.author.id, principal, 'credits')
-                    msg = 'You returned your loan for `{}` credits!'.format(loancalnum)
-                    await client.send_message(message.channel, msg)
-                
-            else:
-                msg = "You don't have a loan to return!"
-                await client.send_message(messsage.channel, msg)
+                user_add_value(message.author.id, principal, 'credits')
+                msg = 'You returned your loan for `{}` credits!'.format(loancalnum)
+                await client.send_message(message.channel, msg)
         except KeyError:
             msg = "You don't have a loan to return!"
             await client.send_message(messsage.channel, msg)
