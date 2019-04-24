@@ -28,7 +28,7 @@ LOAN_INTEREST_RATE = 0.01 #per minute
                 with open('loans.json', 'w') as fp:
                     json.dump(loaninfo, fp, sort_keys = True, indent = 4)
                 user_add_value(message.author.id, principal, 'credits')
-                msg = 'You were loaned `' + str(principal) + '` credits with a ' + str(LOAN_INTEREST_RATE) + " interest rate (per minute)! You must return it by (hmmmmmmmmmmmmmmmm this is that part we still don't know yet...). (Remember that final amount is calculated using simple intrest and that if you don't give it back in time, all of your stats will be reset.)"
+                msg = 'You were loaned `' + str(principal) + '` credits with a ' + str(LOAN_INTEREST_RATE) + " interest rate (per minute)! You must return it by (hmmmmmmmmmmmmmmmm this is that part we still don't know yet...). (Remember that final amount is calculated using simple interest and that if you don't give it back in time, all of your stats will be reset.)"
                 await client.send_message(message.channel, msg)
     
     if message.content.upper () == 'E!RETURNLOAN':
