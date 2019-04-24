@@ -1,8 +1,8 @@
 import datetime
 
-LOAN_INTREST_RATE = 0.01 #per minute
+LOAN_INTEREST_RATE = 0.01 #per minute
 
-    global LOAN_INTREST_RATE
+    global LOAN_INTEREST_RATE
 
     #loan command -----------------------------------------------------------------
     if message.content.upper ().startswith("E!LOAN"):
@@ -28,7 +28,7 @@ LOAN_INTREST_RATE = 0.01 #per minute
                 with open('loans.json', 'w') as fp:
                     json.dump(loaninfo, fp, sort_keys = True, indent = 4)
                 user_add_value(message.author.id, principal, 'credits')
-                msg = 'You were loaned `' + str(principal) + '` credits with a ' + str(LOAN_INTREST_RATE) + " intrest rate (per minute)! You must return it by (hmmmmmmmmmmmmmmmm this is that part we still don't know yet...). (Remember that final amount is calculated using simple intrest and that if you don't give it back in time, all of your stats will be reset.)"
+                msg = 'You were loaned `' + str(principal) + '` credits with a ' + str(LOAN_INTEREST_RATE) + " interest rate (per minute)! You must return it by (hmmmmmmmmmmmmmmmm this is that part we still don't know yet...). (Remember that final amount is calculated using simple intrest and that if you don't give it back in time, all of your stats will be reset.)"
                 await client.send_message(message.channel, msg)
     
     if message.content.upper () == 'E!RETURNLOAN':
@@ -39,7 +39,7 @@ LOAN_INTREST_RATE = 0.01 #per minute
                 principal = loaninfo['principal']
                 time = loaninfo['time']
             time -= (int(datetime.datetime.now().strftime('%d')) * 1440) + int(datetime.datetime.now().strftime('%H') * 60) + int(datetime.datetime.now().strftime('%H')
-            loancalnum = int(principal * LOAN_INTREST_RATE * time)
+            loancalnum = int(principal * LOAN_INTEREST_RATE * time)
             if loaninfo[message.author.id] == None
                 msg = "You don't have a loan to return!"
                 await client.send_message(messsage.channel, msg)
