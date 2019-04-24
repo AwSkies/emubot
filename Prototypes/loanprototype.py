@@ -1,6 +1,6 @@
 import datetime
 
-LOAN_INTEREST_RATE = 0.01 #per minute
+LOAN_INTEREST_RATE = 1.01 #per minute
 
     global LOAN_INTEREST_RATE
 
