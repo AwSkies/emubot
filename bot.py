@@ -343,7 +343,7 @@ async def on_message(message):
                         def inattacktimer():
                             attacktimer(message.author.id)
                         attacktimer1[message.author.id] = True
-                        t = threading.Timer(14400.0, inattacktimer)
+                        t = threading.Timer(60.0, inattacktimer) #14400.0
                         t.start()
                     msg = '<@' + uidstr + '> was attacked by {0.author.mention} with `'.format(message) + str(emuattacknum) + '` emus and now has `{}` emus left on defense, '.format(get_value(uidstr, 'emudefense')) + '{0.author.mention} stole `'.format(message) + str(creditcalnum) + '` credits.'
                     await client.send_message(message.channel, msg)
