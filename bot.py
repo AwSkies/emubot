@@ -284,7 +284,7 @@ async def on_message(message):
     if message.content.upper ().startswith('E!ATTACK'):
         args = message.content.split(" ")
         if not "448272810561896448" in [role.id for role in message.author.roles]:
-            if (message.author.id in attacktimer1) or (message.author.id in attacktimer1 and attacktimer1[message.author.id]):
+            if (message.author.id in attacktimer1) and (attacktimer1[message.author.id]):
                 msg = "You can't attack yet!"
                 await client.send_message(message.channel, msg)
                 return
