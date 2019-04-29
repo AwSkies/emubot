@@ -347,7 +347,12 @@ async def on_message(message):
                         t.start()
                     msg = '<@' + uidstr + '> was attacked by {0.author.mention} with `'.format(message) + str(emuattacknum) + '` emus and now has `{}` emus left on defense, '.format(get_value(uidstr, 'emudefense')) + '{0.author.mention} stole `'.format(message) + str(creditcalnum) + '` credits.'
                     await client.send_message(message.channel, msg)
-
+                    
+    #easter egg -------------------------------------------------------------------
+    if message.content.upper () == 'E!EASTER_EGG:
+        msg = 'You found the Easter Egg! You get 1 credit.'
+        user_add_value(message.author.id, 1, 'credits')
+        
     #help commands ----------------------------------------------------------------
     if message.content.upper () == 'E!HELP':
         embed=discord.Embed(title="How to use the Emu Bot", url="https://sites.google.com/view/emu-bot-habitat/commands")
