@@ -408,6 +408,9 @@ e!buy: Lets you buy emus
 e!defend `(number)`: Puts `(number)` emus on defense
 e!offdefense `(number)`: Takes `(number)` emus off defense
 e!attack `(number)` @`(person)`: Attacks `(person)` with `(number)` emus
+e!loan `(number)`: Gives you a loan of `(number)` credits with an interest rate of 1% per minute and (time undecided) *WIP*
+e!gamble `(number1)` `(number2)`: Gambles `(number1)` credits, allowing you to choose from `(number2)` numbers, the first number always being one. If you choose the correct number, you will receive `(number1)` times half of `(number2)` credits. *WIP*
+e!give `(number)` `@person`: Gives `@person` `number` credits *WIP*
 e!reset: Resets ***all*** of your stats''', color=0x00ff00)
         await client.send_message(message.channel, embed=embed)
 
