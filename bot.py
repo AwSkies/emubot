@@ -349,7 +349,7 @@ async def on_message(message):
                     await client.send_message(message.channel, msg)
                     
     #easter egg -------------------------------------------------------------------
-    if message.content.upper () == 'E!EASTER_EGG':
+    if message.content.upper () == 'E!EASTEREGG':
         msg = 'You found the Easter Egg! You get 1 credit.'
         await client.send_message(message.channel, msg)
         user_add_value(message.author.id, 1, 'credits')
