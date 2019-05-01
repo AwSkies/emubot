@@ -367,7 +367,6 @@ async def on_message(message):
 
     if message.content.upper () == 'E!HELP HELPFUL':
         embed=discord.Embed(title='Helpful Commands', description='''**Gives helpful info about the bot, emus, and more.**
-        
 e!help: You're using it now, why are you asking
 e!server: Gives a link to the Emu Bot Habitat, the Emu Bot testing and support server
 e!website: Gives a link to the Emu Bot website
