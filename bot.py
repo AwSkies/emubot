@@ -8,7 +8,7 @@ import random
 import asyncio
 
 #gives token -----------------------------------------------------------------
-with open('/home/pi/Desktop/EmuBot/TOKEN.txt', 'r') as tokenfile:
+with open('TOKEN.txt', 'r') as tokenfile:
     TOKEN = tokenfile.readline()
     tokenfile.close()
 
