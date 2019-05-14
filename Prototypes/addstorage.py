@@ -1,7 +1,7 @@
 #in bot.py as of commit 89dc5d1, change all instances of maxemus to maxemus[message.author.id]
 #for changing of line #20 of bot.py as of commit 89dc5d1
 MAXEMUSDEFAULT = 20
-ADDSTORAGEPRICE = 2000
+ADDSTORAGEPRICE = 2500
 #
     
     #for insertion in global section
@@ -28,22 +28,14 @@ ADDSTORAGEPRICE = 2000
         
     #adding storage after saying yes
     if (message.author.id in askedforaddstorage) and askedforaddstorage[message.author.id] and (message.content.upper () == 'YES'): 
-        args = message.content.split(" ")
-        numei = intify(args[1])
-        price = numei * MAXEMUSDEFAULT
-        if len(args) < 2 or len(args) > 2:
-            msg = "To increase your storage, say yes, then the number you want to increase your storage by. (Ex. yes 5) To cancel, say no."
-            await client.send_message(message.channel, msg)
-        elif numei < 1:
-            msg = "You can't add less than 1 emus to your storage!"
-            await client.send_message(message.channel, msg)
+        price = ADDSTORAGEPRICE
         elif price > get_value(message.author.id, 'credits'):
-            msg = 'You do not have enough credits to buy that many emus!'
-            await client.send_message(message.channel, msg)
+            msg = 'You do not have enough credits to increase your emu storage!'
+            aw	ait client.send_message(message.channel, msg)
         else:
             askedforaddstorage[message.author.id] = False
-            maxemus[message.author.id] += numei
+            maxemus[message.author.id] += 1
             with open('maxemus.json', 'w') as f:
                 json.dump(maxemus, f, sort_keys = True, indent = 4)
-            msg = "Emu storage increased by `{}`.".format(numei)
+            msg = "Emu storage increased by 1."
             await client.send_message(message.channel,msg)
