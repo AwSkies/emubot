@@ -10,8 +10,7 @@ import asyncio
 #gives token -----------------------------------------------------------------
 with open('TOKEN.txt', 'r') as tokenfile:
     TOKEN = tokenfile.readline()
-    tokenfile.close()
-
+    
 #creates client shortcut -----------------------------------------------------
 client = discord.Client()
 
