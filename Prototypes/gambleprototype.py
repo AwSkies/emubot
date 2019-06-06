@@ -88,11 +88,9 @@ gamblecreds = dict()
                     await client.edit_message(edit, edited)
                 gamblesetup[message.author.id] = False
         except ValueError:
-
             if message.content.upper () == "CANCEL":
                 msg = 'Canceled'
                 await client.send_message(message.author, msg)
-
             else:
                 msg = 'Pick a number between 1 and ' + str(gamble_range_storage[message.author.id]) + '. If you wish to cancel, say "cancel".'
                 await client.send_message(message.channel, msg)
