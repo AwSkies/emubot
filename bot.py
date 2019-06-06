@@ -166,7 +166,7 @@ async def on_message(message):
         user_add_value(message.author.id, -(get_value(message.author.id, 'credits')), 'credits')
         user_add_value(message.author.id, -(get_value(message.author.id, 'emustorage')), 'emustorage')
         user_add_value(message.author.id, -(get_value(message.author.id, 'emudefense')), 'emudefense')
-        if loaninfo[message.author.id] == None:
+        if loans[message.author.id] == true:
             loaninfo[message.author.id] = None
             with open('loans.json', 'w') as f:
                     json.dump(loaninfo, f, sort_keys = True, indent = 4)
