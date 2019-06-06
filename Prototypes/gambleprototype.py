@@ -35,7 +35,7 @@ gamblecreds = dict()
         gamblerange = gamble_range_storage[message.author.id]
         numcreds = gamblecreds[message.author.id]
         args = message.content.split(" ")
-        guessnum = args[0]
+        guessnum = args[1]
         try:
             guessnum = int(guessnum)
             if guessnum < 1:
