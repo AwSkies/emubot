@@ -35,7 +35,7 @@ ADDSTORAGEPRICE = 5000
             msg = "To increase your storage, say yes, then the number you want to increase your storage by. (Ex. yes 5) To cancel, say no."
             await client.send_message(message.channel, msg)
         elif numei < 1:
-            msg = "You can't add less than 1 emus to your storage!"
+            msg = "You can't add less than 1 emu to your storage!"
             await client.send_message(message.channel, msg)
         elif price > get_value(message.author.id, 'credits'):
             msg = 'You do not have enough credits to buy that many emus!'
