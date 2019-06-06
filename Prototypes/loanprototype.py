@@ -31,6 +31,16 @@ LOAN_INTEREST_RATE = 1.01 #per minute
                 msg = 'You were loaned `' + str(principal) + '` credits with a ' + str(LOAN_INTEREST_RATE) + " interest rate (per minute)! You must return it by (hmmmmmmmmmmmmmmmm this is that part we still don't know yet...). (Remember that final amount is calculated using simple interest and that if you don't give it back in time, all of your stats will be reset.)"
                 await client.send_message(message.channel, msg)
     
+    #checkloan command                                                                                                                                     
+    if message.content.upper ().startswith("E!CHECKLOAN"):
+        if loans[message.author.id] == False:
+            msg = "You don't have a loan to check on!"    
+            await client.send_message(message.channel, msg)
+        else:
+            #something thats shows what the loan is                                                                                                                             
+                                                                                                                                         
+                                                                                                                                         
+    #returnloan command --------------------------------------------------------
     if message.content.upper () == 'E!RETURNLOAN':
         try:
             with open('loans.json', 'r') as fp:
