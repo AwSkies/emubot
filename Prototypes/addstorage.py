@@ -1,7 +1,7 @@
 #in bot.py as of commit 89dc5d1, change all instances of maxemus to maxemus[message.author.id]
 #for changing of line #20 of bot.py as of commit 89dc5d1
 MAXEMUSDEFAULT = 20
-ADDSTORAGEPRICE = 2000
+ADDSTORAGEPRICE = 5000
 #
     
     #for insertion in global section
