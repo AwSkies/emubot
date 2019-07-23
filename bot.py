@@ -299,7 +299,7 @@ async def on_message(message):
                 await client.send_message(message.channel, msg)
             #checks if the number you are trying to attack with is negative
             elif emuattacknum <= 0:
-                msg = "You can't put no or negative emus on attack!"
+                msg = "You can't put less than one emu on attack!"
                 await client.send_message(message.channel, msg)
             #makes sure it is within the limit of emus on attack
             elif emuattacknum > maxattack:
