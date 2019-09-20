@@ -7,6 +7,10 @@ class masterclass(object):
         self.MAXATTACK = 2 * self.MAXDEFENSE
         self.ATTACKCOOLDOWN = 14400.0
         self.ALL_VALUE_TYPES = ['credits', 'emustorage', 'emudefense']
+        self.ASKEDFORBUYEMU = dict()
+        self.ASKEDFORRESET = dict()
+        self.SPAMPROTECTION = dict()
+        self.ATTACKTIMERDICT = dict()
     
     def add_stats(self, user_id: int, amount: int, valuetype: str):
         if os.path.isfile("users.json"):
