@@ -6,6 +6,7 @@ class masterclass(object):
         self.MAXDEFENSE = 5
         self.MAXATTACK = 2 * self.MAXDEFENSE
         self.ATTACKCOOLDOWN = 14400.0
+        self.ALL_VALUE_TYPES = ['credits', 'emustorage', 'emudefense']
     
     def add_stats(self, user_id: int, amount: int, valuetype: str):
         if os.path.isfile("users.json"):
@@ -20,7 +21,7 @@ class masterclass(object):
                     users = json.load(fp)
                 users[user_id] = {}
                 #users[user_id][valuetype] = amount
-                for vt in all_value_types:
+                for vt in self.ALL_VALUE_TYPES:
                     if vt == valuetype:
                         users[user_id][valuetype] = amount
                     else:
