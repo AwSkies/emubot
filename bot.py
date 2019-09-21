@@ -458,7 +458,7 @@ The amount of emus you attack someone with that go over the amount of emus they 
 
     #image commands ---------------------------------------------------------------
     if message.content.upper () == 'E!EMU':
-        await client.send_file(message.channel, '/home/pi/Downloads/binary.png')
+        await client.send_file(message.channel, 'pictures/emu.png')
         
     if message.content.upper () == 'E!SERVER':
         msg = '''Emu Bot Habitat the Emu Bot testing and support server link:\nhttps://discord.gg/2xEQkKs'''  
@@ -469,7 +469,7 @@ The amount of emus you attack someone with that go over the amount of emus they 
         await client.send_message(message.channel, msg)
 
     if message.content.upper () == 'E!EMO':
-        await client.send_file(message.channel, '/home/pi/Downloads/binary.png')
+        await client.send_file(message.channel, 'pictures/emo.jpg')
 
     if message.content.upper () == 'E!HISTORY':
         msg = '''https://www.youtube.com/watch?v=QzYlI-W4sg8'''  
@@ -488,52 +488,52 @@ The amount of emus you attack someone with that go over the amount of emus they 
         await client.send_message(message.channel, msg)
 
     if message.content.upper () == 'E!GODNOW':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/emu-smile.jpg')
+        await client.send_file(message.channel, 'pictures/emu-smile.jpg')
 
     if message.content.upper () == 'E!NEWS':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/news.jpg')
+        await client.send_file(message.channel, 'pictures/news.jpg')
 
     if message.content.upper () == 'E!WARSTATS':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/stats.jpg')
+        await client.send_file(message.channel, 'pictures/stats.jpg')
 
     if message.content.upper () == 'E!GODMAKESEMU':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/making-emu.jpg')
+        await client.send_file(message.channel, 'pictures/making-emu.jpg')
 
     if message.content.upper () == 'E!SCREECH':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/screech.jpg')
+        await client.send_file(message.channel, 'pictures/screech.jpg')
 
     if message.content.upper () == 'E!REALIZATIONS':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/realize.jpg')
+        await client.send_file(message.channel, 'pictures/realize.jpg')
 
     if message.content.upper () == 'E!VETERAN':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/veteran.jpg')
+        await client.send_file(message.channel, 'pictures/veteran.jpg')
 
     if message.content.upper () == 'E!MLE':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/mle.jpg')
+        await client.send_file(message.channel, 'pictures/mle.jpg')
 
     if message.content.upper () == 'E!ONDUTY':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/on-guard.png')
+        await client.send_file(message.channel, 'pictures/on-guard.png')
 
     if message.content.upper () == 'E!GRUMPY':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/grumpy.png')
+        await client.send_file(message.channel, 'pictures/grumpy.png')
 
     if message.content.upper () == 'E!SMOILE':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/smoile.png')
+        await client.send_file(message.channel, 'pictures/smoile.png')
 
     if message.content.upper () == 'E!SHARK':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/shark.png')
+        await client.send_file(message.channel, 'pictures/shark.png')
 
     if message.content.upper () == 'E!VAMPIRE':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/vampire.png')
+        await client.send_file(message.channel, 'pictures/vampire.png')
 
     if message.content.upper () == 'E!UPSIDEDOWN':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/umE.png')
+        await client.send_file(message.channel, 'pictures/umE.png')
 
     if message.content.upper () == 'E!AAA':
-        await client.send_file(message.channel, '//home/pi/Desktop/EmuBot/Pictures/aaa.png')
+        await client.send_file(message.channel, 'pictures/aaa.png')
 
     if message.content.upper () == 'E!XING':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/xing.jpg')
+        await client.send_file(message.channel, 'pictures/xing.jpg')
 
     if message.content.upper () == 'E!SCOUT':
         msg = '''http://www.abc.net.au/news/2016-10-22/emu-found-wandering-along-arizona-highway/7957198'''  
