@@ -1,3 +1,5 @@
+import json
+
 class masterclass(object):
     
     def __init__(self):
