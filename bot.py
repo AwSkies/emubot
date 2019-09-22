@@ -10,21 +10,6 @@ import asyncio
 #gives token -----------------------------------------------------------------
 with open('TOKEN.txt', 'r') as tokenfile:
     TOKEN = tokenfile.readline()
-    
-#creates client shortcut -----------------------------------------------------
-client = discord.Client()
-
-#defines master variables ----------------------------------------------------
-emuprice = 500
-maxemus = 20
-maxdefense = 5
-maxattack = 2*maxdefense
-
-#makes dictionaries for variables that need them ------------------------------
-askedforbuyemu = dict()
-askedforreset = dict()
-spamprotection = dict()
-attacktimer1 = dict()
 
 #makes spamprotection (to run at end of timer) -------------------------------
 def spamtimer(authorid):
@@ -365,41 +350,6 @@ async def on_message(message):
         embed.set_footer(text="Emu Bot created and programmed by @CaptainClumsy#3018")
         await client.send_message(message.channel, embed=embed)
 
-    if message.content.upper () == 'E!HELP HELPFUL':
-        embed=discord.Embed(title='Helpful Commands', description='''**Gives helpful info about the bot, emus, and more.**
-e!help: You're using it now, why are you asking
-e!server: Gives a link to the Emu Bot Habitat, the Emu Bot testing and support server
-e!website: Gives a link to the Emu Bot website
-e!war: Facts about the great war
-e!history: History of the great war
-e!emu: Shows a picture of an emu''', color=0x00ff00)
-        await client.send_message(message.channel, embed=embed)
-
-    if message.content.upper () == 'E!HELP FUN':
-        embed=discord.Embed(title='Fun Commands', description='''**Just for fun, usually show a picture or a video of emus.**
-e!emu: Shows a picture of an emu
-e!emo: EMO EMU
-e!grumpy: Grumpy emu
-e!smoile: Smoily emu
-e!shark: "Humans are friends, not food"
-e!vampire: So what if he's an emu, he still vons to zuck your blud
-e!upsidedown: umE
-e!scout: An emu scouting the territory that will soon be his
-e!dance: Dance dance revol*emu*
-e!tapdance: Dance, baby (emu), dance.
-e!godnow: Shows the god emu who is your god now.
-e!news: The latest *emu*ws
-e!warstats: Attk, Dfnd, Spec
-e!godmakesemu: What went through god's mind when making an emu
-e!screech: Reeeeeeeeeeeeeeeee!
-e!realizations: My god, what have I done
-e!veteran: Veteran emu
-e!mle: *Major League Emu*
-e!onduty: Beware of guard emu
-e!aaa: Dun dun duuuuuuuuuuuun
-e!xing: Watch out for emus''', color=0x00ff00)
-        await client.send_message(message.channel, embed=embed)
-
     if message.content.upper () == 'E!HELP MISC':
         embed=discord.Embed(title='Miscellaneous Commands', description='''**Could be anything. Mostly just commands that don't really fit into any category.**
 e!say: Emu Bot will say what you put after the e!say''', color=0x00ff00)
@@ -455,136 +405,6 @@ The amount of emus you attack someone with that go over the amount of emus they 
         else:
             msg = 'You do not have permission to use this command.'
             await client.send_message(message.channel, msg)
-
-    #image commands ---------------------------------------------------------------
-    if message.content.upper () == 'E!EMU':
-        await client.send_file(message.channel, 'pictures/emu.png')
-        
-    if message.content.upper () == 'E!SERVER':
-        msg = '''Emu Bot Habitat the Emu Bot testing and support server link:\nhttps://discord.gg/2xEQkKs'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!WEBSITE':
-        msg = '''Emu Bot website link:\nhttps://sites.google.com/view/emu-bot-habitat/home'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!EMO':
-        await client.send_file(message.channel, 'pictures/emo.jpg')
-
-    if message.content.upper () == 'E!HISTORY':
-        msg = '''https://www.youtube.com/watch?v=QzYlI-W4sg8'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!WTF':
-        msg = '''https://www.youtube.com/watch?v=Ej0ZO79Aqxw8'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!DANCE':
-        msg = '''https://www.youtube.com/watch?v=2RVZvUJDTUE'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!TAPDANCE':
-        msg = '''https://www.youtube.com/watch?v=WW6dtCppZIc'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!GODNOW':
-        await client.send_file(message.channel, 'pictures/emu-smile.jpg')
-
-    if message.content.upper () == 'E!NEWS':
-        await client.send_file(message.channel, 'pictures/news.jpg')
-
-    if message.content.upper () == 'E!WARSTATS':
-        await client.send_file(message.channel, 'pictures/stats.jpg')
-
-    if message.content.upper () == 'E!GODMAKESEMU':
-        await client.send_file(message.channel, 'pictures/making-emu.jpg')
-
-    if message.content.upper () == 'E!SCREECH':
-        await client.send_file(message.channel, 'pictures/screech.jpg')
-
-    if message.content.upper () == 'E!REALIZATIONS':
-        await client.send_file(message.channel, 'pictures/realize.jpg')
-
-    if message.content.upper () == 'E!VETERAN':
-        await client.send_file(message.channel, 'pictures/veteran.jpg')
-
-    if message.content.upper () == 'E!MLE':
-        await client.send_file(message.channel, 'pictures/mle.jpg')
-
-    if message.content.upper () == 'E!ONDUTY':
-        await client.send_file(message.channel, 'pictures/on-guard.png')
-
-    if message.content.upper () == 'E!GRUMPY':
-        await client.send_file(message.channel, 'pictures/grumpy.png')
-
-    if message.content.upper () == 'E!SMOILE':
-        await client.send_file(message.channel, 'pictures/smoile.png')
-
-    if message.content.upper () == 'E!SHARK':
-        await client.send_file(message.channel, 'pictures/shark.png')
-
-    if message.content.upper () == 'E!VAMPIRE':
-        await client.send_file(message.channel, 'pictures/vampire.png')
-
-    if message.content.upper () == 'E!UPSIDEDOWN':
-        await client.send_file(message.channel, 'pictures/umE.png')
-
-    if message.content.upper () == 'E!AAA':
-        await client.send_file(message.channel, 'pictures/aaa.png')
-
-    if message.content.upper () == 'E!XING':
-        await client.send_file(message.channel, 'pictures/xing.jpg')
-
-    if message.content.upper () == 'E!SCOUT':
-        msg = '''http://www.abc.net.au/news/2016-10-22/emu-found-wandering-along-arizona-highway/7957198'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!WAR':
-        msg = '''https://en.wikipedia.org/wiki/Emu_War'''  
-        await client.send_message(message.channel, msg)
-
-#adding stats funtion ---------------------------------------------------------
-def user_add_value(user_id: int, amount: int, valuetype: str):
-    if os.path.isfile("users.json"):
-        try:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            users[user_id][valuetype] += amount
-            with open('users.json', 'w') as fp:
-                json.dump(users, fp, sort_keys=True, indent=4)
-        except KeyError:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            users[user_id] = {}
-            #users[user_id][valuetype] = amount
-            for vt in all_value_types:
-                if vt == valuetype:
-                    users[user_id][valuetype] = amount
-                else:
-                    users[user_id][vt] = 0
-            with open('users.json', 'w') as fp:
-                json.dump(users, fp, sort_keys=True, indent=4)
-    else:
-        users = {user_id: {}}
-        users[user_id][valuetype] = amount
-        with open('users.json', 'w') as fp:
-            json.dump(users, fp, sort_keys=True, indent=4)
-
-#getting stats values function ------------------------------------------------
-def get_value(user_id: int, valuetype: str):
-    if os.path.isfile('users.json'):
-        try:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            return users[user_id][valuetype]
-        except KeyError:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            users[user_id] = {}
-            users[user_id][valuetype] = 0
-            return 0
-    else:
-        return 0
 
 #prints stuff when ready and changes status when ready ------------------------
 @client.event
