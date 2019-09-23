@@ -19,9 +19,6 @@ def spamtimer(authorid):
 def attacktimer(authorid):
     attacktimer1[authorid]  = False
 
-#does something for the storing of values ------------------------------------
-all_value_types = ['credits', 'emustorage', 'emudefense']
-
 #here are all the things triggered by messages -------------------------------
 @client.event
 async def on_message(message):
