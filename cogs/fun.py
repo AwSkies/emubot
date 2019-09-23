@@ -188,3 +188,6 @@ class Fun(masterclass):
 )
     async def warwikilink(self, ctx):
         await ctx.send('https://en.wikipedia.org/wiki/Emu_War')
+
+def setup(bot):
+    bot.add_cog(Fun(bot))
