@@ -5,6 +5,7 @@ from masterclass import masterclass
 
 class Fun(masterclass):
     def __init__(self, bot):
+        super().__init__()
         self.bot = bot
 
     @commands.command(
