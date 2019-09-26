@@ -1,4 +1,3 @@
-# https://github.com/Rapptz/discord.py/blob/async/examples
 #imports stuff
 import discord
 import json
@@ -7,9 +6,12 @@ import threading
 import random
 import asyncio
 
+from cogs.masterclass import masterclass
+from discord.ext import commands
+
 #gives token -----------------------------------------------------------------
-with open('TOKEN.txt', 'r') as tokenfile:
-    TOKEN = tokenfile.readline()
+with open('TOKEN.txt', 'r') as f:
+    TOKEN = f.readline()
 
 #makes spamprotection (to run at end of timer) -------------------------------
 def spamtimer(authorid):
@@ -19,6 +21,32 @@ def spamtimer(authorid):
 def attacktimer(authorid):
     attacktimer1[authorid]  = False
 
+class EmuBot(commands.bot, masterclass):
+    def __init__(self):
+        DESCRIPTION = '''A discord bot to honor our best friends, the emus. 
+        With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.'''
+        
+        commands.bot.__init__(command_prefix = 'e!'
+                             description = DESCRIPTION
+                             case_insensitive = True)
+        masterclass.__init__()
+        
+        self.COGS = ['cogs.fun', 'cogs.game']
+        for cog in self.COGS:
+            self.load_extension(cog)
+            
+    async def on_message(self, message):
+        #idk what's going to go here right now, might add more later
+        await self.process_commands(message)
+            
+    async def on_ready(self):
+        print('Logged in as')
+        print(client.user.name)
+        print(client.user.id)
+        print('------')
+        await self.change_presence(game=discord.Game(name= "Say e!help"))
+        
+    
 #here are all the things triggered by messages -------------------------------
 @client.event
 async def on_message(message):
@@ -403,14 +431,7 @@ The amount of emus you attack someone with that go over the amount of emus they 
             msg = 'You do not have permission to use this command.'
             await client.send_message(message.channel, msg)
 
-#prints stuff when ready and changes status when ready ------------------------
-@client.event
-async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
-    await client.change_presence(game=discord.Game(name= "Say e!help"))
-
-#connects the bot -------------------------------------------------------------
-client.run(TOKEN)
+#runs the bot -------------------------------------------------------------
+if __name__ == '__main__':
+    b = EmuBot()
+    b.run(TOKEN)
