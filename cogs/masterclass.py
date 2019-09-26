@@ -9,7 +9,7 @@ class masterclass(object):
         self.MAXDEFENSE = 5
         self.MAXATTACK = 2 * self.MAXDEFENSE
         self.ATTACKCOOLDOWN = 14400.0
-        self.ALL_VALUE_TYPES = ['credits', 'emustorage', 'emudefense']
+        self.ALL_VALUE_TYPES = ['credits', 'storage', 'defense']
         self.ASKEDFORBUYEMU = dict()
         self.ASKEDFORRESET = dict()
         self.SPAMPROTECTION = dict()
