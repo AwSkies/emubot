@@ -54,56 +54,6 @@ class EmuBot(commands.bot, masterclass):
 #here are all the things triggered by messages -------------------------------
 @client.event
 async def on_message(message):
-    #makes variables global ------------------------------------------------------
-    global askedforbuyemu
-    global spamprotection
-    global attacktimer1
-    global maxemus
-    global maxdefense
-    global maxattack
-    global askedforreset
-
-    #we do not want the bot to reply to itself -------------------------
-    if message.author == client.user:
-        return
-
-    def intify(x):
-        try:
-            out = int(x)
-        except ValueError:
-            print(str(x) + 'can not be converted into an integer')
-            out = x
-        return(out)
-
-    #spam protection to give credits or start timer -------------------------------
-    if (not message.author.id in spamprotection) or (message.author.id in spamprotection and not spamprotection[message.author.id]):
-        user_add_value(message.author.id, 10, 'credits')
-        spamprotection[message.author.id] = True
-        def inspamtimer():
-            spamtimer(message.author.id)
-        t = threading.Timer(10.0, inspamtimer)
-        t.start()
-
-    #stats command ----------------------------------------------------------------
-    if message.content.upper ().startswith('E!STATS'):
-        args = message.content.split(" ")
-        if len(args) == 1:
-            msg = "{0.author.mention}'s Stats:".format(message)
-            msg += "\n:moneybag: You have `{}` credits.".format(get_value(message.author.id, 'credits'))
-            msg += "\n<:emu:439821394700926976> You have `{}` emu(s) in storage.".format(get_value(message.author.id, 'emustorage'))
-            msg += "\n:shield: You have `{}` emu(s) on defense.".format(get_value(message.author.id, 'emudefense'))
-            await client.send_message(message.channel, msg)
-        #uidstr = the string version of the uid (Ex. <@!213676807651255>)
-        else:
-            uidstr = args[1][2:-1]
-        #checks if uid has a !
-            if uidstr[0] == '!':
-                uidstr = uidstr[1:]
-            msg = "<@" + uidstr + ">'s Stats:"
-            msg += "\n:moneybag: `{}` credits.".format(get_value(uidstr, 'credits'))
-            msg += "\n<:emu:439821394700926976> `{}` emu(s) in storage.".format(get_value(uidstr, 'emustorage'))
-            msg += "\n:shield: `{}` emu(s) on defense.".format(get_value(uidstr, 'emudefense'))
-            await client.send_message(message.channel, msg)
 
     #initial buy message ----------------------------------------------------------
     if message.content.upper () == 'E!BUY':
