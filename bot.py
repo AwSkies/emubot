@@ -38,7 +38,11 @@ class EmuBot(commands.bot, masterclass):
     async def on_message(self, message):
         #idk what's going to go here right now, might add more later
         await self.process_commands(message)
-            
+    
+    async def on_command_error(ctx, error):
+        await ctx.send(str(error))
+        print(error)
+    
     async def on_ready(self):
         print('Logged in as')
         print(client.user.name)
