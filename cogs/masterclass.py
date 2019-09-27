@@ -2,7 +2,6 @@ import json
 import os.path
 
 class masterclass(object):
-    
     def __init__(self):
         self.EMUPRICE = 500
         self.MAXEMUS = 20
@@ -12,8 +11,8 @@ class masterclass(object):
         self.ALL_VALUE_TYPES = ['credits', 'storage', 'defense']
         self.ASKEDFORBUYEMU = dict()
         self.ASKEDFORRESET = dict()
-        self.SPAMPROTECTION = dict()
-        self.ATTACKTIMERDICT = dict()
+        self.SPAMCATCH = dict()
+        self.ATTACKTIMERCATCH = dict()
     
     def add_stats(self, user_id: int, amount: int, valuetype: str):
         if os.path.isfile("users.json"):
@@ -55,3 +54,10 @@ class masterclass(object):
                 return 0
         else:
             return 0
+        
+    def spamswitch(self, authorid):
+        self.SPAMCATCH[authorid] = False    
+    
+    def attackswitch(self, authorid):
+        self.ATTACKTIMERCATCH[authorid] = False
+    
