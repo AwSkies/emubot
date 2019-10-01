@@ -36,7 +36,6 @@ def attacktimer(authorid):
 
 #  does something for the storing of values ------------------------------------
 all_value_types = ['credits', 'emustorage', 'emudefense']
->>>>>>> 12bde88e50e2d35620a59508daa7a3242391aade
 
 #  here are all the things triggered by messages -------------------------------
 @client.event
