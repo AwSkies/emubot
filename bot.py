@@ -1,4 +1,9 @@
+<<<<<<< HEAD
 #imports stuff
+=======
+#  https://github.com/Rapptz/discord.py/blob/async/examples
+#  imports stuff
+>>>>>>> 12bde88e50e2d35620a59508daa7a3242391aade
 import discord
 import json
 import os.path
@@ -6,6 +11,7 @@ import threading
 import random
 import asyncio
 
+<<<<<<< HEAD
 from cogs.masterclass import masterclass
 from discord.ext import commands
 
@@ -50,6 +56,37 @@ class EmuBot(commands.bot, masterclass):
         print('------')
         await self.change_presence(game=discord.Game(name= "Say e!help"))
         
+=======
+#  gives token -----------------------------------------------------------------
+with open('TOKEN.txt', 'r') as tokenfile:
+    TOKEN = tokenfile.readline()
+    
+#  creates client shortcut -----------------------------------------------------
+client = discord.Client()
+
+#  defines master variables ----------------------------------------------------
+emuprice = 500
+maxemus = 20
+maxdefense = 5
+maxattack = 2*maxdefense
+
+#  makes dictionaries for variables that need them ------------------------------
+askedforbuyemu = dict()
+askedforreset = dict()
+spamprotection = dict()
+attacktimer1 = dict()
+
+#  makes spamprotection (to run at end of timer) -------------------------------
+def spamtimer(authorid):
+    spamprotection[authorid] = False
+
+#  makes attacktimer (to run at end of timer) ----------------------------------
+def attacktimer(authorid):
+    attacktimer1[authorid]  = False
+
+#  does something for the storing of values ------------------------------------
+all_value_types = ['credits', 'emustorage', 'emudefense']
+>>>>>>> 12bde88e50e2d35620a59508daa7a3242391aade
 
 #  here are all the things triggered by messages -------------------------------
 @client.event
@@ -105,7 +142,10 @@ async def on_message(message):
             msg += "\n:shield: `{}` emu(s) on defense.".format(get_value(uidstr, 'emudefense'))
             await client.send_message(message.channel, msg)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 12bde88e50e2d35620a59508daa7a3242391aade
     #  initial buy message ----------------------------------------------------------
     if message.content.upper () == 'E!BUY':
         if get_value(message.author.id, 'credits') < emuprice:
@@ -436,8 +476,152 @@ The amount of emus you attack someone with that go over the amount of emus they 
             msg = 'You do not have permission to use this command.'
             await client.send_message(message.channel, msg)
 
+<<<<<<< HEAD
 
 #runs the bot -------------------------------------------------------------
 if __name__ == '__main__':
     b = EmuBot()
     b.run(TOKEN)
+=======
+    #  image commands ---------------------------------------------------------------
+    if message.content.upper () == 'E!EMU':
+        await client.send_file(message.channel, '/home/pi/Downloads/binary.png')
+        
+    if message.content.upper () == 'E!SERVER':
+        msg = '''Emu Bot Habitat the Emu Bot testing and support server link:\nhttps://discord.gg/2xEQkKs'''  
+        await client.send_message(message.channel, msg)
+
+    if message.content.upper () == 'E!WEBSITE':
+        msg = '''Emu Bot website link:\nhttps://sites.google.com/view/emu-bot-habitat/home'''  
+        await client.send_message(message.channel, msg)
+
+    if message.content.upper () == 'E!EMO':
+        await client.send_file(message.channel, '/home/pi/Downloads/binary.png')
+
+    if message.content.upper () == 'E!HISTORY':
+        msg = '''https://www.youtube.com/watch?v=QzYlI-W4sg8'''  
+        await client.send_message(message.channel, msg)
+
+    if message.content.upper () == 'E!WTF':
+        msg = '''https://www.youtube.com/watch?v=Ej0ZO79Aqxw8'''  
+        await client.send_message(message.channel, msg)
+
+    if message.content.upper () == 'E!DANCE':
+        msg = '''https://www.youtube.com/watch?v=2RVZvUJDTUE'''  
+        await client.send_message(message.channel, msg)
+
+    if message.content.upper () == 'E!TAPDANCE':
+        msg = '''https://www.youtube.com/watch?v=WW6dtCppZIc'''  
+        await client.send_message(message.channel, msg)
+
+    if message.content.upper () == 'E!GODNOW':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/emu-smile.jpg')
+
+    if message.content.upper () == 'E!NEWS':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/news.jpg')
+
+    if message.content.upper () == 'E!WARSTATS':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/stats.jpg')
+
+    if message.content.upper () == 'E!GODMAKESEMU':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/making-emu.jpg')
+
+    if message.content.upper () == 'E!SCREECH':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/screech.jpg')
+
+    if message.content.upper () == 'E!REALIZATIONS':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/realize.jpg')
+
+    if message.content.upper () == 'E!VETERAN':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/veteran.jpg')
+
+    if message.content.upper () == 'E!MLE':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/mle.jpg')
+
+    if message.content.upper () == 'E!ONDUTY':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/on-guard.png')
+
+    if message.content.upper () == 'E!GRUMPY':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/grumpy.png')
+
+    if message.content.upper () == 'E!SMOILE':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/smoile.png')
+
+    if message.content.upper () == 'E!SHARK':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/shark.png')
+
+    if message.content.upper () == 'E!VAMPIRE':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/vampire.png')
+
+    if message.content.upper () == 'E!UPSIDEDOWN':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/umE.png')
+
+    if message.content.upper () == 'E!AAA':
+        await client.send_file(message.channel, '//home/pi/Desktop/EmuBot/Pictures/aaa.png')
+
+    if message.content.upper () == 'E!XING':
+        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/xing.jpg')
+
+    if message.content.upper () == 'E!SCOUT':
+        msg = '''http://www.abc.net.au/news/2016-10-22/emu-found-wandering-along-arizona-highway/7957198'''  
+        await client.send_message(message.channel, msg)
+
+    if message.content.upper () == 'E!WAR':
+        msg = '''https://en.wikipedia.org/wiki/Emu_War'''  
+        await client.send_message(message.channel, msg)
+
+#  adding stats funtion ---------------------------------------------------------
+def user_add_value(user_id: int, amount: int, valuetype: str):
+    if os.path.isfile("users.json"):
+        try:
+            with open('users.json', 'r') as fp:
+                users = json.load(fp)
+            users[user_id][valuetype] += amount
+            with open('users.json', 'w') as fp:
+                json.dump(users, fp, sort_keys=True, indent=4)
+        except KeyError:
+            with open('users.json', 'r') as fp:
+                users = json.load(fp)
+            users[user_id] = {}
+            #users[user_id][valuetype] = amount
+            for vt in all_value_types:
+                if vt == valuetype:
+                    users[user_id][valuetype] = amount
+                else:
+                    users[user_id][vt] = 0
+            with open('users.json', 'w') as fp:
+                json.dump(users, fp, sort_keys=True, indent=4)
+    else:
+        users = {user_id: {}}
+        users[user_id][valuetype] = amount
+        with open('users.json', 'w') as fp:
+            json.dump(users, fp, sort_keys=True, indent=4)
+
+#  getting stats values function ------------------------------------------------
+def get_value(user_id: int, valuetype: str):
+    if os.path.isfile('users.json'):
+        try:
+            with open('users.json', 'r') as fp:
+                users = json.load(fp)
+            return users[user_id][valuetype]
+        except KeyError:
+            with open('users.json', 'r') as fp:
+                users = json.load(fp)
+            users[user_id] = {}
+            users[user_id][valuetype] = 0
+            return 0
+    else:
+        return 0
+
+#  prints stuff when ready and changes status when ready ------------------------
+@client.event
+async def on_ready():
+    print('Logged in as')
+    print(client.user.name)
+    print(client.user.id)
+    print('------')
+    await client.change_presence(game=discord.Game(name= "Say e!help"))
+
+#  connects the bot -------------------------------------------------------------
+client.run(TOKEN)
+>>>>>>> 12bde88e50e2d35620a59508daa7a3242391aade
