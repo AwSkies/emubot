@@ -1,4 +1,3 @@
-# https://github.com/Rapptz/discord.py/blob/async/examples
 #imports stuff
 import discord
 import json
@@ -7,40 +6,55 @@ import threading
 import random
 import asyncio
 
+from cogs.masterclass import masterclass
+from discord.ext import commands
+
 #gives token -----------------------------------------------------------------
-with open('TOKEN.txt', 'r') as tokenfile:
-    TOKEN = tokenfile.readline()
+with open('TOKEN.txt', 'r') as f:
+    TOKEN = f.readline()
+
+class EmuBot(commands.bot, masterclass):
+    def __init__(self):
+        DESCRIPTION = '''A discord bot to honor our best friends, the emus. 
+        With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.'''
+        
+        commands.bot.__init__(command_prefix = 'e!'
+                             description = DESCRIPTION
+                             case_insensitive = True)
+        masterclass.__init__()
+        
+        self.COGS = ['cogs.fun', 'cogs.game']
+        for cog in self.COGS:
+            self.load_extension(cog)
+            
+    async def on_message(self, message):
+        #spam protection to give credits or start timer -------------------------------
+        if (not message.author.id in self.SPAMCATCH) or (message.author.id in self.SPAMCATCH and not self.SPAMCATCH[message.author.id]):
+            add_stats(message.author.id, 10, 'credits')
+            self.SPAMCATCH[message.author.id] = True
+            def spamtimer():
+                self.spamswitch(message.author.id)
+            t = threading.Timer(10.0, spamtimer)
+            t.start()
+            
+        await self.process_commands(message)
     
-#creates client shortcut -----------------------------------------------------
-client = discord.Client()
+    async def on_command_error(ctx, error):
+        await ctx.send(str(error))
+        print(error)
+    
+    async def on_ready(self):
+        print('Logged in as')
+        print(client.user.name)
+        print(client.user.id)
+        print('------')
+        await self.change_presence(game=discord.Game(name= "Say e!help"))
+        
 
-#defines master variables ----------------------------------------------------
-emuprice = 500
-maxemus = 20
-maxdefense = 5
-maxattack = 2*maxdefense
-
-#makes dictionaries for variables that need them ------------------------------
-askedforbuyemu = dict()
-askedforreset = dict()
-spamprotection = dict()
-attacktimer1 = dict()
-
-#makes spamprotection (to run at end of timer) -------------------------------
-def spamtimer(authorid):
-    spamprotection[authorid] = False
-
-#makes attacktimer (to run at end of timer) ----------------------------------
-def attacktimer(authorid):
-    attacktimer1[authorid]  = False
-
-#does something for the storing of values ------------------------------------
-all_value_types = ['credits', 'emustorage', 'emudefense']
-
-#here are all the things triggered by messages -------------------------------
+#  here are all the things triggered by messages -------------------------------
 @client.event
 async def on_message(message):
-    #makes variables global ------------------------------------------------------
+    #  makes variables global ------------------------------------------------------
     global askedforbuyemu
     global spamprotection
     global attacktimer1
@@ -49,7 +63,7 @@ async def on_message(message):
     global maxattack
     global askedforreset
 
-    #we do not want the bot to reply to itself -------------------------
+    #  we do not want the bot to reply to itself -------------------------
     if message.author == client.user:
         return
 
@@ -61,7 +75,7 @@ async def on_message(message):
             out = x
         return(out)
 
-    #spam protection to give credits or start timer -------------------------------
+    #  spam protection to give credits or start timer -------------------------------
     if (not message.author.id in spamprotection) or (message.author.id in spamprotection and not spamprotection[message.author.id]):
         user_add_value(message.author.id, 10, 'credits')
         spamprotection[message.author.id] = True
@@ -70,7 +84,7 @@ async def on_message(message):
         t = threading.Timer(10.0, inspamtimer)
         t.start()
 
-    #stats command ----------------------------------------------------------------
+    #  stats command ----------------------------------------------------------------
     if message.content.upper ().startswith('E!STATS'):
         args = message.content.split(" ")
         if len(args) == 1:
@@ -79,10 +93,10 @@ async def on_message(message):
             msg += "\n<:emu:439821394700926976> You have `{}` emu(s) in storage.".format(get_value(message.author.id, 'emustorage'))
             msg += "\n:shield: You have `{}` emu(s) on defense.".format(get_value(message.author.id, 'emudefense'))
             await client.send_message(message.channel, msg)
-        #uidstr = the string version of the uid (Ex. <@!213676807651255>)
+        #  uidstr = the string version of the uid (Ex. <@!213676807651255>)
         else:
             uidstr = args[1][2:-1]
-        #checks if uid has a !
+        #  checks if uid has a !
             if uidstr[0] == '!':
                 uidstr = uidstr[1:]
             msg = "<@" + uidstr + ">'s Stats:"
@@ -91,7 +105,8 @@ async def on_message(message):
             msg += "\n:shield: `{}` emu(s) on defense.".format(get_value(uidstr, 'emudefense'))
             await client.send_message(message.channel, msg)
 
-    #initial buy message ----------------------------------------------------------
+
+    #  initial buy message ----------------------------------------------------------
     if message.content.upper () == 'E!BUY':
         if get_value(message.author.id, 'credits') < emuprice:
             val = get_value(message.author.id, 'credits')
@@ -103,7 +118,7 @@ async def on_message(message):
             msg = '''You have `{}` credits.\nAn emu costs `'''.format(val) + str(emuprice) + '''` credits. If you would like to buy an emu, say yes, then the number of emus you would like to buy. (Ex. `yes 2`). Say no to cancel.'''.format(get_value(message.author.id, 'credits'))
             await client.send_message(message.channel, msg)
 
-    #buying an emu after saying yes -----------------------------------------------
+    #  buying an emu after saying yes -----------------------------------------------
     if (message.author.id in askedforbuyemu) and askedforbuyemu[message.author.id] and (message.content.upper ().startswith('YES')): 
         args = message.content.split(" ")
         if len(args) == 1:
@@ -148,19 +163,19 @@ async def on_message(message):
         msg = "Canceled"
         await client.send_message(message.channel,msg)
 
-    #initial reset message --------------------------------------------------------
+    #  initial reset message --------------------------------------------------------
     if message.content.upper () == 'E!RESET':
         askedforreset[message.author.id] = True
         msg = '''Are you sure you want to reset ***all*** of your stats? You'll lose everything! If you're sure, say yes. To cancel, say no.'''
         await client.send_message(message.channel, msg)
 
-    #saying no to resetting -------------------------------------------------------
+    #  saying no to resetting -------------------------------------------------------
     if (message.author.id in askedforreset) and askedforreset[message.author.id] and (message.content.upper () == 'NO'):
         askedforreset[message.author.id] = False
         msg = "Canceled"
         await client.send_message(message.channel,msg)
 
-    #reseting after saying yes ----------------------------------------------------
+    #  reseting after saying yes ----------------------------------------------------
     if (message.author.id in askedforreset) and askedforreset[message.author.id] and (message.content.upper ().startswith('YES')): 
         askedforreset[message.author.id] = False
         user_add_value(message.author.id, -(get_value(message.author.id, 'credits')), 'credits')
@@ -169,7 +184,7 @@ async def on_message(message):
         msg = "All of your stats have been reset."
         await client.send_message(message.channel,msg)
 
-    #getcredits for testers -------------------------------------------------------
+    #  getcredits for testers -------------------------------------------------------
     if message.content.upper ().startswith('E!GETCREDITS'):
         if "448272810561896448" in [role.id for role in message.author.roles]:
             args = message.content.split(" ")
@@ -192,7 +207,7 @@ async def on_message(message):
     if message.content.upper ().startswith("E!TEST"):
         print(message.mentions)
 
-    #fills testers to a 20,000 credits, 15 emus in storage, and 5 emus on defense -
+    #  fills testers to a 20,000 credits, 15 emus in storage, and 5 emus on defense -
     if message.content.upper ().startswith('E!FILLMEUP'):
         if "448272810561896448" in [role.id for role in message.author.roles]:
             #sets credits to zero
@@ -209,7 +224,7 @@ async def on_message(message):
             msg = "You do not have permission to use this command!"
             await client.send_message(message.channel, msg)
             
-    #putting emus on defense command ----------------------------------------------
+    #  putting emus on defense command ----------------------------------------------
     if message.content.upper ().startswith('E!DEFEND') or message.content.upper ().startswith('E!DEFENCE') or message.content.upper ().startswith('E!DEFENSE'):
         if get_value(message.author.id, 'emustorage') > 0:
             args = message.content.split(" ")
@@ -244,7 +259,7 @@ async def on_message(message):
             msg = '''You have no emus to put on defense! Remember, you can buy emus with e!buy!'''
             await client.send_message(message.channel, msg)
 
-    #taking emus off defense command ----------------------------------------------
+    #  taking emus off defense command ----------------------------------------------
     if message.content.upper ().startswith('E!OFFDEFENSE') or message.content.upper ().startswith('E!OFFDEFENCE'):
         if get_value(message.author.id, 'emudefense') > 0:
             args = message.content.split(" ")
@@ -279,7 +294,7 @@ async def on_message(message):
             msg = '''You have no emus to take off defense! Remember, you can buy emus with e!buy and put them on defense with e!defend (number of emus you want to put on defense)!'''
             await client.send_message(message.channel, msg)
     
-    #attack command ---------------------------------------------------------------
+    #  attack command ---------------------------------------------------------------
     if message.content.upper ().startswith('E!ATTACK'):
         args = message.content.split(" ")
         if not "448272810561896448" in [role.id for role in message.author.roles]:
@@ -287,33 +302,33 @@ async def on_message(message):
                 msg = "You can't attack yet!"
                 await client.send_message(message.channel, msg)
                 return
-        #checks for improper format
+        #  checks for improper format
         if len (args) == 1 or len (args) == 2 or len (args) >= 4:
             msg = '''Say how many emus you would like to attack with and the person you would like to attack. Ex. e!attack [number] [@person]'''
             await client.send_message(message.channel, msg)
         else:
             emuattacknum = intify(args[1])
-            #checks if user has emus at all 
+            #  checks if user has emus at all 
             if get_value(message.author.id, 'emustorage') == 0:
                 msg = '''You have no emus to attack with! Remember, you can buy emus with e!buy!'''
                 await client.send_message(message.channel, msg)
-            #checks if the number you are trying to attack with is negative
+            #  checks if the number you are trying to attack with is negative
             elif emuattacknum <= 0:
                 msg = "You can't put less than one emu on attack!"
                 await client.send_message(message.channel, msg)
-            #makes sure it is within the limit of emus on attack
+            #  makes sure it is within the limit of emus on attack
             elif emuattacknum > maxattack:
                 msg = '''That's more than you are allowed to send on attack. (''' + str(maxattack) + ')'
                 await client.send_message(message.channel, msg)
-            #checks if user has enough emus
+            #  checks if user has enough emus
             elif emuattacknum > get_value(message.author.id, 'emustorage'):
                 msg = 'You are trying to attack with more emus that you have in your storage, you silly emu warlord!'
                 await client.send_message(message.channel, msg)
-            #gets uid
-            #uidstr = the string version of the uid (Ex. <@!213676807651255>)
+            #  gets uid
+            #  uidstr = the string version of the uid (Ex. <@!213676807651255>)
             else:
                 uidstr = args[2][2:-1]
-                #checks if uid has a !
+                #  checks if uid has a !
                 if uidstr[0] == '!':
                     uidstr = uidstr[1:]
                 if uidstr == client.user.id:
@@ -328,8 +343,8 @@ async def on_message(message):
                     #checks if user broke other user's defenses
                     if creditcalnum < 0:
                         user_add_value(uidstr, -emuattacknum, 'emudefense')
-                    else: #if user broke other user's defenses
-                        #checks if user being attacked can pay attackee
+                    else: #  if user broke other user's defenses
+                        #  checks if user being attacked can pay attackee
                         if prebattlecredits - creditcalnum < 0:
                             user_add_value(message.author.id, prebattlecredits, 'credits')
                             user_add_value(uidstr, -prebattlecredits, 'credits')
@@ -347,13 +362,13 @@ async def on_message(message):
                     msg = '<@' + uidstr + '> was attacked by {0.author.mention} with `'.format(message) + str(emuattacknum) + '` emus and now has `{}` emus left on defense, '.format(get_value(uidstr, 'emudefense')) + '{0.author.mention} stole `'.format(message) + str(creditcalnum) + '` credits.'
                     await client.send_message(message.channel, msg)
                     
-    #easter egg -------------------------------------------------------------------
+    #  easter egg -------------------------------------------------------------------
     if message.content.upper () == 'E!EASTEREGG':
         msg = 'You found the Easter Egg! You get 1 credit.'
         await client.send_message(message.channel, msg)
         user_add_value(message.author.id, 1, 'credits')
         
-    #help commands ----------------------------------------------------------------
+    #  help commands ----------------------------------------------------------------
     if message.content.upper () == 'E!HELP':
         embed=discord.Embed(title="How to use the Emu Bot", url="https://sites.google.com/view/emu-bot-habitat/commands")
         embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/445349891217031179/541704664236687361/imageedit_1_8656546600.png")
@@ -363,41 +378,6 @@ async def on_message(message):
         embed.add_field(name='Miscellaneous Commands', value="Could be anything. Mostly just commands that don't really fit into any category.", inline=True)
         embed.add_field(name='Additional Info', value='For help with each category, just say e!help (category) (Ex: e!help fun) (Note: When using help for miscellaneous commands, just say e!help misc) Also remember, you can suggest more commands in the Emu Bot testing and support server!', inline=True)
         embed.set_footer(text="Emu Bot created and programmed by @CaptainClumsy#3018")
-        await client.send_message(message.channel, embed=embed)
-
-    if message.content.upper () == 'E!HELP HELPFUL':
-        embed=discord.Embed(title='Helpful Commands', description='''**Gives helpful info about the bot, emus, and more.**
-e!help: You're using it now, why are you asking
-e!server: Gives a link to the Emu Bot Habitat, the Emu Bot testing and support server
-e!website: Gives a link to the Emu Bot website
-e!war: Facts about the great war
-e!history: History of the great war
-e!emu: Shows a picture of an emu''', color=0x00ff00)
-        await client.send_message(message.channel, embed=embed)
-
-    if message.content.upper () == 'E!HELP FUN':
-        embed=discord.Embed(title='Fun Commands', description='''**Just for fun, usually show a picture or a video of emus.**
-e!emu: Shows a picture of an emu
-e!emo: EMO EMU
-e!grumpy: Grumpy emu
-e!smoile: Smoily emu
-e!shark: "Humans are friends, not food"
-e!vampire: So what if he's an emu, he still vons to zuck your blud
-e!upsidedown: umE
-e!scout: An emu scouting the territory that will soon be his
-e!dance: Dance dance revol*emu*
-e!tapdance: Dance, baby (emu), dance.
-e!godnow: Shows the god emu who is your god now.
-e!news: The latest *emu*ws
-e!warstats: Attk, Dfnd, Spec
-e!godmakesemu: What went through god's mind when making an emu
-e!screech: Reeeeeeeeeeeeeeeee!
-e!realizations: My god, what have I done
-e!veteran: Veteran emu
-e!mle: *Major League Emu*
-e!onduty: Beware of guard emu
-e!aaa: Dun dun duuuuuuuuuuuun
-e!xing: Watch out for emus''', color=0x00ff00)
         await client.send_message(message.channel, embed=embed)
 
     if message.content.upper () == 'E!HELP MISC':
@@ -431,7 +411,7 @@ e!reset: Resets ***all*** of your stats''', color=0x00ff00)
 The amount of emus you attack someone with that go over the amount of emus they have on defense grants you 700 credits for each emu.''', color=0x00ff00)
         await client.send_message(message.channel, embed=embed)
         
-    #say command ------------------------------------------------------------------
+    #  say command ------------------------------------------------------------------
     if message.content.upper ().startswith ('E!SAY'):
         args = message.content.split(" ")
         if len(args) == 1:
@@ -440,7 +420,7 @@ The amount of emus you attack someone with that go over the amount of emus they 
         else:
             await client.send_message(message.channel, "%s" % (" ".join(args[1:])))
 
-    #changing game status (for me only) -------------------------------------------
+    #  changing game status (for me only) -------------------------------------------
     if message.content.upper ().startswith('E!CHANGESTATUS'):
         if message.author.id == "369267862050832385":
             args = message.content.split(" ")
@@ -456,144 +436,8 @@ The amount of emus you attack someone with that go over the amount of emus they 
             msg = 'You do not have permission to use this command.'
             await client.send_message(message.channel, msg)
 
-    #image commands ---------------------------------------------------------------
-    if message.content.upper () == 'E!EMU':
-        await client.send_file(message.channel, '/home/pi/Downloads/binary.png')
-        
-    if message.content.upper () == 'E!SERVER':
-        msg = '''Emu Bot Habitat the Emu Bot testing and support server link:\nhttps://discord.gg/2xEQkKs'''  
-        await client.send_message(message.channel, msg)
 
-    if message.content.upper () == 'E!WEBSITE':
-        msg = '''Emu Bot website link:\nhttps://sites.google.com/view/emu-bot-habitat/home'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!EMO':
-        await client.send_file(message.channel, '/home/pi/Downloads/binary.png')
-
-    if message.content.upper () == 'E!HISTORY':
-        msg = '''https://www.youtube.com/watch?v=QzYlI-W4sg8'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!WTF':
-        msg = '''https://www.youtube.com/watch?v=Ej0ZO79Aqxw8'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!DANCE':
-        msg = '''https://www.youtube.com/watch?v=2RVZvUJDTUE'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!TAPDANCE':
-        msg = '''https://www.youtube.com/watch?v=WW6dtCppZIc'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!GODNOW':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/emu-smile.jpg')
-
-    if message.content.upper () == 'E!NEWS':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/news.jpg')
-
-    if message.content.upper () == 'E!WARSTATS':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/stats.jpg')
-
-    if message.content.upper () == 'E!GODMAKESEMU':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/making-emu.jpg')
-
-    if message.content.upper () == 'E!SCREECH':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/screech.jpg')
-
-    if message.content.upper () == 'E!REALIZATIONS':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/realize.jpg')
-
-    if message.content.upper () == 'E!VETERAN':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/veteran.jpg')
-
-    if message.content.upper () == 'E!MLE':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/mle.jpg')
-
-    if message.content.upper () == 'E!ONDUTY':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/on-guard.png')
-
-    if message.content.upper () == 'E!GRUMPY':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/grumpy.png')
-
-    if message.content.upper () == 'E!SMOILE':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/smoile.png')
-
-    if message.content.upper () == 'E!SHARK':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/shark.png')
-
-    if message.content.upper () == 'E!VAMPIRE':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/vampire.png')
-
-    if message.content.upper () == 'E!UPSIDEDOWN':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/umE.png')
-
-    if message.content.upper () == 'E!AAA':
-        await client.send_file(message.channel, '//home/pi/Desktop/EmuBot/Pictures/aaa.png')
-
-    if message.content.upper () == 'E!XING':
-        await client.send_file(message.channel, '/home/pi/Desktop/EmuBot/Pictures/xing.jpg')
-
-    if message.content.upper () == 'E!SCOUT':
-        msg = '''http://www.abc.net.au/news/2016-10-22/emu-found-wandering-along-arizona-highway/7957198'''  
-        await client.send_message(message.channel, msg)
-
-    if message.content.upper () == 'E!WAR':
-        msg = '''https://en.wikipedia.org/wiki/Emu_War'''  
-        await client.send_message(message.channel, msg)
-
-#adding stats funtion ---------------------------------------------------------
-def user_add_value(user_id: int, amount: int, valuetype: str):
-    if os.path.isfile("users.json"):
-        try:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            users[user_id][valuetype] += amount
-            with open('users.json', 'w') as fp:
-                json.dump(users, fp, sort_keys=True, indent=4)
-        except KeyError:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            users[user_id] = {}
-            #users[user_id][valuetype] = amount
-            for vt in all_value_types:
-                if vt == valuetype:
-                    users[user_id][valuetype] = amount
-                else:
-                    users[user_id][vt] = 0
-            with open('users.json', 'w') as fp:
-                json.dump(users, fp, sort_keys=True, indent=4)
-    else:
-        users = {user_id: {}}
-        users[user_id][valuetype] = amount
-        with open('users.json', 'w') as fp:
-            json.dump(users, fp, sort_keys=True, indent=4)
-
-#getting stats values function ------------------------------------------------
-def get_value(user_id: int, valuetype: str):
-    if os.path.isfile('users.json'):
-        try:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            return users[user_id][valuetype]
-        except KeyError:
-            with open('users.json', 'r') as fp:
-                users = json.load(fp)
-            users[user_id] = {}
-            users[user_id][valuetype] = 0
-            return 0
-    else:
-        return 0
-
-#prints stuff when ready and changes status when ready ------------------------
-@client.event
-async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
-    await client.change_presence(game=discord.Game(name= "Say e!help"))
-
-#connects the bot -------------------------------------------------------------
-client.run(TOKEN)
+#runs the bot -------------------------------------------------------------
+if __name__ == '__main__':
+    b = EmuBot()
+    b.run(TOKEN)
