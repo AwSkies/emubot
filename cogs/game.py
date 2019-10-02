@@ -8,11 +8,11 @@ class Game(masterclass):
         super().__init()
         self.bot = bot
     
-    @commands.command(name = "stats"
-                      description = "Displays your stats"
-                      aliases = ["s"]
-                      brief = "Displays your stats"
-                      help = "Shows you the amount of credits you have, the number of emus in your storage, and the number of emus you have defense."
+    @commands.command(name = "stats",
+                      description = "Displays your stats",
+                      aliases = ["s"],
+                      brief = "Displays your stats",
+                      help = "Shows you the amount of credits you have, the number of emus in your storage, and the number of emus you have defense.",
                       usage = "e!stats [@mention] (if no mention is provided, then it displays your stats)"
 )
     async def stats(self, ctx, mention = None):
@@ -32,20 +32,20 @@ class Game(masterclass):
         msg += "\n:shield: You have `{}` emu(s) on defense.".format(get_stats(aid, 'defense'))
         await ctx.send(msg)
 
-    @commands.command(name = ""
-                      description = ""
-                      aliases = [""]
-                      brief = ""
-                      help = ""
+    @commands.command(name = "",
+                      description = "",
+                      aliases = [""],
+                      brief = "",
+                      help = "",
                       usage = ""
 )
     async def (self, ctx, ):
     
-    @commands.command(name = ""
-                      description = ""
-                      aliases = [""]
-                      brief = ""
-                      help = ""
+    @commands.command(name = "",
+                      description = "",
+                      aliases = [""],
+                      brief = "",
+                      help = "",
                       usage = ""
 )
     async def (self, ctx, ):
