@@ -24,7 +24,7 @@ class EmuBot(commands.bot, masterclass):
                              case_insensitive = True)
         masterclass.__init__()
         
-        self.COGS = ['cogs.fun', 'cogs.game']
+        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.misc']
         for cog in self.COGS:
             self.load_extension(cog)
             
