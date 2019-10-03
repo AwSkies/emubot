@@ -22,24 +22,54 @@ class Game(masterclass):
             #checks if uid has a !
             if uidstr[0] == '!':
                 uidstr = uidstr[1:]
-            aid = uidstr
             msg = "<@" + uidstr + ">'s Stats:"
+            idfu = uidstr
         else:
-            mid = ctx.author.id
+            idfu = ctx.author.id
             msg = "{0.author.mention}'s Stats:".format(ctx)
-        msg += "\n:moneybag: You have `{}` credits.".format(get_stats(aid, 'credits'))
-        msg += "\n<:emu:439821394700926976> You have `{}` emu(s) in storage.".format(get_stats(aid, 'storage'))
-        msg += "\n:shield: You have `{}` emu(s) on defense.".format(get_stats(aid, 'defense'))
+        msg += "\n:moneybag: You have `{}` credits.".format(self.get_stats(idfu, 'credits'))
+        msg += "\n<:emu:439821394700926976> You have `{}` emu(s) in storage.".format(self.get_stats(idfu, 'storage'))
+        msg += "\n:shield: You have `{}` emu(s) on defense.".format(self.get_stats(idfu, 'defense'))
         await ctx.send(msg)
 
-    @commands.command(name = "",
-                      description = "",
-                      aliases = [""],
-                      brief = "",
-                      help = "",
-                      usage = ""
+    @commands.group(name = "buy",
+                    description = "Used to buy emus",
+                    aliases = ["b"],
+                    brief = "Used to buy emus",
+                    help = "Use this command to buy emus which go into your storage. Remeber, you can only have a maximum of 20 emus.",
+                    usage = "e!buy"
+                    invoke_without_command = True
 )
-    async def (self, ctx, ):
+    async def buy(self, ctx):
+        val = self.get_stats(ctx.author.id, 'credits')
+        if val < self.EMUPRICE:
+            msg = "You have `{}` credits.\nAn emu costs `".format(val) + str(self.EMUPRICE) + "` credits. You do not have enough credits to buy even one emu."
+        else:
+            self.ASKEDFORBUYEMU[message.author.id] = True
+            msg = '''You have `{}` credits.\nAn emu costs `'''.format(val) + str(self.EMURPICE) + '''` credits. If you would like to buy an emu, say yes, then the number of emus you would like to buy. (Ex. `yes 2`). Say no to cancel.'''
+        await ctx.send(msg)
+    
+    @buy.command(name = "yes",
+                 aliases = ["y"],
+                 hidden = True
+)
+    async def (self, ctx, numemus: int):
+        if numemus < 1 or numemus + self.get_stats(message.author.id, 'emustorage') + self.get_stats(message.author.id, 'emudefense') > maxemus:
+            
+    @buy.command(name = "no",
+                 aliases = ["n"],
+                 hidden = True
+)
+    async def buycancel(self, ctx):
+        try:
+            if self.ASKEDFORBUYEMU[ctx.author.id]:
+                self.ASKEDFORBUYEMU[ctx.author.id] = False
+                msg = "Canceled"
+            else:
+                msg = "You didn't ask to buy an emu yet..."
+        except KeyError:
+            msg = "You didn't ask to buy an emu yet..."
+        await bot.send(msg)
     
     @commands.command(name = "",
                       description = "",
