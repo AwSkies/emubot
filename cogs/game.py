@@ -40,7 +40,7 @@ class Game(masterclass):
                     usage = "e!buy"
                     invoke_without_command = True
 )
-    async def buy(self, ctx):
+    async def initbuy(self, ctx):
         val = self.get_stats(ctx.author.id, 'credits')
         if val < self.EMUPRICE:
             msg = "You have `{}` credits.\nAn emu costs `".format(val) + str(self.EMUPRICE) + "` credits. You do not have enough credits to buy even one emu."
@@ -53,21 +53,30 @@ class Game(masterclass):
                  aliases = ["y"],
                  hidden = True
 )
-    async def (self, ctx, numemus: int):
-        if numemus < 1 or numemus + self.get_stats(message.author.id, 'emustorage') + self.get_stats(message.author.id, 'emudefense') > maxemus:
+    async def buyconfirm(self, ctx, numemus: int):
+        if not (ctx.author.id in self.ASKEDFORBUYEMU and self.ASKEDFORBUYEMU[ctx.author.id]):
+            msg = "You did not ask to buy an emu yet..."
+        else:
+            if numemus < 1 or numemus + self.get_stats(message.author.id, 'emustorage') + self.get_stats(message.author.id, 'emudefense') > self.MAXEMUS:
+                if numemus < 1:
+                    msg = "You can't buy less than one emu you trickster!"
+                if numemus + self.get_stats(message.author.id, 'emustorage') + self.get_stats(message.author.id, 'emudefense') > self.MAXEMUS:
+                    msg = "That is more than the maximum number of emus you can have! ({})".format(str(self.MAXEMUS))
+                self.ASKEDFORBUYEMU[message.author.id] = False
+            else:
+                
+        ctx.send(msg)
+            
             
     @buy.command(name = "no",
                  aliases = ["n"],
                  hidden = True
 )
     async def buycancel(self, ctx):
-        try:
-            if self.ASKEDFORBUYEMU[ctx.author.id]:
-                self.ASKEDFORBUYEMU[ctx.author.id] = False
-                msg = "Canceled"
-            else:
-                msg = "You didn't ask to buy an emu yet..."
-        except KeyError:
+        if ctx.author.id in self.ASKEDFORBUYEMU and self.ASKEDFORBUYEMU[ctx.author.id]:
+            self.ASKEDFORBUYEMU[ctx.author.id] = False
+            msg = "Canceled"
+        else:
             msg = "You didn't ask to buy an emu yet..."
         await bot.send(msg)
     
