@@ -36,7 +36,7 @@ class Game(masterclass):
                     description = "Used to buy emus",
                     aliases = ["b"],
                     brief = "Used to buy emus",
-                    help = "Use this command to buy emus which go into your storage. Remeber, you can only have a maximum of 20 emus.",
+                    help = "Use this command to buy emus which go into your storage. Remember, you can only have a maximum of 20 emus.",
                     usage = "e!buy"
                     invoke_without_command = True
 )
