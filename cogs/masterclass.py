@@ -31,7 +31,7 @@ class masterclass(object):
                     if vt == valuetype:
                         users[user_id][valuetype] = amount
                     else:
-                        users[user_id][vt] = 0
+                        raise TypeError("valuetype must be 'credits', 'storage', or 'defense'")
                 with open('users.json', 'w') as fp:
                     json.dump(users, fp, sort_keys=True, indent=4)
         else:
