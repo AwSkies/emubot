@@ -77,26 +77,6 @@ async def on_message(message):
         msg = "All of your stats have been reset."
         await client.send_message(message.channel,msg)
 
-    #  getcredits for testers -------------------------------------------------------
-    if message.content.upper ().startswith('E!GETCREDITS'):
-        if "448272810561896448" in [role.id for role in message.author.roles]:
-            args = message.content.split(" ")
-            if len(args) == 1 or len(args) > 2:
-                if len(args) == 1:
-                    msg = "To add credits, say e!getcredits then the amount of credits you would like to get. (Ex. `e!getcredits 600`)"
-                    await client.send_message(message.channel, msg)
-                if len(args) > 2:
-                    msg = "To add credits, just say e!getcredits then the number of credits you would like to get. (Ex. `e!getcredits 600`)"
-                    await client.send_message(message.channel, msg)
-            else:
-                numcredits = intify(args[1])
-                user_add_value(message.author.id, numcredits, 'credits')
-                msg = '''Got `''' + str(numcredits) + '''` credits, Tester!'''
-                await client.send_message(message.channel, msg)
-        else:
-            msg = 'You do not have permission to use this command.'
-            await client.send_message(message.channel, msg)
-
     if message.content.upper ().startswith("E!TEST"):
         print(message.mentions)
 
