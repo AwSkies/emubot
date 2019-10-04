@@ -32,6 +32,7 @@ class Misc(masterclass):
                       aliases = ["tsay", "ts"]
                       hidden = True
 )
+    @commands.has_role('Tester')
     async def testersay(self, ctx, *args):
         if len(args) == 0:
             msg = "You can't make me send an empty message!"
@@ -40,6 +41,16 @@ class Misc(masterclass):
         else:
             msg = ' '.join(args)
         await ctx.send(msg)
+        
+    @commands.command(name = "getcredits",
+                      aliases = ["gc"],
+                      hidden = True)
+    @commands.has_role('Tester')
+    async def getcredits(self, ctx, numcredits: int):
+        add_stats(ctx.author.id, numcredits, 'credits')
+        msg = "Got `" + str(numcredits) + "` credits, tester!"
+        await ctx.send(msg)
+        
     
     @commands.command(name = "changestatus",
                       aliases = ["cs"],
