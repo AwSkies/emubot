@@ -57,14 +57,22 @@ class Game(masterclass):
         if not (ctx.author.id in self.ASKEDFORBUYEMU and self.ASKEDFORBUYEMU[ctx.author.id]):
             msg = "You did not ask to buy an emu yet..."
         else:
-            if numemus < 1 or numemus + self.get_stats(message.author.id, 'emustorage') + self.get_stats(message.author.id, 'emudefense') > self.MAXEMUS:
+            if numemus < 1 or numemus + self.get_stats(message.author.id, 'storage') + self.get_stats(message.author.id, 'defense') > self.MAXEMUS:
                 if numemus < 1:
                     msg = "You can't buy less than one emu you trickster!"
-                if numemus + self.get_stats(message.author.id, 'emustorage') + self.get_stats(message.author.id, 'emudefense') > self.MAXEMUS:
+                if numemus + self.get_stats(message.author.id, 'storage') + self.get_stats(message.author.id, 'defense') > self.MAXEMUS:
                     msg = "That is more than the maximum number of emus you can have! ({})".format(str(self.MAXEMUS))
-                self.ASKEDFORBUYEMU[message.author.id] = False
             else:
-                
+                val = self.get_stats(message.author.id, 'credits')
+                if get_value(message.author.id, 'credits') < emuprice * numemus:
+                    msg = "You have `{}` credits.\nThe number of emus you want to buy cost `".format(val) + str(emuprice * numemus) + "` credits. You do not have enough credits to buy those emus."
+                else:
+                    askedforbuyemu[message.author.id] = False
+                    self.add_stats(message.author.id, -(emuprice * numemus), 'credits')
+                    self.add_stats(message.author.id, (numemus), 'torage')
+                    msg = '''You bought `''' + str(numemus) + '''` emu(s)! Use e!stats to see your stats'''
+                    await client.send_message(message.channel, msg)
+            self.ASKEDFORBUYEMU[message.author.id] = False       
         ctx.send(msg)
             
             
