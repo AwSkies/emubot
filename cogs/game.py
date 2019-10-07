@@ -31,14 +31,24 @@ class Game(masterclass):
         msg += "\n<:emu:439821394700926976> You have `{}` emu(s) in storage.".format(self.get_stats(idfu, 'storage'))
         msg += "\n:shield: You have `{}` emu(s) on defense.".format(self.get_stats(idfu, 'defense'))
         await ctx.send(msg)
+    
+    @commands.command(name = "",
+                      description = "",
+                      aliases = [""],
+                      brief = "",
+                      help = "",
+                      usage = ""
+)
+    async def (self, ctx, ):
 
     @commands.group(name = "buy",
-                    description = "Used to buy emus",
+                    description = "Buys emus",
                     aliases = ["b"],
-                    brief = "Used to buy emus",
+                    brief = "Buys emus",
                     help = "Use this command to buy emus which go into your storage. Remember, you can only have a maximum of 20 emus.",
                     usage = "e!buy"
                     invoke_without_command = True
+                    case_insensitive = True
 )
     async def initbuy(self, ctx):
         val = self.get_stats(ctx.author.id, 'credits')
@@ -88,14 +98,51 @@ class Game(masterclass):
             msg = "You didn't ask to buy an emu yet..."
         await bot.send(msg)
     
-    @commands.command(name = "",
-                      description = "",
-                      aliases = [""],
-                      brief = "",
-                      help = "",
-                      usage = ""
+    @commands.group(name = "reset",
+                    description = "Resets all of your stats",
+                    aliases = ["r"],
+                    brief = "Resets all of your stats",
+                    help = "Resets all of your stats back to 0, restarting your experience with the emu bot game",
+                    usage = "e!reset"
+                    invoke_without_command = True
+                    case_insensitive = True
 )
-    async def (self, ctx, ):
+    async def initreset(self, ctx):
+        self.ASKEDFORRESET[ctx.author.id] = True
+        msg = '''Are you sure you want to reset ***all*** of your stats? You'll lose everything! If you're sure, use e!reset yes. To cancel, say e!reset no'''
+        await ctx.send(msg)
+    
+    @reset.command(name = 'yes'
+                  aliases = ['y']
+                  hidden = True
+)
+    async def resetconfirm(self, ctx):
+        ctx.author.id = caid
+        if caid in self.ASKEDFORRESET and self.ASKEDFORRESET[caid]
+            self.ASKEDFORRESET[caid] = False
+            cred = self.get_stats(caid, 'credits')
+            store = self.get_stats(caid, 'storage')
+            defse = self.get_stats(caid, 'defense')
+            self.add_stats(caid, -stat, 'credits')
+            self.add_stats(caid, -store, 'storage')
+            self.add_stats(caid, -defse, 'defense')
+            msg = 'All of your stats have been reset.'
+        else:
+            msg = 'You did not ask to reset your stats yet!'
+        await ctx.send(msg)
+        
+    @reset.command(name = 'no'
+                   aliases = ['n']
+                   hidden = True
+)
+    async def resetcancel(self, ctx):
+        ctx.author.id = caid
+        if caid in self.ASKEDFORRESET and self.ASKEDFORRESET[caid]
+            self.ASKEDFORRESET[caid] = False
+            msg = 'Canceled'
+        else:
+            msg = 'You did not ask to reset your stats yet!'
+        await ctx.send(msg)
     
 def setup(bot):
     bot.add_cog(Game(bot))
