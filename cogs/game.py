@@ -5,7 +5,7 @@ from masterclass import masterclass
 
 class Game(masterclass):
     def __init__(self, bot):
-        super().__init()
+        super().__init__()
         self.bot = bot
     
     @commands.command(name = "stats",
