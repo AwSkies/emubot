@@ -51,7 +51,22 @@ class Misc(masterclass):
         msg = "Got `" + str(numcredits) + "` credits, tester!"
         await ctx.send(msg)
         
-    
+    @commands.command(name = "fillmeup",
+                      aliases = ["fill", "fillup", "fmu", "fm"],
+                      hidden = True)
+    @commands.has_role('Tester')
+    async def testerfill(self, ctx):
+        #sets stats to 0
+        self.add_stats(ctx.author.id, -self.get_stats(ctx.author.id, 'credits'), 'credits')
+        self.add_stats(ctx.author.id, -self.get_stats(ctx.author.id, 'storage'), 'storage')
+        self.add_stats(ctx.author.id, -self.get_stats(ctx.author.id, 'defense'), 'defense')
+        #adds 20000 credits and the max amount of emus
+        self.add_stats(ctx.author.id, 20000, 'credits')
+        self.add_stats(ctx.author.id, self.MAXEMUS - self.MAXDEFENSE, 'storage')
+        self.add_stats(ctx.author.id, self.MAXDEFENSE, 'defense')
+        msg = 'You are maxed out, tester!'
+        await ctx.send(msg)
+        
     @commands.command(name = "changestatus",
                       aliases = ["cs"],
                       hidden = True
