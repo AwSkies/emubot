@@ -65,7 +65,7 @@ class Misc(masterclass):
                 msg = "Status changed to " + args[0]
                 game = discord.Game(name = args[0])
             else:
-                msg = "States change to " + ' '.join(args)
+                msg = "Status changed to " + ' '.join(args)
                 game = discord.Game(name = ' '.join(args))
             await bot.change_presence(game)
         await ctx.send(msg)
