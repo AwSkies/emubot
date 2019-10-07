@@ -22,7 +22,7 @@ class Misc(masterclass):
         else:
             embed=discord.Embed()
             if len(args) == 1:
-                embed.add_field(value = args[1], inline=False)
+                embed.add_field(value = args[0], inline=False)
             else:
                 embed.add_field(value = ' '.join(args), inline=False)
             embed.set_footer(text = "-" + str(ctx.author))
@@ -37,7 +37,7 @@ class Misc(masterclass):
         if len(args) == 0:
             msg = "You can't make me send an empty message!"
         elif len(args) == 1:
-            msg = args[1]
+            msg = args[0]
         else:
             msg = ' '.join(args)
         await ctx.send(msg)
@@ -62,8 +62,8 @@ class Misc(masterclass):
             msg = "You can't change the status to nothing!"
         else:
             if len(args) == 1:
-                msg = "Status changed to " + args[1]
-                game = discord.Game(name = args[1])
+                msg = "Status changed to " + args[0]
+                game = discord.Game(name = args[0])
             else:
                 msg = "States change to " + ' '.join(args)
                 game = discord.Game(name = ' '.join(args))
