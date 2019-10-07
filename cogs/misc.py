@@ -20,7 +20,7 @@ class Misc(masterclass):
             msg = "You can't make me send an empty message!"
             await ctx.send(msg)
         else:
-            embed=discord.Embed()
+            embed=discord.Embed(color = 0x9bb0c8)
             if len(args) == 1:
                 embed.add_field(value = args[0], inline=False)
             else:
