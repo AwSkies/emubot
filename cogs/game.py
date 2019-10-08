@@ -50,13 +50,13 @@ class Game(masterclass):
                     invoke_without_command = True
                     case_insensitive = True
 )
-    async def initbuy(self, ctx):
+    async def buy(self, ctx):
         val = self.get_stats(ctx.author.id, 'credits')
         if val < self.EMUPRICE:
             msg = "You have `{}` credits.\nAn emu costs `".format(val) + str(self.EMUPRICE) + "` credits. You do not have enough credits to buy even one emu."
         else:
             self.ASKEDFORBUYEMU[message.author.id] = True
-            msg = '''You have `{}` credits.\nAn emu costs `'''.format(val) + str(self.EMURPICE) + '''` credits. If you would like to buy an emu, say yes, then the number of emus you would like to buy. (Ex. `yes 2`). Say no to cancel.'''
+            msg = '''You have `{}` credits.\nAn emu costs `'''.format(val) + str(self.EMURPICE) + '''` credits. If you would like to buy an emu, say e!buy yes, then the number of emus you would like to buy. (Ex. `e!buy yes 2`). Say e!buy no to cancel.'''
         await ctx.send(msg)
     
     @buy.command(name = "yes",
@@ -107,7 +107,7 @@ class Game(masterclass):
                     invoke_without_command = True
                     case_insensitive = True
 )
-    async def initreset(self, ctx):
+    async def reset(self, ctx):
         self.ASKEDFORRESET[ctx.author.id] = True
         msg = '''Are you sure you want to reset ***all*** of your stats? You'll lose everything! If you're sure, use e!reset yes. To cancel, say e!reset no'''
         await ctx.send(msg)
