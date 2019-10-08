@@ -59,7 +59,7 @@ class Game(masterclass):
                       help = "Takes your emus off of defense and puts them back into your storage",
                       usage = "e!offdefense [number]"
 )
-    async def (self, ctx, numemus: int):
+    async def offdefense(self, ctx, numemus: int):
         if not get_stats(ctx.author.id, 'defense') > 0:
             msg = 'You have no emus to take off defense! Remember, you can put emus on defense with e!defend!'
         elif numemus < 1:
