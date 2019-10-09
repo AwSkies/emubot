@@ -1,3 +1,4 @@
 *.json
 *.txt
 virtenv/
+cogs/__pycache__/
