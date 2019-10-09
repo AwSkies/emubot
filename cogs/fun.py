@@ -13,7 +13,7 @@ class Fun(masterclass):
         description = 'Shows a picture of an emu'
 )
     async def emupic(self, ctx):
-        await ctx.send(file=discord.File('.'))
+        await ctx.send(file=discord.File('pictures/emu.jpg'))
 
     @commands.command(
         name = 'server',
