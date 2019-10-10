@@ -1,4 +1,7 @@
 import discord
+import threading
+import random
+import asyncio
 
 from discord.ext import commands
 from masterclass import masterclass
@@ -34,7 +37,7 @@ class Game(masterclass):
     
     @commands.command(name = "defend",
                       description = "Puts emus on defense",
-                      aliases = ['d', 'defense', 'defence'],
+                      aliases = ['d', 'def', 'defense', 'defence'],
                       brief = "Puts emus on defense",
                       help = "Puts emus on defense. Emus on defense can protect against attacks.",
                       usage = "e!defend [number]"
@@ -54,7 +57,7 @@ class Game(masterclass):
         
     @commands.command(name = "offdefense",
                       description = "Takes emus off defense",
-                      aliases = ['od', 'offdefence', 'offdefend'],
+                      aliases = ['od', 'offdef' 'offdefence', 'offdefend'],
                       brief = "Takes emus off defense",
                       help = "Takes your emus off of defense and puts them back into your storage",
                       usage = "e!offdefense [number]"
