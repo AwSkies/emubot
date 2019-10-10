@@ -37,7 +37,11 @@ class masterclass(object):
                     json.dump(users, fp, sort_keys=True, indent=4)
         else:
             users = {user_id: {}}
-            users[user_id][valuetype] = amount
+            for vt in self.ALL_VALUE_TYPES:
+                if vt == valuetype:
+                    users[user_id][valuetype] = amount
+                else:
+                    raise TypeError("valuetype must be 'credits', 'storage', or 'defense'")
             with open('users.json', 'w') as fp:
                 json.dump(users, fp, sort_keys=True, indent=4)
     
