@@ -1,9 +1,9 @@
 import discord
-import threading
 import random
 import asyncio
 
 from discord.ext import commands
+from discord.ext.commands.cooldowns import BucketType
 from masterclass import masterclass
 
 class Game(masterclass):
@@ -82,15 +82,51 @@ class Game(masterclass):
                       help = "Attacks other users with the emus you have in storage. If you attack with more emus than they have on defense, then you will steal some of their credits.",
                       usage = "e!attack [@mention] [number]"
 )
-    async def (self, ctx, mention: str, numemus: int):
-        
+    @commands.cooldown(1, self.ATTACKCOOLDOWN, BucketType.default)
+    async def attack(self, ctx, mention: str, numemus: int):
+        if numemus > self.get_stats(ctx.author.id, 'storage'):
+            msg = "You don't have that many emus than you have in storage, you silly emu warlord! Remember, you can buy emus with e!buy!"
+        elif numemus <= 0:
+            msg = "You can't put less than one emu on attack!"
+        elif emuattacknum > maxattack:
+            msg = "That's more than you are allowed to send on attack. ({})".format(self.MAXATTACK)
+        else:
+            uid = mention[2:-1]
+            #  checks if uid has a !
+            if uid[0] == '!':
+                uid = uid[1:]
+            if uid == bot.user.id:
+                msg = "You can't attack me!!!"
+            elif uid == ctx.author.id:
+                msg = "You can't attack yourself!"
+            else:
+                prebattlecredits = self.get_stats(uid, 'credits')
+                creditcalnum = self.CREDITSPEMUATK * (numemus - self.get_stats(uid, 'defense'))
+                #checks if user broke other user's defenses
+                if creditcalnum < 0:
+                    self.add_stats(uid, -numemus, 'defense')
+                else: #  if user broke other user's defenses
+                    #  checks if user being attacked can pay attackee
+                    if prebattlecredits - creditcalnum < 0:
+                        self.add_stats(ctx.author.id, prebattlecredits, 'credits')
+                        self.add_stats(uid, -prebattlecredits, 'credits')
+                    else: 
+                        self.add_stats(ctx.author.id, creditcalnum, 'credits')
+                        self.add_stats(uid, -creditcalnum, 'credits')
+                    self.add_stats(uid, -get_stats(uid, 'defense'), 'defense')
+                self.add_stats(ctx.author.id, -numemus, 'storage')
+                msg = '<@{}> was attacked by {0.author.mention} with `{}` emus and now has `{}` emus left on defense, {0.author.mention} stole `{}` credits.'.format(uid, ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum),
+            await ctx.send(msg)
+
 
     @commands.group(name = "buy",
                     description = "Buys emus",
                     aliases = ["b"],
                     brief = "Buys emus",
                     help = "Use this command to buy emus which go into your storage. Remember, you can only have a maximum of 20 emus.",
-                    usage = "e!buy"
+                    usage = "e!buy"emuattacknum > maxattack:
+                msg = '''That's more than you are allowed to send on attack. (''' + str(maxattack) + ')'
+
                     invoke_without_command = True
                     case_insensitive = True
 )
@@ -99,7 +135,7 @@ class Game(masterclass):
         if val < self.EMUPRICE:
             msg = "You have `{}` credits.\nAn emu costs `".format(val) + str(self.EMUPRICE) + "` credits. You do not have enough credits to buy even one emu."
         else:
-            self.ASKEDFORBUYEMU[message.author.id] = True
+            self.ASKEDFORBUYEMU[ctx.author.id] = True
             msg = '''You have `{}` credits.\nAn emu costs `'''.format(val) + str(self.EMURPICE) + '''` credits. If you would like to buy an emu, say e!buy yes, then the number of emus you would like to buy. (Ex. `e!buy yes 2`). Say e!buy no to cancel.'''
         await ctx.send(msg)
     
@@ -111,22 +147,21 @@ class Game(masterclass):
         if not (ctx.author.id in self.ASKEDFORBUYEMU and self.ASKEDFORBUYEMU[ctx.author.id]):
             msg = "You did not ask to buy an emu yet..."
         else:
-            if numemus < 1 or numemus + self.get_stats(message.author.id, 'storage') + self.get_stats(message.author.id, 'defense') > self.MAXEMUS:
+            if numemus < 1 or numemus + self.get_stats(ctx.author.id, 'storage') + self.get_stats(ctx.author.id, 'defense') > self.MAXEMUS:
                 if numemus < 1:
                     msg = "You can't buy less than one emu you trickster!"
-                if numemus + self.get_stats(message.author.id, 'storage') + self.get_stats(message.author.id, 'defense') > self.MAXEMUS:
+                if numemus + self.get_stats(ctx.author.id, 'storage') + self.get_stats(ctx.author.id, 'defense') > self.MAXEMUS:
                     msg = "That is more than the maximum number of emus you can have! ({})".format(str(self.MAXEMUS))
             else:
-                val = self.get_stats(message.author.id, 'credits')
-                if get_value(message.author.id, 'credits') < emuprice * numemus:
+                val = self.get_stats(ctx.author.id, 'credits')
+                if get_value(ctx.author.id, 'credits') < emuprice * numemus:
                     msg = "You have `{}` credits.\nThe number of emus you want to buy cost `".format(val) + str(emuprice * numemus) + "` credits. You do not have enough credits to buy those emus."
                 else:
-                    askedforbuyemu[message.author.id] = False
-                    self.add_stats(message.author.id, -(emuprice * numemus), 'credits')
-                    self.add_stats(message.author.id, (numemus), 'torage')
+                    askedforbuyemu[ctx.author.id] = False
+                    self.add_stats(ctx.author.id, -(emuprice * numemus), 'credits')
+                    self.add_stats(ctx.author.id, (numemus), 'torage')
                     msg = '''You bought `''' + str(numemus) + '''` emu(s)! Use e!stats to see your stats'''
-                    await client.send_message(message.channel, msg)
-            self.ASKEDFORBUYEMU[message.author.id] = False       
+            self.ASKEDFORBUYEMU[ctx.author.id] = False       
         ctx.send(msg)
             
             
