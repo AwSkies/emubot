@@ -75,14 +75,15 @@ class Game(masterclass):
             msg = '`{}` emu(s) taken off defense. You can check you stats with e!stats'.format(numemus)
         await ctx.send(msg)
         
-    @commands.command(name = "",
-                      description = "",
-                      aliases = [""],
-                      brief = "",
-                      help = "",
-                      usage = ""
+    @commands.command(name = "attack",
+                      description = "Attacks other users",
+                      aliases = ['a', 'at', 'atk', 'attk'],
+                      brief = "Attacks other users",
+                      help = "Attacks other users with the emus you have in storage. If you attack with more emus than they have on defense, then you will steal some of their credits.",
+                      usage = "e!attack [@mention] [number]"
 )
-    async def (self, ctx, ):
+    async def (self, ctx, mention: str, numemus: int):
+        
 
     @commands.group(name = "buy",
                     description = "Buys emus",
