@@ -107,7 +107,7 @@ class Game(masterclass):
                         self.add_stats(uid, -creditcalnum, 'credits')
                     self.add_stats(uid, -get_stats(uid, 'defense'), 'defense')
                 self.add_stats(ctx.author.id, -numemus, 'storage')
-                msg = '<@{}> was attacked by {0.author.mention} with `{}` emus and now has `{}` emus left on defense, {0.author.mention} stole `{}` credits.'.format(uid, ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum),
+                msg = '{0.mention} was attacked by {1.author.mention} with `{}` emus and now has `{}` emus left on defense, {4.author.mention} stole `{}` credits.'.format(ctx.message.mentions[0], ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum),
             await ctx.send(msg)
 
 
