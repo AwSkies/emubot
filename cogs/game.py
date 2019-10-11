@@ -20,13 +20,8 @@ class Game(masterclass):
 )
     async def stats(self, ctx, mention = None):
         if not mention == None:
-            #uidstr = the string version of the uid (Ex. <@!213676807651255>)
-            uidstr = mention[1][2:-1]
-            #checks if uid has a !
-            if uidstr[0] == '!':
-                uidstr = uidstr[1:]
-            msg = "<@" + uidstr + ">'s Stats:"
-            idfu = uidstr
+            idfu = ctx.message.mentions[0].id
+            msg = "{0.mention}'s Stats:".format(ctx.message.mentions[0])
         else:
             idfu = ctx.author.id
             msg = "{0.author.mention}'s Stats:".format(ctx)
@@ -80,10 +75,10 @@ class Game(masterclass):
                       aliases = ['a', 'at', 'atk', 'attk'],
                       brief = "Attacks other users",
                       help = "Attacks other users with the emus you have in storage. If you attack with more emus than they have on defense, then you will steal some of their credits.",
-                      usage = "e!attack [@mention] [number]"
+                      usage = "e!attack [number] [@mention]"
 )
     @commands.cooldown(1, self.ATTACKCOOLDOWN, BucketType.default)
-    async def attack(self, ctx, mention: str, numemus: int):
+    async def attack(self, ctx, numemus: int, mention: str):
         if numemus > self.get_stats(ctx.author.id, 'storage'):
             msg = "You don't have that many emus than you have in storage, you silly emu warlord! Remember, you can buy emus with e!buy!"
         elif numemus <= 0:
@@ -91,10 +86,7 @@ class Game(masterclass):
         elif emuattacknum > maxattack:
             msg = "That's more than you are allowed to send on attack. ({})".format(self.MAXATTACK)
         else:
-            uid = mention[2:-1]
-            #  checks if uid has a !
-            if uid[0] == '!':
-                uid = uid[1:]
+            uid = ctx.message.mentions[0].id
             if uid == bot.user.id:
                 msg = "You can't attack me!!!"
             elif uid == ctx.author.id:
