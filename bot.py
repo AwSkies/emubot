@@ -5,10 +5,9 @@ import threading
 from cogs.masterclass import masterclass
 from discord.ext import commands
 
-#gives token -----------------------------------------------------------------
+
 with open('TOKEN.txt', 'r') as f:
     TOKEN = f.readline()
-
 
 class EmuBot(commands.bot, masterclass):
     def __init__(self):
@@ -25,7 +24,6 @@ class EmuBot(commands.bot, masterclass):
             self.load_extension(cog)
             
     async def on_message(self, message):
-        #spam protection to give credits or start timer -------------------------------
         if (not message.author.id in self.SPAMCATCH) or (message.author.id in self.SPAMCATCH and not self.SPAMCATCH[message.author.id]):
             add_stats(message.author.id, 10, 'credits')
             self.SPAMCATCH[message.author.id] = True
