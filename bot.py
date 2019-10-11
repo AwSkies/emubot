@@ -1,10 +1,6 @@
 #imports stuff
 import discord
-import json
-import os.path
 import threading
-import random
-import asyncio
 
 from cogs.masterclass import masterclass
 from discord.ext import commands
