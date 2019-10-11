@@ -52,18 +52,6 @@ class EmuBot(commands.bot, masterclass):
         await self.change_presence(game=discord.Game(name= "Say e!help"))
         
 
-    if message.content.upper () == 'E!HELP GAME EXPLAIN':
-        embed=discord.Embed(title='Game Explanation', description='''**In the emu bot game, you gain credits by participating in chat. You can spend these credits on emus and attack your friends with them.**
--You earn credits by sending messages.
--You can use those credits to buy emus
--The maximum amount of emus you can have is 20 emus
--You can put emus on defense
--The maximum amount of emus on defense is 5 emus
--You can also use emus to attack your friends
--The maximum amount of emus you can attack with at a time is 10 emus
-The amount of emus you attack someone with that go over the amount of emus they have on defense grants you 700 credits for each emu.''', color=0x00ff00)
-        await client.send_message(message.channel, embed=embed)
-
 #runs the bot -------------------------------------------------------------
 if __name__ == '__main__':
     b = EmuBot()
