@@ -20,11 +20,11 @@ class Game(masterclass):
 )
     async def stats(self, ctx, mention = None):
         if not mention == None:
-            idfu = ctx.message.mentions[0].id
-            msg = "{0.mention}'s Stats:".format(ctx.message.mentions[0])
+            user = ctx.message.mentions[0]
         else:
-            idfu = ctx.author.id
-            msg = "{0.author.mention}'s Stats:".format(ctx)
+            user = ctx.author
+        idfu = user.id
+        msg = "{0.mention}'s Stats:".format(user)
         msg += "\n:moneybag: You have `{}` credits.".format(self.get_stats(idfu, 'credits'))
         msg += "\n<:emu:439821394700926976> You have `{}` emu(s) in storage.".format(self.get_stats(idfu, 'storage'))
         msg += "\n:shield: You have `{}` emu(s) on defense.".format(self.get_stats(idfu, 'defense'))
