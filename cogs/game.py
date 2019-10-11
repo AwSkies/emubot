@@ -110,7 +110,6 @@ class Game(masterclass):
                 msg = '{0.mention} was attacked by {1.author.mention} with `{}` emus and now has `{}` emus left on defense, {4.author.mention} stole `{}` credits.'.format(ctx.message.mentions[0], ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum),
             await ctx.send(msg)
 
-
     @commands.group(name = "buy",
                     description = "Buys emus",
                     aliases = ["b"],
