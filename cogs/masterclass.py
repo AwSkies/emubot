@@ -16,6 +16,8 @@ class masterclass(object):
         self.ATTACKTIMERCATCH = dict()
     
     def add_stats(self, user_id: int, amount: int, valuetype: str):
+        if not valuetype in self.ALL_VALUE_TYPES:
+            raise TypeError("valuetype must be " + ', '.join(self.ALL_VALUE_TYPES))
         if os.path.isfile("users.json"):
             try:
                 with open('users.json', 'r') as fp:
@@ -42,6 +44,8 @@ class masterclass(object):
                 json.dump(users, fp, sort_keys=True, indent=4)
     
     def get_stats(self, user_id: int, valuetype: str):
+        if not valuetype in self.ALL_VALUE_TYPES:
+            raise TypeError("valuetype must be " + ', '.join(self.ALL_VALUE_TYPES))
         if os.path.isfile('users.json'):
             try:
                 with open('users.json', 'r') as fp:
