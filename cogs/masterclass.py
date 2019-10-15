@@ -32,16 +32,12 @@ class masterclass(object):
                     if vt == valuetype:
                         users[user_id][valuetype] = amount
                     else:
-                        raise TypeError("valuetype must be 'credits', 'storage', or 'defense'")
+                        users[user_id][valuetype] = 0
                 with open('users.json', 'w') as fp:
                     json.dump(users, fp, sort_keys=True, indent=4)
         else:
             users = {user_id: {}}
-            for vt in self.ALL_VALUE_TYPES:
-                if vt == valuetype:
-                    users[user_id][valuetype] = amount
-                else:
-                    raise TypeError("valuetype must be 'credits', 'storage', or 'defense'")
+            users[user_id][valuetype] = amount
             with open('users.json', 'w') as fp:
                 json.dump(users, fp, sort_keys=True, indent=4)
     
