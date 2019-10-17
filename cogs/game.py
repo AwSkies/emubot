@@ -110,6 +110,17 @@ class Game(masterclass):
                 msg = '{0.mention} was attacked by {1.author.mention} with `{}` emus and now has `{}` emus left on defense, {4.author.mention} stole `{}` credits.'.format(ctx.message.mentions[0], ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum),
             await ctx.send(msg)
 
+    @commands.command(name = "give",
+                      description = "Gives credits to another user",
+                      aliases = ['g'],
+                      brief = "Gives credits to another user",
+                      help = "???.",
+                      usage = "e!give [number] [@mention]"
+                     )
+
+    async def offdefense(self, ctx):
+        pass
+
     @commands.group(name = "buy",
                     description = "Buys emus",
                     aliases = ["b"],
