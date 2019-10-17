@@ -83,7 +83,7 @@ class Game(masterclass):
             msg = "You don't have that many emus than you have in storage, you silly emu warlord! Remember, you can buy emus with e!buy!"
         elif numemus <= 0:
             msg = "You can't put less than one emu on attack!"
-        elif emuattacknum > maxattack:
+        elif emuattacknum > self.MAXATTACK:
             msg = "That's more than you are allowed to send on attack. ({})".format(self.MAXATTACK)
         else:
             uid = ctx.message.mentions[0].id
@@ -115,9 +115,7 @@ class Game(masterclass):
                     aliases = ["b"],
                     brief = "Buys emus",
                     help = "Use this command to buy emus which go into your storage. Remember, you can only have a maximum of 20 emus.",
-                    usage = "e!buy"emuattacknum > maxattack:
-                msg = '''That's more than you are allowed to send on attack. (''' + str(maxattack) + ')'
-
+                    usage = "e!buy"
                     invoke_without_command = True
                     case_insensitive = True
 )
