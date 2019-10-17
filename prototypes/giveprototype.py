@@ -27,3 +27,14 @@
                 user_add_value(uidstr, numcreds, 'credits')
                 msg = "{0.author.mention} gave ".format(message) + "<@" + uidstr + "> `{}` credits!".format(str(numcreds))
                 await client.send_message(message.channel, msg)
+    #give command for discord.py rewrite------------------------------------------
+    @commands.command(name = "give",
+                      description = "Gives credits to another user",
+                      aliases = ['g'],
+                      brief = "Gives credits to another user",
+                      help = "???.",
+                      usage = "e!give [number] [@mention]"
+                     )
+
+    async def offdefense(self, ctx):
+        pass
