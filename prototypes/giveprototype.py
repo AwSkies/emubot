@@ -27,6 +27,7 @@
                 user_add_value(uidstr, numcreds, 'credits')
                 msg = "{0.author.mention} gave ".format(message) + "<@" + uidstr + "> `{}` credits!".format(str(numcreds))
                 await client.send_message(message.channel, msg)
+    
     #give command for discord.py rewrite------------------------------------------
     @commands.command(name = "give",
                       description = "Gives credits to another user",
@@ -36,5 +37,20 @@
                       usage = "e!give [number] [@mention]"
                      )
 
-    async def offdefense(self, ctx):
-        pass
+    async def give(self, ctx, numcreds: int, mention: str):
+        uid = ctx.message.mentions[0].id
+        if not get_stats(ctx.author.id, 'credits') > 0:
+            msg = 'You have no credits to give!'
+        elif numcreds < 1:
+            msg = "You can't give less than one credit!"
+        elif numcreds > get_stats(ctx.author.id, 'credits'):
+            msg = "You don't have enough credits for that!"
+        elif uid == bot.user.id:
+            msg = "You can't give me credits!"
+        elif uid == ctx.author.id:
+            msg = "You can't give yourself credits!"
+        else:
+            self.add_stats(ctx.message.mention[0].id, numemus, 'credits')
+            self.add_stats(ctx.author.id, -numemus, 'credits')
+            msg = 'You gave `{}` credits to {1.message.mention[0].mention}.'.format(numcreds, ctx)
+        await ctx.send(msg)
