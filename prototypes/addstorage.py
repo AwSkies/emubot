@@ -5,8 +5,8 @@ ADDSTORAGEPRICE = 5000
 #
     
     #for insertion in global section
-    global MAXEMUSDEFAULT
-    global ADDSTORAGEPRICE
+    #global MAXEMUSDEFAULT
+    #global ADDSTORAGEPRICE
     
     #gets maxemus from json file and sets maxemus to correct value
     with open('maxemus.json', 'r') as f:
@@ -47,3 +47,17 @@ ADDSTORAGEPRICE = 5000
                 json.dump(maxemus, f, sort_keys = True, indent = 4)
             msg = "Emu storage increased by `{}`.".format(numei)
             await client.send_message(message.channel,msg)
+    
+    #for insertion in masterclass.py variable section:
+    self.MAXEMUSDEFAULT = 20
+    self.ADDSTORAGEPRICE = 5000
+    
+    #addstorage commmand discord.py rewrite---------------------
+    @commands.command(name = "addstorage",
+                      description = "Increases your max emu storage",
+                      aliases = ['as', 'adds'],
+                      brief = "Increases your max emu storage",
+                      help = "???.",
+                      usage = "e!addstorage"
+)
+    
