@@ -66,7 +66,7 @@ ADDSTORAGEPRICE = 5000
         if val < self.ADDSTORAGEPRICE:
             msg = "You have `{}` credits.\nIncreasing your max storage costs `".format(val) + str(self.ADDSTORAGEPRICE) + "` credits. You do not have enough credits to increase your storage."
         else:
-            self.ASKEDFORBUYEMU[ctx.author.id] = True
+            self.ASKEDFORADDSTORAGE[ctx.author.id] = True
             msg = '''You have `{}` credits.\nIncreasing your max storage costs `".format(val) + str(self.ADDSTORAGEPRICE) + "` credits. If you would like to increase your storage, say e!addstorage yes.'''
         await ctx.send(msg)
         
@@ -76,4 +76,6 @@ ADDSTORAGEPRICE = 5000
 )
         
     async def addstorageconfirm(self, ctx):
-        
+        if not (ctx.author.id in self.ASKEDFORADDSTORAGE and self.ASKEDFORADDSTORAGE[ctx.author.id]):
+            msg = "You did not ask to increase your storage yet..."
+        else:
