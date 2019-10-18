@@ -122,11 +122,11 @@ gamblecreds = dict()
             msg = "You can't pick from less than one!"
         else:
             msg = 'Pick a number between 1 and {}. If you wish to cancel, say "cancel".'.format(gamblerange)
-            await ctx.send(msg)
             self.GAMBLEINFO = {ctx.author.id: {}}
             self.GAMBLEINFO[ctx.author.id]['started'] = True
             self.GAMBLEINFO[ctx.author.id]['range']   = gamblerange
             self.GAMBLEINFO[ctx.author.id]['credits'] = numcreds
+        await ctx.send(msg)
     
     @gamble.command(name = "guess",
                     description = "Used to guess a number out of the range you specified using the gamble command",
