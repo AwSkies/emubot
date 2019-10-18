@@ -173,6 +173,9 @@ gamblecreds = dict()
             else:
                 credcalnum = numcreds * int(gamblerange / 2)
                 self.add_stats(ctx.author.id, credcalnum, 'credits')
+                self.GAMBLEINFO[ctx.author.id]['started'] = False
+                self.GAMBLEINFO[ctx.author.id]['range']   = None
+                self.GAMBLEINFO[ctx.author.id]['credits'] = None
                 await msg.edit(content = ':confetti_ball: You won!!! You gained `{}` credits! :woohoo:'.format(credcalnum)
         
     @gamble.command(name = "cancel",
