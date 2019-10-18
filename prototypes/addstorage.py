@@ -53,11 +53,27 @@ ADDSTORAGEPRICE = 5000
     self.ADDSTORAGEPRICE = 5000
     
     #addstorage commmand discord.py rewrite---------------------
-    @commands.command(name = "addstorage",
-                      description = "Increases your max emu storage",
-                      aliases = ['as', 'adds'],
-                      brief = "Increases your max emu storage",
-                      help = "???.",
-                      usage = "e!addstorage"
+    @commands.group(name = "addstorage",
+                    description = "Increases your max emu storage",
+                    aliases = ['as', 'adds'],
+                    brief = "Increases your max emu storage",
+                    help = "???.",
+                    usage = "e!addstorage"
 )
     
+    async def addstorage(self, ctx):
+        val = self.get_stats(ctx.author.id, 'credits')
+        if val < self.ADDSTORAGEPRICE:
+            msg = "You have `{}` credits.\nIncreasing your max storage costs `".format(val) + str(self.ADDSTORAGEPRICE) + "` credits. You do not have enough credits to increase your storage."
+        else:
+            self.ASKEDFORBUYEMU[ctx.author.id] = True
+            msg = '''You have `{}` credits.\nIncreasing your max storage costs `".format(val) + str(self.ADDSTORAGEPRICE) + "` credits. If you would like to increase your storage, say e!addstorage yes.'''
+        await ctx.send(msg)
+        
+        @buy.command(name = "yes",
+                 aliases = ["y"],
+                 hidden = True
+)
+        
+    async def addstorageconfirm(self, ctx):
+        
