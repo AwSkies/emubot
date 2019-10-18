@@ -119,41 +119,39 @@ class Game(masterclass):
                     invoke_without_command = True
                     case_insensitive = True
 )
-    async def buy(self, ctx):
+    async def buy(self, ctx, numemus: int):
         val = self.get_stats(ctx.author.id, 'credits')
-        if val < self.EMUPRICE:
-            msg = "You have `{}` credits.\nAn emu costs `".format(val) + str(self.EMUPRICE) + "` credits. You do not have enough credits to buy even one emu."
+        if numemus < 1 or numemus + self.get_stats(ctx.author.id, 'storage') + self.get_stats(ctx.author.id, 'defense') > self.MAXEMUS:
+            if numemus < 1:
+                msg = "You can't buy less than one emu you trickster!"
+            if numemus + self.get_stats(ctx.author.id, 'storage') + self.get_stats(ctx.author.id, 'defense') > self.MAXEMUS:
+                msg = "That is more than the maximum number of emus you can have! ({})".format(str(self.MAXEMUS))
         else:
-            self.ASKEDFORBUYEMU[ctx.author.id] = True
-            msg = '''You have `{}` credits.\nAn emu costs `'''.format(val) + str(self.EMURPICE) + '''` credits. If you would like to buy an emu, say e!buy yes, then the number of emus you would like to buy. (Ex. `e!buy yes 2`). Say e!buy no to cancel.'''
+            if get_value(ctx.author.id, 'credits') < emuprice * numemus:
+                msg = "You have `{}` credits.\nThe number of emus you want to buy cost `".format(val) + str(emuprice * numemus) + "` credits. You do not have enough credits to buy those emus."
+            else:
+                self.ASKEDFORBUYEMU = {ctx.author.id: {}}
+                self.ASKEDFORBUYEMU[ctx.author.id]['started'] = True
+                self.ASKEDFORBUYEMU[ctx.author.id]['numemus'] = numemus
+                msg = "You have `{}` credits.\n{} emu(s) costs `{}` credits. If you would like to buy an emu, say e!buy yes. Say e!buy no to cancel.".format(val, numemus, self.EMUPRICE * numemus)
         await ctx.send(msg)
     
     @buy.command(name = "yes",
                  aliases = ["y"],
                  hidden = True
 )
-    async def buyconfirm(self, ctx, numemus: int):
-        if not (ctx.author.id in self.ASKEDFORBUYEMU and self.ASKEDFORBUYEMU[ctx.author.id]):
+    async def buyconfirm(self, ctx):
+        if not ctx.author.id in self.ASKEDFORBUYEMU or not self.ASKEDFORBUYEMU[ctx.author.id]['started']):
             msg = "You did not ask to buy an emu yet..."
         else:
-            if numemus < 1 or numemus + self.get_stats(ctx.author.id, 'storage') + self.get_stats(ctx.author.id, 'defense') > self.MAXEMUS:
-                if numemus < 1:
-                    msg = "You can't buy less than one emu you trickster!"
-                if numemus + self.get_stats(ctx.author.id, 'storage') + self.get_stats(ctx.author.id, 'defense') > self.MAXEMUS:
-                    msg = "That is more than the maximum number of emus you can have! ({})".format(str(self.MAXEMUS))
-            else:
-                val = self.get_stats(ctx.author.id, 'credits')
-                if get_value(ctx.author.id, 'credits') < emuprice * numemus:
-                    msg = "You have `{}` credits.\nThe number of emus you want to buy cost `".format(val) + str(emuprice * numemus) + "` credits. You do not have enough credits to buy those emus."
-                else:
-                    askedforbuyemu[ctx.author.id] = False
-                    self.add_stats(ctx.author.id, -(emuprice * numemus), 'credits')
-                    self.add_stats(ctx.author.id, (numemus), 'torage')
-                    msg = '''You bought `''' + str(numemus) + '''` emu(s)! Use e!stats to see your stats'''
-            self.ASKEDFORBUYEMU[ctx.author.id] = False       
+            numemus = self.ASKEDFORBUYEMU[ctx.author.id]['numemus']
+            self.ASKEDFORBUYEMU[ctx.author.id]['numemus'] = None
+            self.ASKEDFORBUYEMU[ctx.author.id]['started'] = False
+            self.add_stats(ctx.author.id, -(emuprice * numemus), 'credits')
+            self.add_stats(ctx.author.id, (numemus), 'storage')
+            msg = '''You bought `''' + str(numemus) + '''` emu(s)! Use e!stats to see your stats'''
         ctx.send(msg)
-            
-            
+    
     @buy.command(name = "no",
                  aliases = ["n"],
                  hidden = True
