@@ -39,8 +39,8 @@ class EmuBot(commands.bot, masterclass):
     
     async def on_ready(self):
         print('Logged in as')
-        print(client.user.name)
-        print(client.user.id)
+        print(self.user.name)
+        print(self.user.id)
         print('------')
         await self.change_presence(game=discord.Game(name= "Say e!help"))
         
