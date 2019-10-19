@@ -49,8 +49,18 @@ ADDSTORAGEPRICE = 5000
             await client.send_message(message.channel,msg)
     
     #for insertion in masterclass.py variable section:
-    self.MAXEMUSDEFAULT = 20
+    self.MAXEMUSDEFAULT = 20 #this line will replace MAXEMNUS
     self.ADDSTORAGEPRICE = 5000
+    self.ASKEDFORADDSTORAGE = dict()
+    
+    #for insertion in masterclass.py function section:
+    def get_maxemus(self, ctx):
+        with open('maxemus.json', 'r') as f:
+            maxemus = json.load(f)
+            if not ctx.author.id in maxemus:
+                maxemus[ctx.author.id] = self.MAXEMUSDEFAULT
+        return maxemus
+    #change every instance of self.MAXEMUS to a variable defined at the beginning of the command
     
     #addstorage commmand discord.py rewrite---------------------
     @commands.group(name = "addstorage",
@@ -59,23 +69,47 @@ ADDSTORAGEPRICE = 5000
                     brief = "Increases your max emu storage",
                     help = "???.",
                     usage = "e!addstorage"
+                    case_insensitive = True
+                    invoke_without_command
 )
-    
     async def addstorage(self, ctx):
         val = self.get_stats(ctx.author.id, 'credits')
+        msg = "You have `{}` credits.\nIncreasing your max storage costs `{}` credits. ".format(val, self.ADDSTORAGEPRICE)
         if val < self.ADDSTORAGEPRICE:
-            msg = "You have `{}` credits.\nIncreasing your max storage costs `".format(val) + str(self.ADDSTORAGEPRICE) + "` credits. You do not have enough credits to increase your storage."
+            msg += "You do not have enough credits to increase your storage."
         else:
             self.ASKEDFORADDSTORAGE[ctx.author.id] = True
-            msg = '''You have `{}` credits.\nIncreasing your max storage costs `".format(val) + str(self.ADDSTORAGEPRICE) + "` credits. If you would like to increase your storage, say e!addstorage yes.'''
+            msg += "If you would like to increase your storage, say e!addstorage yes. If you want to cancel, say e!addstorage no."
         await ctx.send(msg)
         
-        @buy.command(name = "yes",
-                 aliases = ["y"],
-                 hidden = True
+    @addstorage.command(name = "yes",
+                        aliases = ["y"],
+                        hidden = True
 )
-        
     async def addstorageconfirm(self, ctx):
-        if not (ctx.author.id in self.ASKEDFORADDSTORAGE and self.ASKEDFORADDSTORAGE[ctx.author.id]):
-            msg = "You did not ask to increase your storage yet..."
+        maxemus = self.get_maxemus(ctx)
+        if not self.ASKEDFORADDSTORAGE[ctx.author.id]:
+            msg = "You didn't ask to add storage yet! Use e!addstorage if you would like to."
+        elif get_stats(ctx.author.id, 'credits') < self.ADDSTORAGEPRICE:
+            msg = "You don't have enough credits to buy another storage slot."
         else:
+            self.add_stats(ctx.author.id, -self.ADDSTORAGEPRICE, 'credits')
+            self.ASKEDFORADDSTORAGE[ctx.author.id] = False
+            maxemus[ctx.author.id] += 1
+            with open('maxemus.json', 'w') as f:
+                json.dump(maxemus, f, sort_keys = True, indent = 4)
+            msg = "Maximum emu storage increased by 1."
+        await ctx.send(msg)
+            
+        
+    @addstorage.command(name = "no"
+                        aliases = ['n'],
+                        hidden = True,
+)
+    async def addstoragecancel(self, ctx):
+        if not self.ASKEDFORADDSTORAGE[ctx.author.id]:
+            msg = "You didn't ask to add storage yet! Use e!addstorage if you would like to."
+        else:
+            msg = 'Canceled'
+            self.ADDSTORAGE[ctx.author.id] = False
+        await ctx.send(msg)
