@@ -68,8 +68,8 @@ ADDSTORAGEPRICE = 5000
                     aliases = ['as', 'adds'],
                     brief = "Increases your max emu storage",
                     help = "???.",
-                    usage = "e!addstorage"
-                    case_insensitive = True
+                    usage = "e!addstorage",
+                    case_insensitive = True,
                     invoke_without_command
 )
     async def addstorage(self, ctx):
@@ -88,7 +88,7 @@ ADDSTORAGEPRICE = 5000
 )
     async def addstorageconfirm(self, ctx):
         maxemus = self.get_maxemus(ctx)
-        if not self.ASKEDFORADDSTORAGE[ctx.author.id]:
+        if not ctx.author.id in self.ASKEDFORADDSTORAGE or not self.ASKEDFORADDSTORAGE[ctx.author.id]:
             msg = "You didn't ask to add storage yet! Use e!addstorage if you would like to."
         elif get_stats(ctx.author.id, 'credits') < self.ADDSTORAGEPRICE:
             msg = "You don't have enough credits to buy another storage slot."
@@ -102,12 +102,12 @@ ADDSTORAGEPRICE = 5000
         await ctx.send(msg)
             
         
-    @addstorage.command(name = "no"
+    @addstorage.command(name = "no",
                         aliases = ['n'],
-                        hidden = True,
+                        hidden = True
 )
     async def addstoragecancel(self, ctx):
-        if not self.ASKEDFORADDSTORAGE[ctx.author.id]:
+        if not ctx.author.id in self.ASKEDFORADDSTORAGE or not self.ASKEDFORADDSTORAGE[ctx.author.id]:
             msg = "You didn't ask to add storage yet! Use e!addstorage if you would like to."
         else:
             msg = 'Canceled'
