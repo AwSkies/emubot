@@ -1,4 +1,3 @@
-#imports stuff
 import discord
 import threading
 
