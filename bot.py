@@ -13,8 +13,8 @@ class EmuBot(commands.bot, masterclass):
         DESCRIPTION = '''A discord bot to honor our best friends, the emus. 
         With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.'''
         
-        commands.bot.__init__(command_prefix = 'e!'
-                             description = DESCRIPTION
+        commands.bot.__init__(command_prefix = 'e!',
+                             description = DESCRIPTION,
                              case_insensitive = True)
         masterclass.__init__()
         
