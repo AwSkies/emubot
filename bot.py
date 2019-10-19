@@ -44,8 +44,6 @@ class EmuBot(commands.bot, masterclass):
         print('------')
         await self.change_presence(game=discord.Game(name= "Say e!help"))
         
-
-#runs the bot -------------------------------------------------------------
 if __name__ == '__main__':
     b = EmuBot()
     b.run(TOKEN)
