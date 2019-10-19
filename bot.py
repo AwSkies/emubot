@@ -24,7 +24,7 @@ class EmuBot(commands.bot, masterclass):
             
     async def on_message(self, message):
         if (not message.author.id in self.SPAMCATCH) or (message.author.id in self.SPAMCATCH and not self.SPAMCATCH[message.author.id]):
-            add_stats(message.author.id, 10, 'credits')
+            self.add_stats(message.author.id, 10, 'credits')
             self.SPAMCATCH[message.author.id] = True
             def spamtimer():
                 self.spamswitch(message.author.id)
@@ -42,7 +42,7 @@ class EmuBot(commands.bot, masterclass):
         print(self.user.name)
         print(self.user.id)
         print('------')
-        await self.change_presence(game=discord.Game(name= "Say e!help"))
+        await self.change_presence(game = discord.Game(name = "Say e!help"))
         
 if __name__ == '__main__':
     b = EmuBot()
