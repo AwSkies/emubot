@@ -70,7 +70,7 @@ ADDSTORAGEPRICE = 5000
                     help = "???.",
                     usage = "e!addstorage",
                     case_insensitive = True,
-                    invoke_without_command
+                    invoke_without_command = True
 )
     async def addstorage(self, ctx):
         val = self.get_stats(ctx.author.id, 'credits')
