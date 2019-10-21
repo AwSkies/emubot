@@ -35,8 +35,7 @@
                       brief = "Gives credits to another user",
                       help = "???.",
                       usage = "e!give [number] [@mention]"
-                     )
-
+)
     async def give(self, ctx, numcreds: int, mention: str):
         uid = ctx.message.mentions[0].id
         if not get_stats(ctx.author.id, 'credits') > 0:
