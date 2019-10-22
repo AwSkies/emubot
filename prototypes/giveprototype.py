@@ -31,7 +31,7 @@
     #give command for discord.py rewrite------------------------------------------
     @commands.command(name = "give",
                       description = "Gives credits to another user",
-                      aliases = ['g'],
+                      aliases = ['gi'],
                       brief = "Gives credits to another user",
                       help = "???.",
                       usage = "e!give [number] [@mention]"
