@@ -11,7 +11,6 @@ class masterclass(object):
         self.ATTACKCOOLDOWN = 14400.0
         self.ALL_VALUE_TYPES = ['credits', 'storage', 'defense']
         self.ASKEDFORBUYEMU = dict()
-        self.ASKEDFORADDSTORAGE = dict()
         self.ASKEDFORRESET = dict()
         self.SPAMCATCH = dict()
         self.ATTACKTIMERCATCH = dict()
