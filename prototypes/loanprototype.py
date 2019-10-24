@@ -66,3 +66,19 @@ LOAN_INTEREST_RATE = 1.01 #per minute
         except KeyError:
             msg = "You don't have a loan to return!"
             await client.send_message(messsage.channel, msg)
+
+    #loan command for discord.py rewrite                                                                                                                              
+    @commands.group(name = "loan",
+                    description = "Loans you credits with interest",
+                    aliases = ["l"],
+                    brief = "Loans you credits with interest",
+                    help = "Loans you however many credits you want for 1% interest per minute.",
+                    usage = "e!loan"
+                    invoke_without_command = True
+                    case_insensitive = True
+)
+    async def loan(self, ctx, principal: int):
+        val = self.get_stats(ctx.author.id, 'credits')
+        if principal < 1:
+            msg = "You can't choose a principal less than one, silly!"
+        else:
