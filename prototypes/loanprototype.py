@@ -90,3 +90,4 @@ LOAN_INTEREST_RATE = 1.01 #per minute
                     self.REQUESTEDLOAN[ctx.author.id]['started'] = True
                     self.REQUESTEDLOAN[ctx.author.id]['principal'] = principal
                     msg = "You asked for a loan of `{}` credits at 1% interest. You now have `{}` credits.".format(pricipal, val)
+    await ctx.send(msg)
