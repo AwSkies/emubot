@@ -82,3 +82,11 @@ LOAN_INTEREST_RATE = 1.01 #per minute
         if principal < 1:
             msg = "You can't choose a principal less than one, silly!"
         else:
+                #with statement thing?
+                if ctx.author.id in self.REQUESTEDLOAN or self.REQUESTEDLOAN[ctx.author.id]['started']):
+                    msg = "You already have a loan, and you can't get two at once! If you want to pay it off, say e!returnloan."
+                else:
+                    self.REQUESTEDLOAN = {ctx.author.id: {}}
+                    self.REQUESTEDLOAN[ctx.author.id]['started'] = True
+                    self.REQUESTEDLOAN[ctx.author.id]['principal'] = principal
+                    msg = "You asked for a loan of `{}` credits at 1% interest. You now have `{}` credits.".format(pricipal, val)
