@@ -67,27 +67,27 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             msg = "You don't have a loan to return!"
             await client.send_message(messsage.channel, msg)
 
-    #loan command for discord.py rewrite                                                                                                                              
+    #loan command for discord.py rewrite
     @commands.group(name = "loan",
                     description = "Loans you credits with interest",
                     aliases = ["l"],
                     brief = "Loans you credits with interest",
                     help = "Loans you however many credits you want for 1% interest per minute.",
-                    usage = "e!loan"
-                    invoke_without_command = True
+                    usage = "e!loan [principal]",
+                    invoke_without_command = True,
                     case_insensitive = True
 )
     async def loan(self, ctx, principal: int):
         val = self.get_stats(ctx.author.id, 'credits')
+        with open('loans.json', 'r') as f:
+            loans = json.load(f)
         if principal < 1:
             msg = "You can't choose a principal less than one, silly!"
+        elif ctx.author.id in self.REQUESTEDLOAN and self.REQUESTEDLOAN[ctx.author.id]['started']):
+            msg = "You already have a loan, and you can't get two at once! If you want to pay it off, say e!returnloan."
         else:
-                #with statement thing?
-                if ctx.author.id in self.REQUESTEDLOAN or self.REQUESTEDLOAN[ctx.author.id]['started']):
-                    msg = "You already have a loan, and you can't get two at once! If you want to pay it off, say e!returnloan."
-                else:
-                    self.REQUESTEDLOAN = {ctx.author.id: {}}
-                    self.REQUESTEDLOAN[ctx.author.id]['started'] = True
-                    self.REQUESTEDLOAN[ctx.author.id]['principal'] = principal
-                    msg = "You asked for a loan of `{}` credits at 1% interest. You now have `{}` credits.".format(pricipal, val)
-    await ctx.send(msg)
+            self.REQUESTEDLOAN = {ctx.author.id: {}}
+            self.REQUESTEDLOAN[ctx.author.id]['started'] = True
+            self.REQUESTEDLOAN[ctx.author.id]['principal'] = principal
+            msg = "You asked for a loan of `{}` credits at 1% interest. You now have `{}` credits.".format(pricipal, val)
+        await ctx.send(msg)
