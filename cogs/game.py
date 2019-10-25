@@ -115,8 +115,8 @@ class Game(Utils):
                     aliases = ["b"],
                     brief = "Buys emus",
                     help = "Use this command to buy emus which go into your storage. Remember, you can only have a maximum of 20 emus.",
-                    usage = "e!buy"
-                    invoke_without_command = True
+                    usage = "e!buy",
+                    invoke_without_command = True,
                     case_insensitive = True
 )
     async def buy(self, ctx, numemus: int):
@@ -169,8 +169,8 @@ class Game(Utils):
                     aliases = ["r"],
                     brief = "Resets all of your stats",
                     help = "Resets all of your stats back to 0, restarting your experience with the emu bot game",
-                    usage = "e!reset"
-                    invoke_without_command = True
+                    usage = "e!reset",
+                    invoke_without_command = True,
                     case_insensitive = True
 )
     async def reset(self, ctx):
