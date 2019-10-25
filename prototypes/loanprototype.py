@@ -68,6 +68,8 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             await client.send_message(messsage.channel, msg)
 
     #loan command for discord.py rewrite
+    self.LOANINTRATE = 1.01 #per minute                                                                                                                              
+                                                                                                                                  
     @commands.group(name = "loan",
                     description = "Loans you credits with interest",
                     aliases = ["l"],
@@ -89,5 +91,10 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             self.REQUESTEDLOAN = {ctx.author.id: {}}
             self.REQUESTEDLOAN[ctx.author.id]['started'] = True
             self.REQUESTEDLOAN[ctx.author.id]['principal'] = principal
-            msg = "You asked for a loan of `{}` credits at 1% interest. You now have `{}` credits.".format(pricipal, val)
+            self.REQUESTEDLOAN[ctx.author.id]['time'] = time
+            msg = "You asked for a loan of `{}` credits at {}% interest. You now have `{}` credits.".format(pricipal, LOANINTRATE-1.0, val)
+            with open('loans.json', 'w') as fp:
+                json.dump(loaninfo, fp, sort_keys = True, indent = 4)
+            self.add_stats(ctx.author.id, principal, 'credits')
+            msg = "You were loaned `" + str(principal) + "` credits with a {}% interest rate (per minute)! You must return it by (hmmmmmmmmmmmmmmmm this is that part we still don't know yet...). Remember that final amount is calculated using simple interest and if you don't return your loan in time, all of your stats will be reset.".format(LOANINTRATE-1.0)
         await ctx.send(msg)
