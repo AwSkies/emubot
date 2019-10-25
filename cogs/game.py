@@ -107,7 +107,7 @@ class Game(commands.Cog, Utils):
                         self.add_stats(uid, -creditcalnum, 'credits')
                     self.add_stats(uid, -get_stats(uid, 'defense'), 'defense')
                 self.add_stats(ctx.author.id, -numemus, 'storage')
-                msg = '{0.mention} was attacked by {1.author.mention} with `{}` emus and now has `{}` emus left on defense, {4.author.mention} stole `{}` credits.'.format(ctx.message.mentions[0], ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum),
+                msg = '{0.mention} was attacked by {1.author.mention} with `{}` emus and now has `{}` emus left on defense, {4.author.mention} stole `{}` credits.'.format(ctx.message.mentions[0], ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum))
             await ctx.send(msg)
 
     @commands.group(name = "buy",
@@ -141,7 +141,7 @@ class Game(commands.Cog, Utils):
                  hidden = True
 )
     async def buyconfirm(self, ctx):
-        if not ctx.author.id in self.ASKEDFORBUYEMU or not self.ASKEDFORBUYEMU[ctx.author.id]['started']):
+        if not ctx.author.id in self.ASKEDFORBUYEMU or not self.ASKEDFORBUYEMU[ctx.author.id]['started']:
             msg = "You did not ask to buy an emu yet..."
         else:
             numemus = self.ASKEDFORBUYEMU[ctx.author.id]['numemus']
@@ -184,7 +184,7 @@ class Game(commands.Cog, Utils):
 )
     async def resetconfirm(self, ctx):
         ctx.author.id = caid
-        if caid in self.ASKEDFORRESET and self.ASKEDFORRESET[caid]
+        if caid in self.ASKEDFORRESET and self.ASKEDFORRESET[caid]:
             self.ASKEDFORRESET[caid] = False
             cred = self.get_stats(caid, 'credits')
             store = self.get_stats(caid, 'storage')
@@ -203,7 +203,7 @@ class Game(commands.Cog, Utils):
 )
     async def resetcancel(self, ctx):
         ctx.author.id = caid
-        if caid in self.ASKEDFORRESET and self.ASKEDFORRESET[caid]
+        if caid in self.ASKEDFORRESET and self.ASKEDFORRESET[caid]:
             self.ASKEDFORRESET[caid] = False
             msg = 'Canceled'
         else:
