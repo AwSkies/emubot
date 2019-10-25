@@ -1,11 +1,11 @@
 import discord
 
 from discord.ext import commands
-from Utils import Utils
+from cogs.UtilsLib import Utils
 
-class Misc(Utils):
+class Misc(commands.Cog, Utils):
     def __init__(self, bot):
-        super().__init__()
+        Utils.__init__(self)
         self.bot = bot
 
     @commands.command(name = "say",

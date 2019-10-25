@@ -1,22 +1,23 @@
 import discord
 import threading
 
-from cogs.Utils import Utils
+from cogs.UtilsLib import Utils
 from discord.ext import commands
 
 
 with open('TOKEN.txt', 'r') as f:
     TOKEN = f.readline()
 
-class EmuBot(commands.bot, Utils):
+class EmuBot(commands.Bot, Utils):
     def __init__(self):
         DESCRIPTION = '''A discord bot to honor our best friends, the emus. 
         With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.'''
         
-        commands.bot.__init__(command_prefix = 'e!',
+        commands.Bot.__init__(self,
+                             command_prefix = 'e!',
                              description = DESCRIPTION,
                              case_insensitive = True)
-        Utils.__init__()
+        Utils.__init__(self)
         
         self.COGS = ['cogs.fun', 'cogs.game', 'cogs.misc']
         for cog in self.COGS:

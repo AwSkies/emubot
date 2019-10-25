@@ -4,11 +4,11 @@ import asyncio
 
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
-from Utils import Utils
+from cogs.UtilsLib import Utils
 
-class Game(Utils):
+class Game(commands.Cog, Utils):
     def __init__(self, bot):
-        super().__init__()
+        Utils.__init__(self)
         self.bot = bot
     
     @commands.command(name = "stats",
@@ -115,9 +115,9 @@ class Game(Utils):
                     aliases = ["b"],
                     brief = "Buys emus",
                     help = "Use this command to buy emus which go into your storage. Remember, you can only have a maximum of 20 emus.",
-                    usage = "e!buy"
-                    invoke_without_command = True
-                    case_insensitive = True
+                    usage = "e!buy",
+                    invoke_without_command = True,
+                    case_insensitive = True,
 )
     async def buy(self, ctx, numemus: int):
         val = self.get_stats(ctx.author.id, 'credits')
@@ -178,8 +178,8 @@ class Game(Utils):
         msg = '''Are you sure you want to reset ***all*** of your stats? You'll lose everything! If you're sure, use e!reset yes. To cancel, say e!reset no'''
         await ctx.send(msg)
     
-    @reset.command(name = 'yes'
-                  aliases = ['y']
+    @reset.command(name = 'yes',
+                  aliases = ['y'],
                   hidden = True
 )
     async def resetconfirm(self, ctx):
@@ -197,8 +197,8 @@ class Game(Utils):
             msg = 'You did not ask to reset your stats yet!'
         await ctx.send(msg)
         
-    @reset.command(name = 'no'
-                   aliases = ['n']
+    @reset.command(name = 'no',
+                   aliases = ['n'],
                    hidden = True
 )
     async def resetcancel(self, ctx):
