@@ -4,9 +4,9 @@ import asyncio
 
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
-from masterclass import masterclass
+from Utils import Utils
 
-class Game(masterclass):
+class Game(Utils):
     def __init__(self, bot):
         super().__init__()
         self.bot = bot

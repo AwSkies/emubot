@@ -1,7 +1,7 @@
 import json
 import os.path
 
-class masterclass(object):
+class Utils(object):
     def __init__(self):
         self.EMUPRICE = 500
         self.MAXEMUS = 20

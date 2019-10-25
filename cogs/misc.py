@@ -1,9 +1,9 @@
 import discord
 
 from discord.ext import commands
-from masterclass import masterclass
+from Utils import Utils
 
-class Misc(masterclass):
+class Misc(Utils):
     def __init__(self, bot):
         super().__init__()
         self.bot = bot
