@@ -10,7 +10,6 @@ class Misc(commands.Cog, Utils):
 
     @commands.command(name = "say",
                       description = "Makes the bot say whatever you say",
-                      aliases = ["s"],
                       brief = "Makes the bot say whatever you say",
                       help = "Makes the bot says whatever you put after the e!say",
                       usage = "e!say [sentence] or e!say, makes the bot say [sentence]"
@@ -30,9 +29,9 @@ class Misc(commands.Cog, Utils):
 
     @commands.command(name = "gamexplain",
                       description = "Gives an explanation to how the Emu Bot game works",
-                      aliases = ['gx', 'gameexplain', 'gxplain']
+                      aliases = ['gx', 'gameexplain', 'gxplain'],
                       brief = "Gives an explanation to how the Emu Bot game works",
-                      help = "Gives an in-depth explain of how to use the Emu Bot's game commands and how the Emu Bot game works"
+                      help = "Gives an in-depth explain of how to use the Emu Bot's game commands and how the Emu Bot game works",
                       usage = 'e!gamexplain'
 )
     async def gamexplain(self, ctx):
@@ -48,7 +47,7 @@ class Misc(commands.Cog, Utils):
         ctx.send(embed = embed)
         
     @commands.command(name = "testersay",
-                      aliases = ["tsay", "ts"]
+                      aliases = ["tsay", "ts"],
                       hidden = True
 )
     @commands.has_role('Tester')

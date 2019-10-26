@@ -34,8 +34,9 @@ class EmuBot(commands.Bot, Utils):
             
         await self.process_commands(message)
     
-    async def on_command_error(ctx, error):
+    async def on_command_error(self, ctx, error):
         await ctx.send(str(error))
+        print('Message', ctx.message.content, 'caused:')
         print(error)
     
     async def on_ready(self):
@@ -43,7 +44,7 @@ class EmuBot(commands.Bot, Utils):
         print(self.user.name)
         print(self.user.id)
         print('------')
-        await self.change_presence(game = discord.Game(name = "Say e!help"))
+        await self.change_presence(activity = discord.Game(name = "Say e!help"))
         
 if __name__ == '__main__':
     b = EmuBot()

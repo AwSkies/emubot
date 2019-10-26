@@ -15,9 +15,10 @@ class Utils(object):
         self.SPAMCATCH = dict()
         self.ATTACKTIMERCATCH = dict()
     
-    def add_stats(self, user_id: int, amount: int, valuetype: str):
+    def add_stats(self, user_id: str, amount: int, valuetype: str):
         if not valuetype in self.ALL_VALUE_TYPES:
             raise TypeError("valuetype must be " + ', '.join(self.ALL_VALUE_TYPES))
+        user_id = str(user_id)
         if os.path.isfile("users.json"):
             try:
                 with open('users.json', 'r') as fp:
@@ -43,9 +44,10 @@ class Utils(object):
             with open('users.json', 'w') as fp:
                 json.dump(users, fp, sort_keys=True, indent=4)
     
-    def get_stats(self, user_id: int, valuetype: str):
+    def get_stats(self, user_id: str, valuetype: str):
         if not valuetype in self.ALL_VALUE_TYPES:
             raise TypeError("valuetype must be " + ', '.join(self.ALL_VALUE_TYPES))
+        user_id = str(user_id)
         if os.path.isfile('users.json'):
             try:
                 with open('users.json', 'r') as fp:
