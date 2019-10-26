@@ -14,7 +14,7 @@ class EmuBot(commands.Bot, Utils):
         With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.'''
         
         commands.Bot.__init__(self,
-                             command_prefix = 'e!',
+                             command_prefix = ['e!', 'E!'],
                              description = DESCRIPTION,
                              case_insensitive = True)
         Utils.__init__(self)
