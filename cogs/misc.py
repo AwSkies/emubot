@@ -19,11 +19,12 @@ class Misc(commands.Cog, Utils):
             msg = "You can't make me send an empty message!"
             await ctx.send(msg)
         else:
-            embed=discord.Embed(color = 0x9bb0c8)
+            embed = discord.Embed(color = 0x9bb0c8)
+            name = 'The Emu says:'
             if len(args) == 1:
-                embed.add_field(value = args[0], inline=False)
+                embed.add_field(name = name, value = args[0], inline=False)
             else:
-                embed.add_field(value = ' '.join(args), inline=False)
+                embed.add_field(name = name, value = ' '.join(args), inline=False)
             embed.set_footer(text = "-" + str(ctx.author))
             await ctx.send(embed=embed)
 
