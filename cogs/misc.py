@@ -44,7 +44,7 @@ class Misc(commands.Cog, Utils):
 -You can also use emus to attack your friends
 -The maximum amount of emus you can attack with at a time is {} emus
 -The amount of emus you attack someone with that go over the amount of emus they have on defense grants you 700 credits for each emu.'''.format(self.MAXEMUS, self.MAXDEFENSE, self.MAXATTACK), color=0x00ff00)
-        ctx.send(embed = embed)
+        await ctx.send(embed = embed)
         
     @commands.command(name = "testersay",
                       aliases = ["tsay", "ts"],
