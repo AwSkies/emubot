@@ -35,9 +35,14 @@ class EmuBot(commands.Bot, Utils):
         await self.process_commands(message)
     
     async def on_command_error(self, ctx, error):
-        await ctx.send(str(error))
-        print('Message', ctx.message.content, 'caused:')
-        print(error)
+        if isinstance(error, commands.errors.CommandNotFound):
+            msg = "That command doesn't exist!"
+        else:
+            msg = str(error)
+            print('Message', ctx.message.content, 'caused exception:')
+            print(error)
+        await ctx.send(msg)
+        
     
     async def on_ready(self):
         print('Logged in as')

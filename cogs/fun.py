@@ -125,7 +125,7 @@ class Fun(commands.Cog, Utils):
         description = 'Beware of guard emu'
 )
     async def onguardpic(self, ctx):
-        await ctx.send(file=discord.File('on-guard.png'))
+        await ctx.send(file=discord.File('pictures/on-guard.png'))
 
     @commands.command(
         name = 'grumpy',
