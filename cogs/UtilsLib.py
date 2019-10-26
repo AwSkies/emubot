@@ -2,13 +2,13 @@ import json
 import os.path
 
 class Utils(object):
+    ATTACKCOOLDOWN = 14400.0
     def __init__(self):
         self.EMUPRICE = 500
         self.MAXEMUS = 20
         self.MAXDEFENSE = 5
         self.MAXATTACK = 2 * self.MAXDEFENSE
         self.CREDITSPEMUATK = self.EMUPRICE + 200
-        self.ATTACKCOOLDOWN = 14400.0
         self.ALL_VALUE_TYPES = ['credits', 'storage', 'defense']
         self.ASKEDFORBUYEMU = dict()
         self.ASKEDFORRESET = dict()

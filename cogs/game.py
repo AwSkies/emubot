@@ -77,7 +77,7 @@ class Game(commands.Cog, Utils):
                       help = "Attacks other users with the emus you have in storage. If you attack with more emus than they have on defense, then you will steal some of their credits.",
                       usage = "e!attack [number] [@mention]"
 )
-    @commands.cooldown(1, self.ATTACKCOOLDOWN, BucketType.default)
+    @commands.cooldown(1, Utils.ATTACKCOOLDOWN, BucketType.default)
     async def attack(self, ctx, numemus: int, mention: str):
         if numemus > self.get_stats(ctx.author.id, 'storage'):
             msg = "You don't have that many emus than you have in storage, you silly emu warlord! Remember, you can buy emus with e!buy!"
