@@ -12,7 +12,7 @@ class Misc(commands.Cog, Utils):
                       description = "Makes the bot say whatever you say",
                       brief = "Makes the bot say whatever you say",
                       help = "Makes the bot says whatever you put after the e!say",
-                      usage = "e!say [sentence] or e!say, makes the bot say [sentence]"
+                      usage = '[sentence or "sentence"] - makes the bot say [sentence or "sentence"]'
 )
     async def say(self, ctx, *args):
         if len(args) == 0:
@@ -32,8 +32,7 @@ class Misc(commands.Cog, Utils):
                       description = "Gives an explanation to how the Emu Bot game works",
                       aliases = ['gx', 'gameexplain', 'gxplain'],
                       brief = "Gives an explanation to how the Emu Bot game works",
-                      help = "Gives an in-depth explain of how to use the Emu Bot's game commands and how the Emu Bot game works",
-                      usage = 'e!gamexplain'
+                      help = "Gives an in-depth explain of how to use the Emu Bot's game commands and how the Emu Bot game works"
 )
     async def gamexplain(self, ctx):
         embed = discord.Embed(title='Game Explanation', description='''**In the emu bot game, you gain credits by participating in chat. You can spend these credits on emus and attack your friends with them.**
