@@ -16,7 +16,7 @@ class Game(commands.Cog, Utils):
                       aliases = ["s"],
                       brief = "Displays your stats",
                       help = "Shows you the amount of credits you have, the number of emus in your storage, and the number of emus you have defense.",
-                      usage = "e!stats [@user] (if no mention is provided, then it displays your stats)"
+                      usage = "[@user] (if no mention is provided, then it displays your stats)"
 )
     async def stats(self, ctx, mention = None):
         if not mention == None:
@@ -35,7 +35,7 @@ class Game(commands.Cog, Utils):
                       aliases = ['d', 'def', 'defense', 'defence'],
                       brief = "Puts emus on defense",
                       help = "Puts emus on defense. Emus on defense can protect against attacks.",
-                      usage = "e!defend [# of emus]"
+                      usage = "[# of emus]"
 )
     async def defend(self, ctx, numemus: int):
         if not self.get_stats(ctx.author.id, 'storage') > 0:
@@ -55,7 +55,7 @@ class Game(commands.Cog, Utils):
                       aliases = ['od', 'offdef' 'offdefence', 'offdefend'],
                       brief = "Takes emus off defense",
                       help = "Takes your emus off of defense and puts them back into your storage",
-                      usage = "e!offdefense [# of emus]"
+                      usage = "[# of emus]"
 )
     async def offdefense(self, ctx, numemus: int):
         if not self.get_stats(ctx.author.id, 'defense') > 0:
@@ -75,7 +75,7 @@ class Game(commands.Cog, Utils):
                       aliases = ['a', 'at', 'atk', 'attk'],
                       brief = "Attacks other users",
                       help = "Attacks other users with the emus you have in storage. If you attack with more emus than they have on defense, then you will steal some of their credits.",
-                      usage = "e!attack [# of emus] [@user]"
+                      usage = "[# of emus] [@user]"
 )
     @commands.cooldown(1, Utils.ATTACKCOOLDOWN, BucketType.default)
     async def attack(self, ctx, numemus: int, mention: str):
@@ -115,7 +115,7 @@ class Game(commands.Cog, Utils):
                     aliases = ["b"],
                     brief = "Buys emus",
                     help = "Use this command to buy emus which go into your storage. Remember, you can only have a maximum of 20 emus.",
-                    usage = "e!buy [# of emus]",
+                    usage = "[# of emus]",
                     invoke_without_command = True,
                     case_insensitive = True
 )
@@ -169,7 +169,6 @@ class Game(commands.Cog, Utils):
                     aliases = ["r"],
                     brief = "Resets all of your stats",
                     help = "Resets all of your stats back to 0, restarting your experience with the emu bot game",
-                    usage = "e!reset",
                     invoke_without_command = True,
                     case_insensitive = True
 )
