@@ -21,13 +21,15 @@ class Game(commands.Cog, Utils):
     async def stats(self, ctx, mention = None):
         if not mention == None:
             user = ctx.message.mentions[0]
+            person = "{} has".format(user.name)
         else:
             user = ctx.author
+            person = 'You have'
         idfu = user.id
         msg = "{0.mention}'s Stats:".format(user)
-        msg += "\n:moneybag: `{}` credit(s).".format(self.get_stats(idfu, 'credits'))
-        msg += "\n<:emu:439821394700926976> `{}` emu(s) in storage.".format(self.get_stats(idfu, 'storage'))
-        msg += "\n:shield: `{}` emu(s) on defense.".format(self.get_stats(idfu, 'defense'))
+        msg += "\n:moneybag: {} `{}` credit(s).".format(person, self.get_stats(idfu, 'credits'))
+        msg += "\n<:emu:439821394700926976> `{}` emu(s) in storage.".format(person, self.get_stats(idfu, 'storage'))
+        msg += "\n:shield: `{}` emu(s) on defense.".format(person, self.get_stats(idfu, 'defense'))
         await ctx.send(msg)
     
     @commands.command(name = "defend",
