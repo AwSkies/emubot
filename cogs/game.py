@@ -38,11 +38,11 @@ class Game(commands.Cog, Utils):
                       usage = "e!defend [number]"
 )
     async def defend(self, ctx, numemus: int):
-        if not get_stats(ctx.author.id, 'storage') > 0:
+        if not self.get_stats(ctx.author.id, 'storage') > 0:
             msg = 'You have no emus to put on defense! Remember, you can buy emus with e!buy!'
         elif numemus < 1:
             msg = "You can't put less than one emu on defense you trickster!"
-        elif get_stats(ctx.author.id, 'defense') + numemus > self.MAXDEFENSE:
+        elif self.get_stats(ctx.author.id, 'defense') + numemus > self.MAXDEFENSE:
             msg = '{} emus on defense would be {} emus over the maximum amount of emus allowed on defense. ({})'.format(numemus, (self.get_stats(ctx.author.id) + numemus) - self.MAXDEFENSE, self.MAXDEFENSE)
         else:
             self.add_stats(ctx.author.id, numemus, 'defense')
@@ -58,11 +58,11 @@ class Game(commands.Cog, Utils):
                       usage = "e!offdefense [number]"
 )
     async def offdefense(self, ctx, numemus: int):
-        if not get_stats(ctx.author.id, 'defense') > 0:
+        if not self.get_stats(ctx.author.id, 'defense') > 0:
             msg = 'You have no emus to take off defense! Remember, you can put emus on defense with e!defend!'
         elif numemus < 1:
             msg = "You can't take less than one emu off defense you trickster!"
-        elif numemus > get_stats(ctx.author.id, 'defense'):
+        elif numemus > self.get_stats(ctx.author.id, 'defense'):
             msg = "You don't have that many emus on defense to take off!"
         else:
             self.add_stats(ctx.author.id, numemus, 'defense')
@@ -105,7 +105,7 @@ class Game(commands.Cog, Utils):
                     else: 
                         self.add_stats(ctx.author.id, creditcalnum, 'credits')
                         self.add_stats(uid, -creditcalnum, 'credits')
-                    self.add_stats(uid, -get_stats(uid, 'defense'), 'defense')
+                    self.add_stats(uid, -self.get_stats(uid, 'defense'), 'defense')
                 self.add_stats(ctx.author.id, -numemus, 'storage')
                 msg = '{0.mention} was attacked by {1.author.mention} with `{}` emus and now has `{}` emus left on defense, {4.author.mention} stole `{}` credits.'.format(ctx.message.mentions[0], ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum))
             await ctx.send(msg)
