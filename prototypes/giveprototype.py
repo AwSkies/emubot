@@ -42,7 +42,7 @@
             msg = 'You have no credits to give!'
         elif numcreds < 1:
             msg = "You can't give less than one credit!"
-        elif numcreds > get_stats(ctx.author.id, 'credits'):
+        elif numcreds > self.get_stats(ctx.author.id, 'credits'):
             msg = "You don't have enough credits for that!"
         elif uid == bot.user.id:
             msg = "You can't give me credits!"
