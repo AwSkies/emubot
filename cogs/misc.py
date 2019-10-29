@@ -19,7 +19,7 @@ class Misc(commands.Cog, Utils):
             msg = "You can't make me send an empty message!"
             await ctx.send(msg)
         else:
-            embed = discord.Embed(color = 0x9bb0c8)
+            embed = discord.Embed(color = ctx.author.roles[-1].color)
             name = 'The Emu says:'
             if len(args) == 1:
                 embed.add_field(name = name, value = args[0], inline=False)
