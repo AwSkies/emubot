@@ -65,7 +65,7 @@ class Misc(commands.Cog, Utils):
                       hidden = True)
     @commands.has_role('Tester')
     async def getcredits(self, ctx, numcredits: int):
-        add_stats(ctx.author.id, numcredits, 'credits')
+        self.add_stats(ctx.author.id, numcredits, 'credits')
         msg = "Got `" + str(numcredits) + "` credits, tester!"
         await ctx.send(msg)
         

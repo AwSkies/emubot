@@ -129,8 +129,8 @@ class Game(commands.Cog, Utils):
             if numemus + self.get_stats(ctx.author.id, 'storage') + self.get_stats(ctx.author.id, 'defense') > self.MAXEMUS:
                 msg = "That is more than the maximum number of emus you can have! ({})".format(str(self.MAXEMUS))
         else:
-            if get_value(ctx.author.id, 'credits') < emuprice * numemus:
-                msg = "You have `{}` credits.\nThe number of emus you want to buy cost `".format(val) + str(emuprice * numemus) + "` credits. You do not have enough credits to buy those emus."
+            if self.get_stats(ctx.author.id, 'credits') < self.EMUPRICE * numemus:
+                msg = "You have `{}` credits.\nThe number of emus you want to buy cost `".format(val) + str(self.EMUPRICE * numemus) + "` credits. You do not have enough credits to buy those emus."
             else:
                 self.ASKEDFORBUYEMU = {ctx.author.id: {}}
                 self.ASKEDFORBUYEMU[ctx.author.id]['started'] = True
@@ -149,10 +149,10 @@ class Game(commands.Cog, Utils):
             numemus = self.ASKEDFORBUYEMU[ctx.author.id]['numemus']
             self.ASKEDFORBUYEMU[ctx.author.id]['numemus'] = None
             self.ASKEDFORBUYEMU[ctx.author.id]['started'] = False
-            self.add_stats(ctx.author.id, -(emuprice * numemus), 'credits')
+            self.add_stats(ctx.author.id, -(self.EMUPRICE * numemus), 'credits')
             self.add_stats(ctx.author.id, (numemus), 'storage')
             msg = '''You bought `''' + str(numemus) + '''` emu(s)! Use e!stats to see your stats'''
-        ctx.send(msg)
+        await ctx.send(msg)
     
     @buy.command(name = "no",
                  aliases = ["n"],
