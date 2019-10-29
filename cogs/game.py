@@ -28,8 +28,8 @@ class Game(commands.Cog, Utils):
         idfu = user.id
         msg = "{0.mention}'s Stats:".format(user)
         msg += "\n:moneybag: {} `{}` credit(s).".format(person, self.get_stats(idfu, 'credits'))
-        msg += "\n<:emu:439821394700926976> `{}` emu(s) in storage.".format(person, self.get_stats(idfu, 'storage'))
-        msg += "\n:shield: `{}` emu(s) on defense.".format(person, self.get_stats(idfu, 'defense'))
+        msg += "\n<:emu:439821394700926976> {} `{}` emu(s) in storage.".format(person, self.get_stats(idfu, 'storage'))
+        msg += "\n:shield: {} `{}` emu(s) on defense.".format(person, self.get_stats(idfu, 'defense'))
         await ctx.send(msg)
     
     @commands.command(name = "defend",
