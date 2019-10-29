@@ -94,7 +94,7 @@ class Misc(commands.Cog, Utils):
         if not args == None:
             gamename = "Say e!help"
         elif len(args) == 1:
-                gamename = args[0]
+            gamename = args[0]
         else:
             gamename = ' '.join(args)
         game = discord.Game(name = gamename)
