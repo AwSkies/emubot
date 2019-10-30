@@ -90,8 +90,8 @@ class Misc(commands.Cog, Utils):
                       hidden = True
 )
     @commands.is_owner()
-    async def changegamestatus(self, ctx, *args = None):
-        if not args == None:
+    async def changegamestatus(self, ctx, *args):
+        if len(args) == 0:
             gamename = "Say e!help"
         elif len(args) == 1:
             gamename = args[0]
@@ -99,7 +99,7 @@ class Misc(commands.Cog, Utils):
             gamename = ' '.join(args)
         game = discord.Game(name = gamename)
         msg = "Status changed to " + gamename
-        await bot.change_presence(activity = game)
+        await self.bot.change_presence(activity = game)
         await ctx.send(msg)
     
 def setup(bot):
