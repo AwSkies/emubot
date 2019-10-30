@@ -6,9 +6,9 @@
 [Click here to join the Emu Bot Habitat, the Emu Bot testing & support server](http://www.google.com/url?q=http%3A%2F%2Fdiscord.gg%2F2xEQkKs&sa=D&sntz=1&usg=AFQjCNEB5os3ShxH5QG60iuaE1oyZ9gW4A "Join the Emu Bot Habitat")  
 ### About the Emu Bot
 ###### What is the Emu Bot
-The Emu Bot is a discord bot that can be added to your server whenever you like.  It has tons of fun commands including but not limited to cool pictures (of emus)  fun facts (about emus) and attack your friends (with emus). (Can you tell we like emus?)  
+The Emu Bot is a discord bot that can be added to your server whenever you like.  It has tons of fun commands including but not limited to cool pictures (of emus) fun facts (about emus) and attack your friends (with emus). (Can you tell we like emus?)  
 ###### What is a Discord Bot?
-A discord bot is an  AI account on discord that will automatically respond to certain commands typed in chat. Some are fun, some are for moderation, some keep track of levels, and some can even play music in the voice channels.  
+A discord bot is an account on discord that will automatically respond to certain commands typed in chat. Some are fun, some are for moderation, some keep track of levels, and some can even play music in the voice channels.  
 ###### Is it free?
 Yes, the Emu Bot and all features attached are free.  
 ###### Why should I add the Emu Bot to my server?
