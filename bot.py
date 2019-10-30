@@ -37,10 +37,13 @@ class EmuBot(commands.Bot, Utils):
     async def on_command_error(self, ctx, error):
         if isinstance(error, commands.errors.CommandNotFound):
             msg = "That command doesn't exist!"
+        elif isinstance(error, commands.errors.MissingRequiredArgument):
+            msg = "You are not using this command correctly. Use e!help command for information on how to use a a command. The square brackets [] around a word indicate a value you must provide after the command."
         else:
             msg = str(error)
             print('Message', ctx.message.content, 'caused exception:')
             print(error)
+            print(type(error))
         await ctx.send(msg)
         
     
