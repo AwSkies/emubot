@@ -19,6 +19,8 @@ class Utils(object):
         if not valuetype in self.ALL_VALUE_TYPES:
             raise TypeError("valuetype must be " + ', '.join(self.ALL_VALUE_TYPES))
         user_id = str(user_id)
+        if user_id == str(self.bot.user.name):
+            return
         if os.path.isfile("users.json"):
             try:
                 with open('users.json', 'r') as fp:
@@ -44,6 +46,8 @@ class Utils(object):
                 json.dump(users, fp, sort_keys=True, indent=4)
     
     def get_stats(self, user_id: str, valuetype: str):
+        if user_id == str(self.bot.user.name):
+            return
         if not valuetype in self.ALL_VALUE_TYPES:
             raise TypeError("valuetype must be " + ', '.join(self.ALL_VALUE_TYPES))
         user_id = str(user_id)
