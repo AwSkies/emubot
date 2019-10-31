@@ -46,12 +46,12 @@ class Misc(commands.Cog, Utils):
 -The amount of emus you attack someone with that go over the amount of emus they have on defense grants you 700 credits for each emu.'''.format(self.MAXEMUS, self.MAXDEFENSE, self.MAXATTACK), color=0x00ff00)
         await ctx.send(embed = embed)
         
-    @commands.command(name = "testersay",
-                      aliases = ["tsay", "ts"],
+    @commands.command(name = "helpersay",
+                      aliases = ["hsay", "hs"],
                       hidden = True
 )
-    @commands.has_role('Tester')
-    async def testersay(self, ctx, *args):
+    @commands.has_role('Helpers')
+    async def helpersay(self, ctx, *args):
         if len(args) == 0:
             msg = "You can't make me send an empty message!"
         elif len(args) == 1:
