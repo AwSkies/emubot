@@ -184,13 +184,13 @@ class Game(commands.Cog, Utils):
                   hidden = True
 )
     async def resetconfirm(self, ctx):
-        ctx.author.id = caid
+        caid = ctx.author.id
         if caid in self.ASKEDFORRESET and self.ASKEDFORRESET[caid]:
             self.ASKEDFORRESET[caid] = False
             cred = self.get_stats(caid, 'credits')
             store = self.get_stats(caid, 'storage')
             defse = self.get_stats(caid, 'defense')
-            self.add_stats(caid, -stat, 'credits')
+            self.add_stats(caid, -cred, 'credits')
             self.add_stats(caid, -store, 'storage')
             self.add_stats(caid, -defse, 'defense')
             msg = 'All of your stats have been reset.'
@@ -203,7 +203,7 @@ class Game(commands.Cog, Utils):
                    hidden = True
 )
     async def resetcancel(self, ctx):
-        ctx.author.id = caid
+        caid = ctx.author.id
         if caid in self.ASKEDFORRESET and self.ASKEDFORRESET[caid]:
             self.ASKEDFORRESET[caid] = False
             msg = 'Canceled'
