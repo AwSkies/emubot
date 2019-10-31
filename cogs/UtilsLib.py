@@ -23,14 +23,19 @@ class Utils(object):
             try:
                 with open('users.json', 'r') as fp:
                     users = json.load(fp)
-                users[user_id][valuetype] += amount
+                if valuetype in users[user_id]:
+                    users[user_id][valuetype] += amount
+                else:
+                    users[user_id][valuetype] = amount
                 with open('users.json', 'w') as fp:
                     json.dump(users, fp, sort_keys=True, indent=4)
-            except KeyError:
+            except KeyError as ke:
+                print(ke)
                 with open('users.json', 'r') as fp:
                     users = json.load(fp)
                 users[user_id] = {}
                 users[user_id][valuetype] = amount
+                #pdb.set_trace()
                 with open('users.json', 'w') as fp:
                     json.dump(users, fp, sort_keys=True, indent=4)
         else:
