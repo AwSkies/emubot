@@ -30,12 +30,7 @@ class Utils(object):
                 with open('users.json', 'r') as fp:
                     users = json.load(fp)
                 users[user_id] = {}
-                #users[user_id][valuetype] = amount
-                for vt in self.ALL_VALUE_TYPES:
-                    if vt == valuetype:
-                        users[user_id][valuetype] = amount
-                    else:
-                        users[user_id][valuetype] = 0
+                users[user_id][valuetype] = amount
                 with open('users.json', 'w') as fp:
                     json.dump(users, fp, sort_keys=True, indent=4)
         else:
