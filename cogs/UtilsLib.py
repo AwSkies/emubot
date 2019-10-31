@@ -29,8 +29,7 @@ class Utils(object):
                     users[user_id][valuetype] = amount
                 with open('users.json', 'w') as fp:
                     json.dump(users, fp, sort_keys=True, indent=4)
-            except KeyError as ke:
-                print(ke)
+            except KeyError:
                 with open('users.json', 'r') as fp:
                     users = json.load(fp)
                 users[user_id] = {}
