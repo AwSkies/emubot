@@ -39,6 +39,8 @@ class EmuBot(commands.Bot, Utils):
             msg = "That command doesn't exist!"
         elif isinstance(error, commands.errors.MissingRequiredArgument):
             msg = "You are not using this command correctly. Use e!help command for information on how to use a a command. The square brackets [] around a word indicate a value you must provide after the command."
+        elif isinstance(error, commands.errors.MissingRole):
+            msg = "You do not have the required role for this command."
         else:
             msg = str(error)
             print('Message', ctx.message.content, 'caused exception:')
