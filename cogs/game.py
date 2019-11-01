@@ -124,7 +124,7 @@ class Game(commands.Cog, Utils):
             await ctx.send(msg)
     
     @attack.after_invoke()
-    async def testerattackcooldown(self, ctx):
+    async def removecooldown(self, ctx):
         if 448272810561896448 in [role.id for role in ctx.author.roles]:
             attack.reset_cooldown(ctx)
 
