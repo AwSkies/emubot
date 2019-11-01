@@ -122,6 +122,11 @@ class Game(commands.Cog, Utils):
                 self.add_stats(ctx.author.id, -numemus, 'storage')
                 msg = '{0.mention} was attacked by {1.author.mention} with `{}` emus and now has `{}` emus left on defense, {4.author.mention} stole `{}` credits.'.format(ctx.message.mentions[0], ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum))
             await ctx.send(msg)
+    
+    @attack.after_invoke()
+    async def testerattackcooldown(self, ctx):
+        if 448272810561896448 in [role.id for role in ctx.author.roles]:
+            attack.reset_cooldown(ctx)
 
     @commands.group(name = "buy",
                     description = "Buys emus",
