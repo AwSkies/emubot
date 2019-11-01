@@ -1,6 +1,7 @@
 import discord
 import random
 import asyncio
+import threading
 
 from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
@@ -10,6 +11,16 @@ class Game(commands.Cog, Utils):
     def __init__(self, bot):
         Utils.__init__(self)
         self.bot = bot
+        
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if (not message.author.id in self.SPAMCATCH) or (message.author.id in self.SPAMCATCH and not self.SPAMCATCH[message.author.id]):
+            self.add_stats(message.author.id, 10, 'credits')
+            self.SPAMCATCH[message.author.id] = True
+            def spamtimer():
+                self.spamswitch(message.author.id)
+            t = threading.Timer(10.0, spamtimer)
+            t.start()
     
     @commands.command(name = "stats",
                       description = "Displays your stats",
