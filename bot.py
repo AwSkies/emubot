@@ -24,14 +24,6 @@ class EmuBot(commands.Bot, Utils):
             self.load_extension(cog)
             
     async def on_message(self, message):
-        if (not message.author.id in self.SPAMCATCH) or (message.author.id in self.SPAMCATCH and not self.SPAMCATCH[message.author.id]):
-            self.add_stats(message.author.id, 10, 'credits')
-            self.SPAMCATCH[message.author.id] = True
-            def spamtimer():
-                self.spamswitch(message.author.id)
-            t = threading.Timer(10.0, spamtimer)
-            t.start()
-            
         await self.process_commands(message)
     
     async def on_command_error(self, ctx, error):
