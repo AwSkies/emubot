@@ -49,7 +49,7 @@ class Game(commands.Cog, Utils):
         else:
             self.add_stats(ctx.author.id, numemus, 'defense')
             self.add_stats(ctx.author.id, -numemus, 'storage')
-            msg = '`{}` emu(s) added to defense. You can check you stats with e!stats'.format(numemus)
+            msg = '`{}` emu(s) added to defense. You can check your stats with e!stats'.format(numemus)
         await ctx.send(msg)
         
     @commands.command(name = "offdefense",
@@ -69,7 +69,7 @@ class Game(commands.Cog, Utils):
         else:
             self.add_stats(ctx.author.id, -numemus, 'defense')
             self.add_stats(ctx.author.id, numemus, 'storage')
-            msg = '`{}` emu(s) taken off defense. You can check you stats with e!stats'.format(numemus)
+            msg = '`{}` emu(s) taken off defense. You can check your stats with e!stats'.format(numemus)
         await ctx.send(msg)
         
     @commands.command(name = "attack",
