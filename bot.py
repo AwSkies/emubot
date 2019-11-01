@@ -1,5 +1,4 @@
 import discord
-import threading
 
 from cogs.UtilsLib import Utils
 from discord.ext import commands
