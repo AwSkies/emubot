@@ -1,6 +1,6 @@
+import asyncio
 import discord
 import random
-import asyncio
 import threading
 
 from discord.ext import commands
