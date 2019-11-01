@@ -67,8 +67,8 @@ class Game(commands.Cog, Utils):
         elif numemus > self.get_stats(ctx.author.id, 'defense'):
             msg = "You don't have that many emus on defense to take off!"
         else:
-            self.add_stats(ctx.author.id, numemus, 'defense')
-            self.add_stats(ctx.author.id, -numemus, 'storage')
+            self.add_stats(ctx.author.id, -numemus, 'defense')
+            self.add_stats(ctx.author.id, numemus, 'storage')
             msg = '`{}` emu(s) taken off defense. You can check you stats with e!stats'.format(numemus)
         await ctx.send(msg)
         
