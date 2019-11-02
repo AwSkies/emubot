@@ -1,7 +1,7 @@
 import discord
 
-from cogs.UtilsLib import Utils
 from discord.ext import commands
+from cogs.UtilsLib import Utils
 
 with open('TOKEN.txt', 'r') as f:
     TOKEN = f.readline()
