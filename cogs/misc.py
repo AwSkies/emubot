@@ -26,6 +26,7 @@ class Misc(commands.Cog, Utils):
             else:
                 embed.add_field(name = name, value = ' '.join(args), inline=False)
             embed.set_footer(text = "-" + str(ctx.author))
+            await ctx.message.delete()
             await ctx.send(embed=embed)
 
     @commands.command(name = "gamexplain",
@@ -58,6 +59,7 @@ class Misc(commands.Cog, Utils):
             msg = args[0]
         else:
             msg = ' '.join(args)
+        await ctx.message.delete()
         await ctx.send(msg)
         
     @commands.command(name = "getcredits",
