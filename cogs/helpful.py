@@ -11,7 +11,7 @@ class Helpful(commands.Cog, Utils):
     @commands.command(name = "gamexplain",
                       description = "Gives an explanation to how the Emu Bot game works",
                       aliases = ['gx', 'gameexplain', 'gxplain'],
-                      brief = "Gives an explanation to how the Emu Bot game works",
+                      brief = "How does the Emu Bot game work?",
                       help = "Gives an in-depth explain of how to use the Emu Bot's game commands and how the Emu Bot game works"
 )
     async def gamexplain(self, ctx):
