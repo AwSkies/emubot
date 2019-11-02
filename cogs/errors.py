@@ -23,6 +23,9 @@ class ErrorHandler(commands.Cog, Utils):
         elif isinstance(error, errors.MissingRole):
             msg = "You do not have the required role for this command."
 
+        elif isinstance(error, errors.BadArgument):
+            msg = "Numbers must be whole numbers and mentions must be mentions. Make sure you aren't giving the wrong type of parameter for a command."
+
         elif isinstance(error, errors.CommandOnCooldown):
             msg = error
 
