@@ -16,32 +16,11 @@ class Fun(commands.Cog, Utils):
         await ctx.send(file=discord.File('pictures/emu.jpg'))
 
     @commands.command(
-        name = 'server',
-        description = 'Gives a link to the Emu Bot Habitat, the Emu Bot testing and support server'
-)
-    async def serverlink(self, ctx):
-        await ctx.send('Emu Bot Habitat the Emu Bot testing and support server link:\nhttps://discord.gg/2xEQkKs')
-
-    @commands.command(
-        name = 'website',
-        description = 'Gives a link to the Emu Bot website'
-)
-    async def websitelink(self, ctx):
-        await ctx.send('Emu Bot website link:\nhttps://sites.google.com/view/emu-bot-habitat/home')
-
-    @commands.command(
         name = 'emo',
         description = 'EMO EMU'
 )
     async def emopic(self, ctx):
         await ctx.send(file=discord.File('pictures/emo.jpg'))
-
-    @commands.command(
-        name = 'history',
-        description = 'History of the great war'
-)
-    async def historyytlink(self, ctx):
-        await ctx.send('https://www.youtube.com/watch?v=QzYlI-W4sg8')
 
     @commands.command(
         name = 'wtf',
@@ -182,13 +161,6 @@ class Fun(commands.Cog, Utils):
 )
     async def scoutarticlelink(self, ctx):
         await ctx.send('http://www.abc.net.au/news/2016-10-22/emu-found-wandering-along-arizona-highway/7957198')
-
-    @commands.command(
-        name = 'war',
-        description = 'Information about the great war'
-)
-    async def warwikilink(self, ctx):
-        await ctx.send('https://en.wikipedia.org/wiki/Emu_War')
 
 def setup(bot):
     bot.add_cog(Fun(bot))

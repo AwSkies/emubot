@@ -18,7 +18,7 @@ class EmuBot(commands.Bot, Utils):
                              activity = discord.Game(name = 'Say e!help'))
         Utils.__init__(self)
         
-        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.misc', 'cogs.errors']
+        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.misc', 'cogs.helpful', 'cogs.errors']
         for cog in self.COGS:
             self.load_extension(cog)
             
