@@ -1,4 +1,14 @@
+#stat files
 *.json
+
+#bot token files
 *.txt
+
+#geany project files
+*.geany
+
+#vitual environments
 virtenv/
+
+#cogs pycache
 cogs/__pycache__/
