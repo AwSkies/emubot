@@ -18,29 +18,12 @@ class EmuBot(commands.Bot, Utils):
                              case_insensitive = True)
         Utils.__init__(self)
         
-        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.misc']
+        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.misc', 'cogs.errors']
         for cog in self.COGS:
             self.load_extension(cog)
             
     async def on_message(self, message):
         await self.process_commands(message)
-    
-    async def on_command_error(self, ctx, error):
-        if isinstance(error, commands.errors.CommandNotFound):
-            msg = "That command doesn't exist!"
-        elif isinstance(error, commands.errors.MissingRequiredArgument):
-            msg = "You are not using this command correctly. Use e!help command for information on how to use a a command. The square brackets [] around a word indicate a value you must provide after the command."
-        elif isinstance(error, commands.errors.MissingRole):
-            msg = "You do not have the required role for this command."
-        elif isinstance(error, commands.errors.CommandOnCooldown):
-            msg = error
-        else:
-            msg = error
-            print('Message', ctx.message.content, 'caused exception:')
-            print(error)
-            print(type(error))
-        await ctx.send(msg)
-        
     
     async def on_ready(self):
         print('Logged in as')
