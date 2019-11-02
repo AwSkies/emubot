@@ -8,6 +8,7 @@ from discord.ext.commands.cooldowns import BucketType
 from cogs.UtilsLib import Utils
 
 class Game(commands.Cog, Utils):
+    """Commands that are related to the Emu Bot game. In this game, you can earn credits by chatting, buy emus with those credits, and attack other users with those credits, along with some other cool commands that help you get rich."""
     def __init__(self, bot):
         Utils.__init__(self)
         self.bot = bot
