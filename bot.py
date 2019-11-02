@@ -3,7 +3,6 @@ import discord
 from cogs.UtilsLib import Utils
 from discord.ext import commands
 
-
 with open('TOKEN.txt', 'r') as f:
     TOKEN = f.readline()
 
@@ -15,7 +14,8 @@ class EmuBot(commands.Bot, Utils):
         commands.Bot.__init__(self,
                              command_prefix = ['e!', 'E!'],
                              description = DESCRIPTION,
-                             case_insensitive = True)
+                             case_insensitive = True,
+                             activity = discord.Game(name = 'Say e!help'))
         Utils.__init__(self)
         
         self.COGS = ['cogs.fun', 'cogs.game', 'cogs.misc', 'cogs.errors']
@@ -30,7 +30,6 @@ class EmuBot(commands.Bot, Utils):
         print(self.user.name)
         print(self.user.id)
         print('------')
-        await self.change_presence(activity = discord.Game(name = "Say e!help"))
         
 if __name__ == '__main__':
     b = EmuBot()
