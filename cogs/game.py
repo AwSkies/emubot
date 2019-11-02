@@ -3,8 +3,9 @@ import discord
 import random
 import threading
 
-from discord.ext import commands
 from discord.ext.commands.cooldowns import BucketType
+from discord.ext import commands
+from discord.ext.commands import errors
 from cogs.UtilsLib import Utils
 
 class Game(commands.Cog, Utils):
@@ -126,10 +127,27 @@ class Game(commands.Cog, Utils):
         await ctx.send(msg)
     
     @attack.after_invoke
-    async def removecooldown(self, ctx):
+    async def remove_cooldown(self, ctx):
         if 448272810561896448 in [role.id for role in ctx.author.roles] or not self.ATTACKED:
             self.attack.reset_cooldown(ctx)
         self.ATTACKED[ctx.author.id] = False
+
+    @attack.error
+    async def attack_error_handler(self, ctx, error):
+        if not isinstance(error, errors.CommandOnCooldown):
+            if isinstance(error, errors.BadArgument):
+                msg = "You put the wrong type of value for one of the parameters for this command. Use `e!help attack` to find out how to use it correctly."
+            elif isinstance(error, errors.MissingRequiredArgument):
+                msg = "You did not give a required parameter for this command. Use `e!help attack` to find what you were missing."
+            else:
+                msg = error
+                print('Message', ctx.message.content, 'caused exception:')
+                print(error)
+                print(type(error))
+            self.attack.reset_cooldown(ctx)
+        else:
+            msg = error
+        await ctx.send(msg)
 
     @commands.group(name = "buy",
                     description = "Buys emus",
