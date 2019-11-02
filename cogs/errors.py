@@ -34,6 +34,7 @@ class ErrorHandler(commands.Cog, Utils):
             print('Message', ctx.message.content, 'caused exception:')
             print(error)
             print(type(error))
+            print('------')
         await ctx.send(msg)
 
 def setup(bot):
