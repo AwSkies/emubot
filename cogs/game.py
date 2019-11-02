@@ -58,7 +58,7 @@ class Game(commands.Cog, Utils):
         elif numemus < 1:
             msg = "You can't put less than one emu on defense you trickster!"
         elif self.get_stats(ctx.author.id, 'defense') + numemus > self.MAXDEFENSE:
-            msg = '{} emus on defense would be {} emus over the maximum amount of emus allowed on defense. ({})'.format(numemus, (self.get_stats(ctx.author.id) + numemus) - self.MAXDEFENSE, self.MAXDEFENSE)
+            msg = '{} more emu(s) on defense would be {} emu(s) over the maximum amount of emus allowed on defense. ({})'.format(numemus, (self.get_stats(ctx.author.id, 'defense') + numemus) - self.MAXDEFENSE, self.MAXDEFENSE)
         else:
             self.add_stats(ctx.author.id, numemus, 'defense')
             self.add_stats(ctx.author.id, -numemus, 'storage')
