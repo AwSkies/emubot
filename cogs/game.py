@@ -92,41 +92,43 @@ class Game(commands.Cog, Utils):
 )
     @commands.cooldown(1, Utils.ATTACKCOOLDOWN, BucketType.default)
     async def attack(self, ctx, numemus: int, mention: str):
+        uid = ctx.message.mentions[0].id
         if numemus > self.get_stats(ctx.author.id, 'storage'):
             msg = "You don't have that many emus than you have in storage, you silly emu warlord! Remember, you can buy emus with e!buy!"
         elif numemus <= 0:
             msg = "You can't put less than one emu on attack!"
-        elif emuattacknum > self.MAXATTACK:
+        elif numemus > self.MAXATTACK:
             msg = "That's more than you are allowed to send on attack. ({})".format(self.MAXATTACK)
+        elif uid == self.bot.user.id:
+            msg = "You can't attack me!!!"
+        elif uid == ctx.author.id:
+            msg = "You can't attack yourself!"
         else:
-            uid = ctx.message.mentions[0].id
-            if uid == bot.user.id:
-                msg = "You can't attack me!!!"
-            elif uid == ctx.author.id:
-                msg = "You can't attack yourself!"
-            else:
-                prebattlecredits = self.get_stats(uid, 'credits')
-                creditcalnum = self.CREDITSPEMUATK * (numemus - self.get_stats(uid, 'defense'))
-                #checks if user broke other user's defenses
-                if creditcalnum < 0:
-                    self.add_stats(uid, -numemus, 'defense')
-                else: #  if user broke other user's defenses
-                    #  checks if user being attacked can pay attackee
-                    if prebattlecredits - creditcalnum < 0:
-                        self.add_stats(ctx.author.id, prebattlecredits, 'credits')
-                        self.add_stats(uid, -prebattlecredits, 'credits')
-                    else: 
-                        self.add_stats(ctx.author.id, creditcalnum, 'credits')
-                        self.add_stats(uid, -creditcalnum, 'credits')
-                    self.add_stats(uid, -self.get_stats(uid, 'defense'), 'defense')
-                self.add_stats(ctx.author.id, -numemus, 'storage')
-                msg = '{0.mention} was attacked by {1.author.mention} with `{}` emus and now has `{}` emus left on defense, {4.author.mention} stole `{}` credits.'.format(ctx.message.mentions[0], ctx, str(numemus), self.get_stats(uid, 'defense'), ctx, str(creditcalnum))
-            await ctx.send(msg)
+            prebattlecredits = self.get_stats(uid, 'credits')
+            creditcalnum = self.CREDITSPEMUATK * (numemus - self.get_stats(uid, 'defense'))
+            #checks if user broke other user's defenses
+            if creditcalnum < 0:
+                self.add_stats(uid, -numemus, 'defense')
+            else: #  if user broke other user's defenses
+                #  checks if user being attacked can pay attackee
+                if prebattlecredits - creditcalnum < 0:
+                    self.add_stats(ctx.author.id, prebattlecredits, 'credits')
+                    self.add_stats(uid, -prebattlecredits, 'credits')
+                else: 
+                    self.add_stats(ctx.author.id, creditcalnum, 'credits')
+                    self.add_stats(uid, -creditcalnum, 'credits')
+                self.add_stats(uid, -self.get_stats(uid, 'defense'), 'defense')
+            self.add_stats(ctx.author.id, -numemus, 'storage')
+            msg = '{} was attacked by {} with `{}` emus and now has `{}` emus left on defense, {} stole `{}` credits.'.format(ctx.message.mentions[0].mention, ctx.author.mention, str(numemus), self.get_stats(uid, 'defense'), ctx.author.mention, str(creditcalnum))
+        if not ctx.author.id in self.ATTACKED:
+            self.ATTACKED[ctx.author.id] = False
+        await ctx.send(msg)
     
-    @attack.after_invoke()
+    @attack.after_invoke
     async def removecooldown(self, ctx):
-        if 448272810561896448 in [role.id for role in ctx.author.roles]:
-            attack.reset_cooldown(ctx)
+        if 448272810561896448 in [role.id for role in ctx.author.roles] or not self.ATTACKED:
+            self.attack.reset_cooldown(ctx)
+        self.ATTACKED[ctx.author.id] = False
 
     @commands.group(name = "buy",
                     description = "Buys emus",
@@ -180,7 +182,7 @@ class Game(commands.Cog, Utils):
             msg = "Canceled"
         else:
             msg = "You didn't ask to buy an emu yet..."
-        await bot.send(msg)
+        await ctx.send(msg)
     
     @commands.group(name = "reset",
                     description = "Resets all of your stats",

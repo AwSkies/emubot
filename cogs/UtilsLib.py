@@ -13,7 +13,7 @@ class Utils(object):
         self.ASKEDFORBUYEMU = dict()
         self.ASKEDFORRESET = dict()
         self.SPAMCATCH = dict()
-        self.ATTACKTIMERCATCH = dict()
+        self.ATTACKED = dict()
     
     def add_stats(self, user_id: str, amount: int, valuetype: str):
         if not valuetype in self.ALL_VALUE_TYPES:
@@ -66,8 +66,4 @@ class Utils(object):
             return 0
         
     def spamswitch(self, authorid):
-        self.SPAMCATCH[authorid] = False    
-    
-    def attackswitch(self, authorid):
-        self.ATTACKTIMERCATCH[authorid] = False
-    
+        self.SPAMCATCH[authorid] = False
