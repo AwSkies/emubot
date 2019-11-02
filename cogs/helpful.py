@@ -38,7 +38,8 @@ class Helpful(commands.Cog, Utils):
     @commands.command(
         name = 'website',
         description = 'Gives a link to the Emu Bot website',
-        brief = 'Gives a link to the Emu Bot website'
+        brief = 'Gives a link to the Emu Bot website',
+        aliases = ['site']
 )
     async def websitelink(self, ctx):
         await ctx.send('Emu Bot website link:\nhttps://sites.google.com/view/emu-bot-habitat/home')
