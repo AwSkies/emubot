@@ -111,17 +111,19 @@ class Game(commands.Cog, Utils):
             #checks if user broke other user's defenses
             if creditcalnum < 0:
                 self.add_stats(uid, -numemus, 'defense')
+                creditcalnum = 0
             else: #  if user broke other user's defenses
                 #  checks if user being attacked can pay attackee
                 if prebattlecredits - creditcalnum < 0:
                     self.add_stats(ctx.author.id, prebattlecredits, 'credits')
                     self.add_stats(uid, -prebattlecredits, 'credits')
+                    creditcalnum = 0
                 else: 
                     self.add_stats(ctx.author.id, creditcalnum, 'credits')
                     self.add_stats(uid, -creditcalnum, 'credits')
                 self.add_stats(uid, -self.get_stats(uid, 'defense'), 'defense')
             self.add_stats(ctx.author.id, -numemus, 'storage')
-            msg = '{} was attacked by {} with `{}` emus and now has `{}` emus left on defense, {} stole `{}` credits.'.format(ctx.message.mentions[0].mention, ctx.author.mention, str(numemus), self.get_stats(uid, 'defense'), ctx.author.mention, str(creditcalnum))
+            msg = '{} was attacked by {} with `{}` emu(s) and now has `{}` emu(s) left on defense, {} stole `{}` credits.'.format(ctx.message.mentions[0].mention, ctx.author.mention, str(numemus), self.get_stats(uid, 'defense'), ctx.author.mention, str(creditcalnum))
         if not ctx.author.id in self.ATTACKED:
             self.ATTACKED[ctx.author.id] = False
         await ctx.send(msg)
