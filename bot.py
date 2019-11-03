@@ -15,7 +15,7 @@ class EmuBot(commands.Bot, Utils):
                              command_prefix = ['e!', 'E!'],
                              description = DESCRIPTION,
                              case_insensitive = True,
-                             activity = discord.Game(name = 'Say e!help'))
+                             activity = discord.Game(name = 'Reloading...'))
         Utils.__init__(self)
         
         self.COGS = ['cogs.fun', 'cogs.game', 'cogs.misc', 'cogs.helpful', 'cogs.errors']
@@ -30,6 +30,7 @@ class EmuBot(commands.Bot, Utils):
         print(self.user.name)
         print(self.user.id)
         print('------')
+        await self.change_presence(activity = discord.Game(name = 'Say e!help'))
         
 if __name__ == '__main__':
     b = EmuBot()
