@@ -49,7 +49,7 @@
         elif uid == ctx.author.id:
             msg = "You can't give yourself credits!"
         else:
-            self.add_stats(ctx.message.mention[0].id, numemus, 'credits')
-            self.add_stats(ctx.author.id, -numemus, 'credits')
+            self.add_stats(ctx.message.mention[0].id, numcreds, 'credits')
+            self.add_stats(ctx.author.id, -numcreds, 'credits')
             msg = 'You gave `{}` credits to {1.message.mention[0].mention}.'.format(numcreds, ctx)
         await ctx.send(msg)
