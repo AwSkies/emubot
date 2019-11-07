@@ -87,7 +87,7 @@ class Game(commands.Cog, Utils):
         
     @commands.command(name = "give",
                       description = "Gives credits to another user",
-                      aliases = ['gi'],
+                      aliases = ['gi', 'gift'],
                       brief = "Gives credits to another user",
                       help = "Gifts other users your credits. Only do this if you really want to, because they will not give them back most likely.",
                       usage = "[number] [@mention]"
