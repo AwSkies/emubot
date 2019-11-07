@@ -107,7 +107,7 @@ class Game(commands.Cog, Utils):
         else:
             self.add_stats(ctx.message.mentions[0].id, numcreds, 'credits')
             self.add_stats(ctx.author.id, -numcreds, 'credits')
-            msg = 'You gave `{0}` credits to {1.message.mention[0].mention}.'.format(numcreds, ctx)
+            msg = 'You gave `{0}` credits to {1.message.mentions[0].mention}.'.format(numcreds, ctx)
         await ctx.send(msg)
         
     @commands.command(name = "attack",
