@@ -1,5 +1,5 @@
 # Emu Bot
-[![Discord Bots](https://discordbots.org/api/widget/439498974487904256.svg)](https://discordbots.org/bot/439498974487904256 "Emu Bot (discordbots.org)")  
+[![Discord Bots](https://discordbots.org/api/widget/439498974487904256.svg)](https://discordbots.org/bot/439498974487904256 "Emu Bot (top.gg)")  
 ### Links
 [Click here to visit the Emu Bot's website](https://sites.google.com/view/emu-bot-habitat/home "Emu Bot Website")  
 [Click here for the link to invite the Emu Bot to your server (You must have "Manage Server" permissions to do so)](https://www.google.com/url?q=https%3A%2F%2Fdiscordapp.com%2Fapi%2Foauth2%2Fauthorize%3Fclient_id%3D439498974487904256%26permissions%3D325632%26scope%3Dbot&sa=D&sntz=1&usg=AFQjCNE-ju-I6G98FIK40HZXW6aiidSTnw "Add the Emu Bot to your server")  
