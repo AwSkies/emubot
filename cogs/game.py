@@ -171,7 +171,6 @@ class Game(commands.Cog, Utils):
                 print('Message', ctx.message.content, 'caused exception:')
                 print(error)
                 print(type(error))
-                print('------')
             self.attack.reset_cooldown(ctx)
         else:
             msg = error
