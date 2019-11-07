@@ -85,6 +85,31 @@ class Game(commands.Cog, Utils):
             msg = '`{}` emu(s) taken off defense. You can check your stats with e!stats'.format(numemus)
         await ctx.send(msg)
         
+    @commands.command(name = "give",
+                      description = "Gives credits to another user",
+                      aliases = ['gi'],
+                      brief = "Gives credits to another user",
+                      help = "Gifts other users your credits. Only do this if you really want to, because they will not give them back most likely.",
+                      usage = "[number] [@mention]"
+)
+    async def give(self, ctx, numcreds: int, mention: str):
+        uid = ctx.message.mentions[0].id
+        if not self.get_stats(ctx.author.id, 'credits') > 0:
+            msg = 'You have no credits to give!'
+        elif numcreds < 1:
+            msg = "You can't give less than one credit!"
+        elif numcreds > self.get_stats(ctx.author.id, 'credits'):
+            msg = "You don't have enough credits for that!"
+        elif uid == self.bot.user.id:
+            msg = "You can't give me credits!"
+        elif uid == ctx.author.id:
+            msg = "You can't give yourself credits!"
+        else:
+            self.add_stats(ctx.message.mentions[0].id, numcreds, 'credits')
+            self.add_stats(ctx.author.id, -numcreds, 'credits')
+            msg = 'You gave `{0}` credits to {1.message.mention[0].mention}.'.format(numcreds, ctx)
+        await ctx.send(msg)
+        
     @commands.command(name = "attack",
                       description = "Attacks other users",
                       aliases = ['a', 'at', 'atk', 'attk'],
