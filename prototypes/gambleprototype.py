@@ -122,7 +122,7 @@ gamblecreds = dict()
             msg = "You can't pick from less than one number!"
         else:
             msg = 'Pick a number between 1 and {}. If you wish to cancel, say "cancel".'.format(gamblerange)
-            self.GAMBLEINFO = {ctx.author.id: {}}
+            self.GAMBLEINFO[ctx.author.id] = {}
             self.GAMBLEINFO[ctx.author.id]['started'] = True
             self.GAMBLEINFO[ctx.author.id]['range']   = gamblerange
             self.GAMBLEINFO[ctx.author.id]['credits'] = numcreds
@@ -147,21 +147,23 @@ gamblecreds = dict()
         else:
             num = random.randint(1, gamblerange)
             def dicepicker():
-                dicenum = random.randint(1, 6)
-                if dicenum == 1:
-                    diceface = '<:dice1:559092222545625089>'
-                elif dicenum == 2:
-                    diceface = '<:dice2:559092223044485140>'
-                elif dicenum == 3:
-                    diceface = '<:dice3:559092223040552970>'
-                elif dicenum == 4:
-                    diceface = '<:dice4:559092222935564301>'
-                elif dicenum == 5:
-                    diceface = '<:dice5:559092223052873739>'
-                elif dicenum == 6:
-                    diceface = '<:dice6:559092223145279491>'
-                msg = 'Rolling the dice...' + diceface + diceface
-                return(msg)
+                def facepicker():
+                    dicenum = random.randint(1, 6)
+                    if dicenum == 1:
+                        diceface = '<:dice1:559092222545625089>'
+                    elif dicenum == 2:
+                        diceface = '<:dice2:559092223044485140>'
+                    elif dicenum == 3:
+                        diceface = '<:dice3:559092223040552970>'
+                    elif dicenum == 4:
+                        diceface = '<:dice4:559092222935564301>'
+                    elif dicenum == 5:
+                        diceface = '<:dice5:559092223052873739>'
+                    elif dicenum == 6:
+                        diceface = '<:dice6:559092223145279491>'
+                    return diceface
+                msg = 'Rolling the dice...' + facepicker() + facepicker()
+                return msg
             msg = await ctx.send(dicepicker())
             await asyncio.sleep(1.0)
             for range(2):
