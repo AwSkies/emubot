@@ -305,7 +305,7 @@ class Game(commands.Cog, Utils):
                     aliases = ['g'],
                     brief = "Used to guess a number",
                     help = "Used to guess a number out of the range you specified using the gamble command. You must have previously specified the number of credits and the range.",
-                    usage = 'e!gamble guess [number]'
+                    usage = 'guess [number]'
 )
     async def gambleguess(self, ctx, guessnum: int):
         gamblerange = self.GAMBLEINFO[ctx.author.id]['range']
