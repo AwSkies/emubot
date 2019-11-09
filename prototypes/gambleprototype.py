@@ -109,7 +109,7 @@ gamblecreds = dict()
                     aliases = ["g"],
                     brief = "Gambles your credits (or your life) away...",
                     help = "Pick a number between 1 and a number of your choice, and if you win you will get an amount of credits equal to the credits you gambled time a number proportional to the amount of numbers you picked from.",
-                    usage = "e!gamble [number of credits to gamble] [number of # to choose from]"
+                    usage = "[number of credits to gamble] [number of # to choose from]"
                     invoke_without_command = True
                     case_insensitive = True
 )
