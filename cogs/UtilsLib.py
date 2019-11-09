@@ -14,6 +14,7 @@ class Utils(object):
         self.ASKEDFORRESET = dict()
         self.SPAMCATCH = dict()
         self.ATTACKED = dict()
+        self.GAMBLEINFO = dict()
     
     def add_stats(self, user_id: str, amount: int, valuetype: str):
         if not valuetype in self.ALL_VALUE_TYPES:
