@@ -276,6 +276,94 @@ class Game(commands.Cog, Utils):
             msg = 'You did not ask to reset your stats yet!'
         await ctx.send(msg)
         
+    @commands.group(name = "gamble",
+                    description = "Let's roll the dice...",
+                    aliases = ["g"],
+                    brief = "Gambles your credits (or your life) away...",
+                    help = "Pick a number between 1 and a number of your choice, and if you win you will get an amount of credits equal to the credits you gambled time a number proportional to the amount of numbers you picked from.",
+                    usage = "[number of credits to gamble] [number of # to choose from]"
+                    invoke_without_command = True
+                    case_insensitive = True
+)
+    async def gamble(self, ctx, numcreds: int, gamblerange: int):
+        if numcreds > self.get_stats(ctx.author.id, 'credits'):
+            msg = "You don't have that number of credits to gamble!"
+        elif numcreds < 1:
+            msg = "You can't gamble less than one credit!"
+        elif gamblerange < 1:
+            msg = "You can't pick from less than one number!"
+        else:
+            msg = 'Pick a number between 1 and {}. If you wish to cancel, say "cancel".'.format(gamblerange)
+            self.GAMBLEINFO[ctx.author.id] = {}
+            self.GAMBLEINFO[ctx.author.id]['started'] = True
+            self.GAMBLEINFO[ctx.author.id]['range']   = gamblerange
+            self.GAMBLEINFO[ctx.author.id]['credits'] = numcreds
+        await ctx.send(msg)
+    
+    @gamble.command(name = "guess",
+                    description = "Used to guess a number out of the range you specified using the gamble command",
+                    aliases = ['g'],
+                    brief = "Used to guess a number",
+                    help = "Used to guess a number out of the range you specified using the gamble command. You must have previously specified the number of credits and the range.",
+                    usage = 'e!gamble guess [number]'
+)
+    async def gambleguess(self, ctx, guessnum: int):
+        gamblerange = self.GAMBLEINFO[ctx.author.id]['range']
+        numcreds = self.GAMBLEINFO[ctx.author.id]['credits']
+        if not self.GAMBLEINFO[ctx.author.id]['started'] or not ctx.author.id in self.GAMBLEINFO:
+            msg = "You haven't made a gamble yet! Use e!gamble if you wish to."
+            await ctx.send(msg)
+        elif guessnum < 1 or guessnum > gamblerange:
+            msg = 'Pick a number between 1 and {}. If you wish to cancel, use e!gamble cancel.'.format(gamblerange)
+            await ctx.send(msg)
+        else:
+            num = random.randint(1, gamblerange)
+            def dicepicker():
+                def facepicker():
+                    dicenum = random.randint(1, 6)
+                    if dicenum == 1:
+                        diceface = '<:dice1:559092222545625089>'
+                    elif dicenum == 2:
+                        diceface = '<:dice2:559092223044485140>'
+                    elif dicenum == 3:
+                        diceface = '<:dice3:559092223040552970>'
+                    elif dicenum == 4:
+                        diceface = '<:dice4:559092222935564301>'
+                    elif dicenum == 5:
+                        diceface = '<:dice5:559092223052873739>'
+                    elif dicenum == 6:
+                        diceface = '<:dice6:559092223145279491>'
+                    return diceface
+                msg = 'Rolling the dice...' + facepicker() + facepicker()
+                return msg
+            msg = await ctx.send(dicepicker())
+            await asyncio.sleep(1.0)
+            for range(2):
+                await msg.edit(content = dicepicker())
+                await asyncio.sleep(1.0)
+            if not num == guessnum:
+                self.add_stats(ctx.author.id, -numcreds, "credits")
+                await msg.edit(content = 'Sorry, the number was `{}`. You lost `{}` credits... :('.format(num, numcreds))
+            else:
+                credcalnum = numcreds * int(gamblerange / 2)
+                self.add_stats(ctx.author.id, credcalnum, 'credits')
+                self.GAMBLEINFO[ctx.author.id]['started'] = False
+                self.GAMBLEINFO[ctx.author.id]['range']   = None
+                self.GAMBLEINFO[ctx.author.id]['credits'] = None
+                await msg.edit(content = ':confetti_ball: You won!!! You gained `{}` credits! :woohoo:'.format(credcalnum)
+        
+    @gamble.command(name = "cancel",
+                    aliases = ['c', 'no', 'n'],
+                    hidden = True
+)
+    async def gamblecancel(self, ctx):
+        if not self.GAMBLEINFO[ctx.author.id]['started'] or not ctx.author.id in self.GAMBLEINFO:
+            msg = "You haven't made a gamble yet! Use e!gamble if you wish to."
+        else:
+            msg = 'Canceled'
+            self.GAMBLEINFO[ctx.author.id]['started'] = False
+        await ctx.send(msg)
+        
     @commands.command(name = "getcredits",
                       aliases = ["gc"],
                       hidden = True)
