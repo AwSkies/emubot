@@ -281,8 +281,8 @@ class Game(commands.Cog, Utils):
                     aliases = ["g"],
                     brief = "Gambles your credits (or your life) away...",
                     help = "Pick a number between 1 and a number of your choice, and if you win you will get an amount of credits equal to the credits you gambled time a number proportional to the amount of numbers you picked from.",
-                    usage = "[number of credits to gamble] [number of # to choose from]"
-                    invoke_without_command = True
+                    usage = "[number of credits to gamble] [number of # to choose from]",
+                    invoke_without_command = True,
                     case_insensitive = True
 )
     async def gamble(self, ctx, numcreds: int, gamblerange: int):
@@ -290,10 +290,10 @@ class Game(commands.Cog, Utils):
             msg = "You don't have that number of credits to gamble!"
         elif numcreds < 1:
             msg = "You can't gamble less than one credit!"
-        elif gamblerange < 1:
-            msg = "You can't pick from less than one number!"
+        elif gamblerange <= 1:
+            msg = "You can't pick from one or less than one number!"
         else:
-            msg = 'Pick a number between 1 and {}. If you wish to cancel, say "cancel".'.format(gamblerange)
+            msg = 'Use `e!gamble guess [number]` to pick a number between 1 and {}. If you wish to cancel, `e!gamble cancel` "cancel".'.format(gamblerange)
             self.GAMBLEINFO[ctx.author.id] = {}
             self.GAMBLEINFO[ctx.author.id]['started'] = True
             self.GAMBLEINFO[ctx.author.id]['range']   = gamblerange
@@ -337,10 +337,10 @@ class Game(commands.Cog, Utils):
                 msg = 'Rolling the dice...' + facepicker() + facepicker()
                 return msg
             msg = await ctx.send(dicepicker())
-            await asyncio.sleep(1.0)
-            for range(2):
+            await asyncio.sleep(0.85)
+            for x in range(2):
                 await msg.edit(content = dicepicker())
-                await asyncio.sleep(1.0)
+                await asyncio.sleep(0.85)
             if not num == guessnum:
                 self.add_stats(ctx.author.id, -numcreds, "credits")
                 await msg.edit(content = 'Sorry, the number was `{}`. You lost `{}` credits... :('.format(num, numcreds))
@@ -350,7 +350,7 @@ class Game(commands.Cog, Utils):
                 self.GAMBLEINFO[ctx.author.id]['started'] = False
                 self.GAMBLEINFO[ctx.author.id]['range']   = None
                 self.GAMBLEINFO[ctx.author.id]['credits'] = None
-                await msg.edit(content = ':confetti_ball: You won!!! You gained `{}` credits! :woohoo:'.format(credcalnum)
+                await msg.edit(content = ':confetti_ball: You won!!! You gained `{}` credits! :tada:'.format(credcalnum))
         
     @gamble.command(name = "cancel",
                     aliases = ['c', 'no', 'n'],
