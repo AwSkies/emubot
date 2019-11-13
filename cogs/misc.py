@@ -45,12 +45,12 @@ class Misc(commands.Cog, Utils):
         await ctx.message.delete()
         await ctx.send(msg)
         
-    @commands.command(name = "changestatus",
-                      aliases = ["cs"],
-                      hidden = True
+    @commands.group(name = "changestatus",
+                    aliases = ["cs"],
+                    hidden = True
 )
     @commands.is_owner()
-    async def changegamestatus(self, ctx, *args):
+    async def changestatus(self, ctx, *args):
         if len(args) == 0:
             gamename = "Say e!help"
         elif len(args) == 1:
@@ -60,6 +60,16 @@ class Misc(commands.Cog, Utils):
         game = discord.Game(name = gamename)
         msg = "Status changed to " + gamename
         await self.bot.change_presence(activity = game)
+        await ctx.send(msg)
+        
+    @changestatus.command(name = 'remove',
+                          aliases = ['r', 'rm'],
+                          hidden = True
+)
+    @commands.is_owner()
+    async def reset_status(self, ctx):
+        await self.bot.change_presence(activity = None)
+        msg = 'Removed playing status'
         await ctx.send(msg)
     
 def setup(bot):
