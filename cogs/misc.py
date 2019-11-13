@@ -47,7 +47,9 @@ class Misc(commands.Cog, Utils):
         
     @commands.group(name = "changestatus",
                     aliases = ["cs"],
-                    hidden = True
+                    hidden = True,
+                    invoke_without_command = True,
+                    case_insensitive = True
 )
     @commands.is_owner()
     async def changestatus(self, ctx, *args):
