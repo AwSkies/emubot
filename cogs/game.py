@@ -293,7 +293,7 @@ class Game(commands.Cog, Utils):
         elif gamblerange <= 1:
             msg = "You can't pick from one or less than one number!"
         else:
-            msg = 'Use `e!gamble guess [number]` to pick a number between 1 and {}. If you wish to cancel, `e!gamble cancel` "cancel".'.format(gamblerange)
+            msg = 'Use `e!gamble guess [number]` to pick a number between **1** and **{}**. If you wish to cancel, `e!gamble cancel` "cancel".'.format(gamblerange)
             self.GAMBLEINFO[ctx.author.id] = {}
             self.GAMBLEINFO[ctx.author.id]['started'] = True
             self.GAMBLEINFO[ctx.author.id]['range']   = gamblerange
@@ -314,7 +314,7 @@ class Game(commands.Cog, Utils):
             msg = "You haven't made a gamble yet! Use e!gamble if you wish to."
             await ctx.send(msg)
         elif guessnum < 1 or guessnum > gamblerange:
-            msg = 'Pick a number between 1 and {}. If you wish to cancel, use e!gamble cancel.'.format(gamblerange)
+            msg = 'Pick a number between **1** and **{}**. If you wish to cancel, use e!gamble cancel.'.format(gamblerange)
             await ctx.send(msg)
         else:
             num = random.randint(1, gamblerange)
