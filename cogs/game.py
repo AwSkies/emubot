@@ -142,7 +142,7 @@ class Game(commands.Cog, Utils):
                 if prebattlecredits - creditcalnum < 0:
                     self.add_stats(ctx.author.id, prebattlecredits, 'credits')
                     self.add_stats(uid, -prebattlecredits, 'credits')
-                    creditcalnum = 0
+                    creditcalnum = prebattlecredits
                 else: 
                     self.add_stats(ctx.author.id, creditcalnum, 'credits')
                     self.add_stats(uid, -creditcalnum, 'credits')
