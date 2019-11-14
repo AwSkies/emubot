@@ -64,8 +64,8 @@ class Misc(commands.Cog, Utils):
         await self.bot.change_presence(activity = game)
         await ctx.send(msg)
         
-    @changestatus.command(name = 'remove',
-                          aliases = ['r', 'rm'],
+    @changestatus.command(name = 'clear',
+                          aliases = ['c', 'r', 'rm', 'remove', 'reset'],
                           hidden = True
 )
     @commands.is_owner()
