@@ -9,7 +9,8 @@ with open('TOKEN.txt', 'r') as f:
 class EmuBot(commands.Bot, Utils):
     def __init__(self):
         DESCRIPTION = '''A discord bot to honor our best friends, the emus. 
-        With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.'''
+        With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.
+        This bot was created by CaptainClumsy#3018 with some help from @Beastkin#9390'''
         
         commands.Bot.__init__(self,
                              command_prefix = ['e!', 'E!'],
