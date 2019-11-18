@@ -9,11 +9,12 @@ class Helpful(commands.Cog, Utils):
         Utils.__init__(self)
         self.bot = bot
 
-    @commands.command(name = "gamexplain",
-                      description = "Gives an explanation to how the Emu Bot game works",
-                      aliases = ['gx', 'gameexplain', 'gxplain'],
-                      brief = "How does the Emu Bot game work?",
-                      help = "Gives an in-depth explain of how to use the Emu Bot's game commands and how the Emu Bot game works"
+    @commands.command(
+        name = "gamexplain",
+        description = "Gives an explanation to how the Emu Bot game works",
+        aliases = ['gx', 'gameexplain', 'gxplain'],
+        brief = "How does the Emu Bot game work?",
+        help = "Gives an in-depth explain of how to use the Emu Bot's game commands and how the Emu Bot game works"
 )
     async def gamexplain(self, ctx):
         embed = discord.Embed(title='Game Explanation', description='''**In the emu bot game, you gain credits by participating in chat. You can spend these credits on emus and attack your friends with them.**

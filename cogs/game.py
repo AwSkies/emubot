@@ -24,12 +24,13 @@ class Game(commands.Cog, Utils):
             t = threading.Timer(10.0, spamtimer)
             t.start()
     
-    @commands.command(name = "stats",
-                      description = "Displays your stats",
-                      aliases = ["s"],
-                      brief = "Displays your stats",
-                      help = "Shows you the amount of credits you have, the number of emus in your storage, and the number of emus you have defense.",
-                      usage = "[@user] (if no mention is provided, then it displays your stats)"
+    @commands.command(
+        name = "stats",
+        description = "Displays your stats",
+        aliases = ["s"],
+        brief = "Displays your stats",
+        help = "Shows you the amount of credits you have, the number of emus in your storage, and the number of emus you have defense.",
+        usage = "[@user] (if no mention is provided, then it displays your stats)"
 )
     async def stats(self, ctx, mention = None):
         if not mention == None:
@@ -45,12 +46,13 @@ class Game(commands.Cog, Utils):
         msg += "\n:shield: {} `{}` emu(s) on defense.".format(person, self.get_stats(idfu, 'defense'))
         await ctx.send(msg)
     
-    @commands.command(name = "defend",
-                      description = "Puts emus on defense",
-                      aliases = ['d', 'def', 'defense', 'defence'],
-                      brief = "Puts emus on defense",
-                      help = "Puts emus on defense. Emus on defense can protect against attacks.",
-                      usage = "[# of emus]"
+    @commands.command(
+        name = "defend",
+        description = "Puts emus on defense",
+        aliases = ['d', 'def', 'defense', 'defence'],
+        brief = "Puts emus on defense",
+        help = "Puts emus on defense. Emus on defense can protect against attacks.",
+        usage = "[# of emus]"
 )
     async def defend(self, ctx, numemus: int):
         if not self.get_stats(ctx.author.id, 'storage') > 0:
@@ -65,12 +67,13 @@ class Game(commands.Cog, Utils):
             msg = '`{}` emu(s) added to defense. You can check your stats with e!stats'.format(numemus)
         await ctx.send(msg)
         
-    @commands.command(name = "offdefense",
-                      description = "Takes emus off defense",
-                      aliases = ['od', 'offdef' 'offdefence', 'offdefend'],
-                      brief = "Takes emus off defense",
-                      help = "Takes your emus off of defense and puts them back into your storage",
-                      usage = "[# of emus]"
+    @commands.command(
+        name = "offdefense",
+        description = "Takes emus off defense",
+        aliases = ['od', 'offdef' 'offdefence', 'offdefend'],
+        brief = "Takes emus off defense",
+        help = "Takes your emus off of defense and puts them back into your storage",
+        usage = "[# of emus]"
 )
     async def offdefense(self, ctx, numemus: int):
         if not self.get_stats(ctx.author.id, 'defense') > 0:
@@ -85,12 +88,13 @@ class Game(commands.Cog, Utils):
             msg = '`{}` emu(s) taken off defense. You can check your stats with e!stats'.format(numemus)
         await ctx.send(msg)
         
-    @commands.command(name = "give",
-                      description = "Gives credits to another user",
-                      aliases = ['gi', 'gift'],
-                      brief = "Gives credits to another user",
-                      help = "Gifts other users your credits. Only do this if you really want to, because they will not give them back most likely.",
-                      usage = "[number] [@mention]"
+    @commands.command(
+        name = "give",
+        description = "Gives credits to another user",
+        aliases = ['gi', 'gift'],
+        brief = "Gives credits to another user",
+        help = "Gifts other users your credits. Only do this if you really want to, because they will not give them back most likely.",
+        usage = "[number] [@mention]"
 )
     async def give(self, ctx, numcreds: int, mention: str):
         uid = ctx.message.mentions[0].id
@@ -110,12 +114,13 @@ class Game(commands.Cog, Utils):
             msg = 'You gave `{0}` credits to {1.message.mentions[0].mention}.'.format(numcreds, ctx)
         await ctx.send(msg)
         
-    @commands.command(name = "attack",
-                      description = "Attacks other users",
-                      aliases = ['a', 'at', 'atk', 'attk'],
-                      brief = "Attacks other users",
-                      help = "Attacks other users with the emus you have in storage. If you attack with more emus than they have on defense, then you will steal some of their credits.",
-                      usage = "[# of emus] [@user]"
+    @commands.command(
+        name = "attack",
+        description = "Attacks other users",
+        aliases = ['a', 'at', 'atk', 'attk'],
+        brief = "Attacks other users",
+        help = "Attacks other users with the emus you have in storage. If you attack with more emus than they have on defense, then you will steal some of their credits.",
+        usage = "[# of emus] [@user]"
 )
     @commands.cooldown(1, Utils.ATTACKCOOLDOWN, BucketType.user)
     async def attack(self, ctx, numemus: int, mention: str):
@@ -177,14 +182,15 @@ class Game(commands.Cog, Utils):
             msg = error
         await ctx.send(msg)
 
-    @commands.group(name = "buy",
-                    description = "Buys emus",
-                    aliases = ["b"],
-                    brief = "Buys emus",
-                    help = "Use this command to buy emus which go into your storage. Remember, you can only have a maximum of 20 emus.",
-                    usage = "[# of emus]",
-                    invoke_without_command = True,
-                    case_insensitive = True
+    @commands.group(
+        name = "buy",
+        description = "Buys emus",
+        aliases = ["b"],
+        brief = "Buys emus",
+        help = "Use this command to buy emus which go into your storage. Remember, you can only have a maximum of 20 emus.",
+        usage = "[# of emus]",
+        invoke_without_command = True,
+        case_insensitive = True
 )
     async def buy(self, ctx, numemus: int):
         val = self.get_stats(ctx.author.id, 'credits')
@@ -203,9 +209,10 @@ class Game(commands.Cog, Utils):
                 msg = "You have `{}` credits.\n{} emu(s) costs `{}` credits. If you would like to buy an emu, say e!buy yes. Say e!buy no to cancel.".format(val, numemus, self.EMUPRICE * numemus)
         await ctx.send(msg)
     
-    @buy.command(name = "yes",
-                 aliases = ["y"],
-                 hidden = True
+    @buy.command(
+        name = "yes",
+        aliases = ["y"],
+        hidden = True
 )
     async def buyconfirm(self, ctx):
         if not ctx.author.id in self.ASKEDFORBUYEMU or not self.ASKEDFORBUYEMU[ctx.author.id]['started']:
@@ -219,9 +226,10 @@ class Game(commands.Cog, Utils):
             msg = '''You bought `''' + str(numemus) + '''` emu(s)! Use e!stats to see your stats'''
         await ctx.send(msg)
     
-    @buy.command(name = "no",
-                 aliases = ["n"],
-                 hidden = True
+    @buy.command(
+        name = "no",
+        aliases = ["n"],
+        hidden = True
 )
     async def buycancel(self, ctx):
         if ctx.author.id in self.ASKEDFORBUYEMU and self.ASKEDFORBUYEMU[ctx.author.id]:
@@ -231,22 +239,24 @@ class Game(commands.Cog, Utils):
             msg = "You didn't ask to buy an emu yet..."
         await ctx.send(msg)
     
-    @commands.group(name = "reset",
-                    description = "Resets all of your stats",
-                    aliases = ["r"],
-                    brief = "Resets all of your stats",
-                    help = "Resets all of your stats back to 0, restarting your experience with the emu bot game",
-                    invoke_without_command = True,
-                    case_insensitive = True
+    @commands.group(
+        name = "reset",
+        description = "Resets all of your stats",
+        aliases = ["r"],
+        brief = "Resets all of your stats",
+        help = "Resets all of your stats back to 0, restarting your experience with the emu bot game",
+        invoke_without_command = True,
+        case_insensitive = True
 )
     async def reset(self, ctx):
         self.ASKEDFORRESET[ctx.author.id] = True
         msg = '''Are you sure you want to reset ***all*** of your stats? You'll lose everything! If you're sure, use e!reset yes. To cancel, say e!reset no'''
         await ctx.send(msg)
     
-    @reset.command(name = 'yes',
-                  aliases = ['y'],
-                  hidden = True
+    @reset.command(
+        name = 'yes',
+        aliases = ['y'],
+        hidden = True
 )
     async def resetconfirm(self, ctx):
         caid = ctx.author.id
@@ -263,9 +273,10 @@ class Game(commands.Cog, Utils):
             msg = 'You did not ask to reset your stats yet!'
         await ctx.send(msg)
         
-    @reset.command(name = 'no',
-                   aliases = ['n'],
-                   hidden = True
+    @reset.command(
+        name = 'no',
+        aliases = ['n'],
+        hidden = True
 )
     async def resetcancel(self, ctx):
         caid = ctx.author.id
@@ -276,14 +287,15 @@ class Game(commands.Cog, Utils):
             msg = 'You did not ask to reset your stats yet!'
         await ctx.send(msg)
         
-    @commands.group(name = "gamble",
-                    description = "Let's roll the dice...",
-                    aliases = ["g"],
-                    brief = "Gambles your credits (or your life) away...",
-                    help = "Pick a number between 1 and a number of your choice, and if you win you will get an amount of credits equal to the credits you gambled time a number proportional to the amount of numbers you picked from.",
-                    usage = "[number of credits to gamble] [number of # to choose from]",
-                    invoke_without_command = True,
-                    case_insensitive = True
+    @commands.group(
+        name = "gamble",
+        description = "Let's roll the dice...",
+        aliases = ["g"],
+        brief = "Gambles your credits (or your life) away...",
+        help = "Pick a number between 1 and a number of your choice, and if you win you will get an amount of credits equal to the credits you gambled time a number proportional to the amount of numbers you picked from.",
+        usage = "[number of credits to gamble] [number of # to choose from]",
+        invoke_without_command = True,
+        case_insensitive = True
 )
     async def gamble(self, ctx, numcreds: int, gamblerange: int):
         if numcreds > self.get_stats(ctx.author.id, 'credits'):
@@ -300,12 +312,13 @@ class Game(commands.Cog, Utils):
             self.GAMBLEINFO[ctx.author.id]['credits'] = numcreds
         await ctx.send(msg)
     
-    @gamble.command(name = "guess",
-                    description = "Used to guess a number out of the range you specified using the gamble command",
-                    aliases = ['g'],
-                    brief = "Used to guess a number",
-                    help = "Used to guess a number out of the range you specified using the gamble command. You must have previously specified the number of credits and the range.",
-                    usage = 'guess [number]'
+    @gamble.command(
+        name = "guess",
+        description = "Used to guess a number out of the range you specified using the gamble command",
+        aliases = ['g'],
+        brief = "Used to guess a number",
+        help = "Used to guess a number out of the range you specified using the gamble command. You must have previously specified the number of credits and the range.",
+        usage = 'guess [number]'
 )
     async def gambleguess(self, ctx, guessnum: int):
         if (not self.GAMBLEINFO[ctx.author.id]['started']) or (not ctx.author.id in self.GAMBLEINFO):
@@ -353,9 +366,10 @@ class Game(commands.Cog, Utils):
                     self.GAMBLEINFO[ctx.author.id]['credits'] = None
                     await msg.edit(content = ':confetti_ball: You won!!! You gained `{}` credits! :tada:'.format(credcalnum))
         
-    @gamble.command(name = "cancel",
-                    aliases = ['c', 'no', 'n'],
-                    hidden = True
+    @gamble.command(
+        name = "cancel",
+        aliases = ['c', 'no', 'n'],
+        hidden = True
 )
     async def gamblecancel(self, ctx):
         if not self.GAMBLEINFO[ctx.author.id]['started'] or not ctx.author.id in self.GAMBLEINFO:
@@ -365,18 +379,22 @@ class Game(commands.Cog, Utils):
             self.GAMBLEINFO[ctx.author.id]['started'] = False
         await ctx.send(msg)
         
-    @commands.command(name = "getcredits",
-                      aliases = ["gc"],
-                      hidden = True)
+    @commands.command(
+        name = "getcredits",
+        aliases = ["gc"],
+        hidden = True
+)
     @commands.has_role('Tester')
     async def getcredits(self, ctx, numcredits: int):
         self.add_stats(ctx.author.id, numcredits, 'credits')
         msg = "Got `" + str(numcredits) + "` credits, tester!"
         await ctx.send(msg)
         
-    @commands.command(name = "fillmeup",
-                      aliases = ["fill", "fillup", "fmu", "fm"],
-                      hidden = True)
+    @commands.command(
+        name = "fillmeup",
+        aliases = ["fill", "fillup", "fmu", "fm"],
+        hidden = True
+)
     @commands.has_role('Tester')
     async def testerfill(self, ctx):
         #sets stats to 0
