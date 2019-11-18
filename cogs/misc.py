@@ -9,11 +9,12 @@ class Misc(commands.Cog, Utils):
         Utils.__init__(self)
         self.bot = bot
 
-    @commands.command(name = "say",
-                      description = "Makes the bot say whatever you say",
-                      brief = "Makes the bot say whatever you say",
-                      help = "Makes the bot says whatever you put after the e!say",
-                      usage = '[sentence or "sentence"] - makes the bot say [sentence or "sentence"]'
+    @commands.command(
+        name = "say",
+        description = "Makes the bot say whatever you say",
+        brief = "Makes the bot say whatever you say",
+        help = "Makes the bot says whatever you put after the e!say",
+        usage = '[sentence or "sentence"] - makes the bot say [sentence or "sentence"]'
 )
     async def say(self, ctx, *args):
         if len(args) == 0:
@@ -30,9 +31,10 @@ class Misc(commands.Cog, Utils):
             await ctx.message.delete()
             await ctx.send(embed=embed)
 
-    @commands.command(name = "helpersay",
-                      aliases = ["hsay", "hs"],
-                      hidden = True
+    @commands.command(
+        name = "helpersay",
+        aliases = ["hsay", "hs"],
+        hidden = True
 )
     @commands.has_role('Helpers')
     async def helpersay(self, ctx, *args):
@@ -45,11 +47,12 @@ class Misc(commands.Cog, Utils):
         await ctx.message.delete()
         await ctx.send(msg)
         
-    @commands.group(name = "changestatus",
-                    aliases = ["cs"],
-                    hidden = True,
-                    invoke_without_command = True,
-                    case_insensitive = True
+    @commands.group(
+        name = "changestatus",
+        aliases = ["cs"],
+        hidden = True,
+        invoke_without_command = True,
+        case_insensitive = True
 )
     @commands.is_owner()
     async def changestatus(self, ctx, *args):
@@ -64,9 +67,10 @@ class Misc(commands.Cog, Utils):
         await self.bot.change_presence(activity = game)
         await ctx.send(msg)
         
-    @changestatus.command(name = 'clear',
-                          aliases = ['c', 'r', 'rm', 'remove', 'reset'],
-                          hidden = True
+    @changestatus.command(
+        name = 'clear',
+        aliases = ['c', 'r', 'rm', 'remove', 'reset'],
+        hidden = True
 )
     @commands.is_owner()
     async def reset_status(self, ctx):
