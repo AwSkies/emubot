@@ -308,7 +308,7 @@ class Game(commands.Cog, Utils):
                     usage = 'guess [number]'
 )
     async def gambleguess(self, ctx, guessnum: int):
-        if not self.GAMBLEINFO[ctx.author.id]['started'] or not ctx.author.id in self.GAMBLEINFO:
+        if (not self.GAMBLEINFO[ctx.author.id]['started']) or (not ctx.author.id in self.GAMBLEINFO):
             msg = "You haven't made a gamble yet! Use e!gamble if you wish to."
             await ctx.send(msg)
         else:
