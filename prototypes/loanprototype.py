@@ -95,7 +95,7 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             with open('loans.json', 'w') as fp:
                 json.dump(loaninfo, fp, sort_keys = True, indent = 4)
             self.add_stats(ctx.author.id, principal, 'credits')
-            msg = "You were loaned `" + str(principal) + "` credits with a {}% interest rate per minute! You must return your loan by (?). Remember that final amount is calculated using simple interest and if you don't return your loan in time, all of your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.".format(LOANINTRATE - 1.0)
+            msg = "You were loaned `{}` credits with a {}% interest rate per minute! You must return your loan by (?). Remember that final amount is calculated using simple interest and if you don't return your loan in time, all of your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.".format(principal, int((self.LOANINTRATE - 1.0) * 100))
         await ctx.send(msg)
                                                                                                                                          
     @loan.command(name = "check",
@@ -106,10 +106,10 @@ LOAN_INTEREST_RATE = 1.01 #per minute
                   usage = "e!loan check"
 )
     async def checkloan(self, ctx):
-        if not ctx.author.id in self.REQUESTEDLOAN or not self.REQUESTEDLOAN[ctx.author.id]['active']):
+        if (not ctx.author.id in self.REQUESTEDLOAN) or (not self.REQUESTEDLOAN[ctx.author.id]['active']):
             msg = "You don't have a loan to check..."
         else:
-            msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan by (?), or all your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.'.format(?, self.LOANINTRATE - 1.0)
+            msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan by (?), or all your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.'.format(?, int((self.LOANINTRATE - 1.0) * 100))
         ctx.send(msg)
         
     @loan.command(name = "return",
