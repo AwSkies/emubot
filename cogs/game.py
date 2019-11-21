@@ -120,7 +120,8 @@ class Game(commands.Cog, Utils):
         aliases = ['a', 'at', 'atk', 'attk'],
         brief = "Attacks other users",
         help = "Attacks other users with the emus you have in storage. If you attack with more emus than they have on defense, then you will steal some of their credits.",
-        usage = "[# of emus] [@user]"
+        usage = "[# of emus] [@user]",
+        cooldown_after_parsing = True
 )
     @commands.cooldown(1, Utils.ATTACKCOOLDOWN, BucketType.user)
     async def attack(self, ctx, numemus: int, mention: str):
@@ -154,13 +155,14 @@ class Game(commands.Cog, Utils):
                 self.add_stats(uid, -self.get_stats(uid, 'defense'), 'defense')
             self.add_stats(ctx.author.id, -numemus, 'storage')
             msg = '{} was attacked by {} with `{}` emu(s) and now has `{}` emu(s) left on defense, {} stole `{}` credits.'.format(ctx.message.mentions[0].mention, ctx.author.mention, str(numemus), self.get_stats(uid, 'defense'), ctx.author.mention, str(creditcalnum))
+            self.ATTACKED[ctx.author.id] = True
         if not ctx.author.id in self.ATTACKED:
             self.ATTACKED[ctx.author.id] = False
         await ctx.send(msg)
     
     @attack.after_invoke
     async def remove_cooldown(self, ctx):
-        if 448272810561896448 in [role.id for role in ctx.author.roles] or not self.ATTACKED:
+        if 448272810561896448 in [role.id for role in ctx.author.roles] or not self.ATTACKED[ctx.author.id]:
             self.attack.reset_cooldown(ctx)
         self.ATTACKED[ctx.author.id] = False
 
@@ -177,7 +179,6 @@ class Game(commands.Cog, Utils):
                 print(error)
                 print(type(error))
                 print('-----')
-            self.attack.reset_cooldown(ctx)
         else:
             msg = error
         await ctx.send(msg)
