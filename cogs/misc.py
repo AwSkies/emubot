@@ -23,10 +23,7 @@ class Misc(commands.Cog, Utils):
         else:
             embed = discord.Embed(color = ctx.author.roles[-1].color)
             name = 'The Emu says:'
-            if len(args) == 1:
-                embed.add_field(name = name, value = args[0], inline=False)
-            else:
-                embed.add_field(name = name, value = ' '.join(args), inline=False)
+            embed.add_field(name = name, value = ' '.join(args), inline=False)
             embed.set_footer(text = "-" + str(ctx.author))
             await ctx.message.delete()
             await ctx.send(embed=embed)
@@ -40,8 +37,6 @@ class Misc(commands.Cog, Utils):
     async def helpersay(self, ctx, *args):
         if len(args) == 0:
             msg = "You can't make me send an empty message!"
-        elif len(args) == 1:
-            msg = args[0]
         else:
             msg = ' '.join(args)
         await ctx.message.delete()
@@ -58,8 +53,6 @@ class Misc(commands.Cog, Utils):
     async def changestatus(self, ctx, *args):
         if len(args) == 0:
             gamename = "Say e!help"
-        elif len(args) == 1:
-            gamename = args[0]
         else:
             gamename = ' '.join(args)
         game = discord.Game(name = gamename)
