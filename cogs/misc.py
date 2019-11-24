@@ -27,7 +27,31 @@ class Misc(commands.Cog, Utils):
             embed.set_footer(text = "-" + str(ctx.author))
             await ctx.message.delete()
             await ctx.send(embed=embed)
-
+        
+    @commands.group(
+        name = 'guilds',
+        description = 'Displays the number of guild the Emu Bot is a part of. Thanks to every one for supporting and using the Emu Bot.',
+        brief = 'Guilds the Emu Bot is in',
+        aliases = ['guild', 'servers'],
+        case_insensitive = True,
+        invoke_without_command = True
+)
+    async def guilds(self, ctx):
+        msg = 'The Emu Bot is a part of `{}` guilds. Big thanks to each one for helping out and supporting the Emu Bot.'.format(len(self.bot.guilds))
+        await ctx.send(msg)
+        
+    @guilds.group(
+        name = 'list',
+        description = 'Lists the names of all the guilds the Emu Bot is a part of.',
+        brief = 'Lists guilds the Emu Bot is in',
+        alises = ['l']
+)
+    async def guildlist(self, ctx):
+        msg = '__Guilds the Emu Bot is in:\n__'
+        for guild in self.bot.guilds:
+            msg += '{}\n'.format(guild.name)
+        await ctx.send(msg)
+    
     @commands.command(
         name = "helpersay",
         aliases = ["hsay", "hs"],

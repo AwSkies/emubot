@@ -27,16 +27,6 @@ class Helpful(commands.Cog, Utils):
 -The maximum amount of emus you can attack with at a time is {} emus
 -The amount of emus you attack someone with that go over the amount of emus they have on defense grants you 700 credits for each emu.'''.format(self.MAXEMUS, self.MAXDEFENSE, self.MAXATTACK), color=0x00ff00)
         await ctx.send(embed = embed)
-        
-    @commands.command(
-        name = 'guilds',
-        description = 'Displays the number of guild the Emu Bot is a part of. Thanks to every one for supporting and using the Emu Bot',
-        brief = 'Number of guilds the Emu Bot is in',
-        aliases = ['guild', 'servers']
-)
-    async def guildcounter(self, ctx):
-        msg = 'The Emu Bot is a part of `{}` guilds. Big thanks to each one for helping out and supporting the Emu Bot.'.format(len(self.bot.guilds))
-        await ctx.send(msg)
 
     @commands.command(
         name = 'server',
