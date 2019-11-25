@@ -15,7 +15,6 @@ Yes, the Emu Bot and all features attached are free.
 The Emu Bot has tons of cool features and allows to attack your friends with the credits you earned by participating in chat.  
 ### About This Repository
 This repository is the code for the Emu Bot Discord bot  
-The Prototypes folder is for drafting new commands/concepts in a safe and clutter-free environment.  
-The Examples/Tests folder is for files that give an example for how to do something/I used to test probably using the dummy bot  
+The Prototypes folder is for drafting new commands/concepts in a safe and clutter-free environment.   
 The Pictures folder is for the picture commands (it will upload them)  
 To any would-be hijackers who have found the token deep within the history of this repository, it won't work. If you truly know how this works, you should've figured out by now that that token is very old and was changed and hidden away where you'll never find it.  
