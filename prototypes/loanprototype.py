@@ -70,14 +70,15 @@ LOAN_INTEREST_RATE = 1.01 #per minute
     #loan command for discord.py rewrite
     self.LOANINTRATE = 1.01 #per minute                                                                                                                              
                                                                                                                                   
-    @commands.group(name = "loan",
-                    description = "Loans you credits with interest",
-                    aliases = ["l"],
-                    brief = "Loans you credits with interest",
-                    help = "Loans you however many credits you want for 1% interest per minute.",
-                    usage = "e!loan [principal]",
-                    invoke_without_command = True,
-                    case_insensitive = True
+    @commands.group(
+        name = "loan",
+        description = "Loans you credits with interest",
+        aliases = ["l"],
+        brief = "Loans you credits with interest",
+        help = "Loans you however many credits you want for 1% interest per minute.",
+        usage = "[principal]",
+        invoke_without_command = True,
+        case_insensitive = True
 )
     async def loan(self, ctx, principal: int):
         val = self.get_stats(ctx.author.id, 'credits')
@@ -98,12 +99,12 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             msg = "You were loaned `{}` credits with a {}% interest rate per minute! You must return your loan by (?). Remember that final amount is calculated using simple interest and if you don't return your loan in time, all of your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.".format(principal, int((self.LOANINTRATE - 1.0) * 100))
         await ctx.send(msg)
                                                                                                                                          
-    @loan.command(name = "check",
-                  description = "Displays info about your loan",
-                  aliases = ["c"],
-                  brief = "Displays info about your loan",
-                  help = "Checks how much time you have on your loan and how much money its for.",
-                  usage = "e!loan check"
+    @loan.command(
+        name = "check",
+        description = "Displays info about your loan",
+        aliases = ["c"],
+        brief = "Displays info about your loan",
+        help = "Checks how much time you have on your loan and how much money its for."
 )
     async def checkloan(self, ctx):
         if (not ctx.author.id in self.REQUESTEDLOAN) or (not self.REQUESTEDLOAN[ctx.author.id]['active']):
@@ -112,12 +113,12 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan by (?), or all your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.'.format(?, int((self.LOANINTRATE - 1.0) * 100))
         ctx.send(msg)
         
-    @loan.command(name = "return",
-                  description = "Returns the money you owe",
-                  aliases = ["r", "ret"],
-                  brief = "Returns the money you owe",
-                  help = "Gives back the money you borrowed for you loan.",
-                  usage = "e!loan return"
+    @loan.command(
+        name = "return",
+        description = "Returns the money you owe",
+        aliases = ["r", "ret"],
+        brief = "Returns the money you owe",
+        help = "Gives back the money you borrowed for you loan."
 )
     async def returnloan(self, ctx):
         if not ctx.author.id in self.REQUESTEDLOAN or not self.REQUESTEDLOAN[ctx.author.id]['active']):
