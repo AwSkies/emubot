@@ -68,7 +68,8 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             await client.send_message(messsage.channel, msg)
 
     #loan command for discord.py rewrite
-    self.LOANINTRATE = 1.01 #per minute                                                                                                                              
+    self.LOANINTRATE = 1.01 #per minute
+    self.REQUESTEDLOAN = dict()
                                                                                                                                   
     @commands.group(
         name = "loan",
@@ -92,6 +93,7 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             self.REQUESTEDLOAN = {ctx.author.id: {}}
             self.REQUESTEDLOAN[ctx.author.id]['active'] = True
             self.REQUESTEDLOAN[ctx.author.id]['principal'] = principal
+            self.REQUESTEDLOAN[ctx.author.id]['current'] = principal
             self.REQUESTEDLOAN[ctx.author.id]['time'] = time
             with open('loans.json', 'w') as fp:
                 json.dump(loaninfo, fp, sort_keys = True, indent = 4)
@@ -110,8 +112,8 @@ LOAN_INTEREST_RATE = 1.01 #per minute
         if (not ctx.author.id in self.REQUESTEDLOAN) or (not self.REQUESTEDLOAN[ctx.author.id]['active']):
             msg = "You don't have a loan to check..."
         else:
-            msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan by (?), or all your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.'.format(?, int((self.LOANINTRATE - 1.0) * 100))
-        ctx.send(msg)
+            msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan by (?), or all your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.'.format(self.REQUESTEDLOAN[ctx.author.id]['current'], int((self.LOANINTRATE - 1.0) * 100))
+        await ctx.send(msg)
         
     @loan.command(
         name = "return",
@@ -123,6 +125,7 @@ LOAN_INTEREST_RATE = 1.01 #per minute
     async def returnloan(self, ctx):
         if not ctx.author.id in self.REQUESTEDLOAN or not self.REQUESTEDLOAN[ctx.author.id]['active']):
             msg = "You don't have a loan to return..."
-        elif self.get_value(ctx.author.id, 'credits') < self.REQUESTEDLOAN[ctx.author.id]['principal']:
+        elif self.get_value(ctx.author.id, 'credits') < self.REQUESTEDLOAN[ctx.author.id]['current']:
             msg = "You don't have enough money to pay off your loan!"
         else:
+        await ctx.send(msg)
