@@ -128,4 +128,10 @@ LOAN_INTEREST_RATE = 1.01 #per minute
         elif self.get_value(ctx.author.id, 'credits') < self.REQUESTEDLOAN[ctx.author.id]['current']:
             msg = "You don't have enough money to pay off your loan!"
         else:
+            msg = "You returned `{}` credits to the emu bank. (Idk what else to say?).".format(self.REQUESTEDLOAN[ctx.author.id]['current']
+            self.REQUESTEDLOAN[ctx.author.id]['active'] = False
+            self.REQUESTEDLOAN[ctx.author.id]['principal'] = 0
+            self.REQUESTEDLOAN[ctx.author.id]['current'] = 0
+            self.REQUESTEDLOAN[ctx.author.id]['time'] = 0
+            self.add_stats(ctx.author.id, -current, 'credits')
         await ctx.send(msg)
