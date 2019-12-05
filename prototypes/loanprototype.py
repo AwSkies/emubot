@@ -130,9 +130,9 @@ LOAN_INTEREST_RATE = 1.01 #per minute
         else:
             msg = "You returned `{}` credits to the emu bank. Your loan is finished".format(self.REQUESTEDLOAN[ctx.author.id]['current']
             current = self.REQUESTEDLOAN[ctx.author.id]['current']
+            self.add_stats(ctx.author.id, -current, 'credits')
             self.REQUESTEDLOAN[ctx.author.id]['active'] = False
             self.REQUESTEDLOAN[ctx.author.id]['principal'] = None
             self.REQUESTEDLOAN[ctx.author.id]['current'] = None
             self.REQUESTEDLOAN[ctx.author.id]['time'] = None
-            self.add_stats(ctx.author.id, -current, 'credits')
         await ctx.send(msg)
