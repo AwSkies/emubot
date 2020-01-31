@@ -50,7 +50,7 @@ class Rewards(commands.Cog, Utils):
         help = 'Register a role as a reward on your server, if you have mange server permissions. Rewards can be bought with credits from the Emu Bot game',
         usage = "[@role mention] [cost] [description]\nRole mention: mention the role (roles to add must be mentionable)\nCost: How many credits the reward costs\nDescription: Write why someone would to have this role. It could be as simple as a color role or give special permissions"
 )
-    @commands.has_guild_permissions(manage_guild = True)
+    @commands.has_guild_permissions(manage_roles = True)
     @commands.bot_has_guild_permissions(manage_roles = True)
     async def add_rewards(self, ctx, r: str, cost: int, *desc):
         role = ctx.message.role_mentions[0]
@@ -83,7 +83,7 @@ class Rewards(commands.Cog, Utils):
         help = 'Remove a role as a reward, if you have manage server permissions',
         usage = '[reward number]'
 )
-    @commands.has_guild_permissions(manage_guild = True)
+    @commands.has_guild_permissions(manage_roles = True)
     @commands.bot_has_guild_permissions(manage_roles = True)
     async def remove_rewards(self, ctx, r: int):
         with open('rewards.json', 'r') as f:
