@@ -1,6 +1,5 @@
 import discord
 import json
-import os.path
 
 from discord.ext import commands
 from cogs.UtilsLib import Utils
