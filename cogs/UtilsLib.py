@@ -5,7 +5,7 @@ class Utils(object):
     ATTACKCOOLDOWN = 14400.0
     def __init__(self):
         self.EMUPRICE = 500
-        self.EMUSELLPRICE = -400
+        self.EMUSELLPRICE = 400
         self.MAXEMUS = 20
         self.MAXDEFENSE = 5
         self.MAXATTACK = 2 * self.MAXDEFENSE
