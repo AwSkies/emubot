@@ -96,5 +96,28 @@ class Rewards(commands.Cog, Utils):
                 json.dump(rewards, f, sort_keys = False, indent = 4)
         await ctx.send(msg)
         
+    @rewards.command(
+        name = 'buy',
+        description = 'Buy a role for credits',
+        aliases = ['b'],
+        brief = 'Buy a role for credits',
+        help = 'Buy a registered role shown using the rewards command with credits',
+        usage = '[@role mention]'
+)
+    @commands.bot_has_guild_permissions(manage_guild = True)
+    async def buy_rewards(self, ctx, r:str):
+        role = ctx.message.role_mentions[0]
+        with open('rewards.json', 'r') as f:
+            rewards = json.load(f)
+        if not role.id in [r['role'] for r in rewards[str(ctx.message.guild.id)]]:
+            msg = "That role isn't registered as a reward."
+        elif ? > get_value(message.author.id, 'credits'):
+            msg = "You don't have enough credits to buy that role!" 
+        else:
+            user_add_value(message.author.id, -?, "credits")
+            msg = "You purchased the role {} for {} credits!".format(?, ?)
+    await ctx.send(msg)
+    
+    
 def setup(bot):
     bot.add_cog(Rewards(bot))
