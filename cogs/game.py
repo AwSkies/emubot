@@ -243,7 +243,7 @@ class Game(commands.Cog, Utils):
     @commands.group(
         name = "reset",
         description = "Resets all of your stats",
-        aliases = ["r"],
+        aliases = ["re", 'res'],
         brief = "Resets all of your stats",
         help = "Resets all of your stats back to 0, restarting your experience with the emu bot game",
         invoke_without_command = True,
