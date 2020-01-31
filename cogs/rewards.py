@@ -43,18 +43,20 @@ class Rewards(commands.Cog, Utils):
         description = 'Register a role as a reward',
         aliases = ['a', 'register', 'r'],
         brief = 'Add a role as a reward (for admins)',
-        help = 'Register a role as a reward on your server. Rewards can be bought with credits from the Emu Bot game',
-        usage = "[@role mention or role name] [cost] [description]\nRole mention: mention the role (roles to add must be mentionable)\nCost: How many credits the reward costs\nDescription: Write why someone would to have this role. It could be as simple as a color role or give special permissions"
+        help = 'Register a role as a reward on your server, if you have mange server permissions. Rewards can be bought with credits from the Emu Bot game',
+        usage = "[@role mention] [cost] [description]\nRole mention: mention the role (roles to add must be mentionable)\nCost: How many credits the reward costs\nDescription: Write why someone would to have this role. It could be as simple as a color role or give special permissions"
 )
     @commands.has_guild_permissions(manage_guild = True)
     @commands.bot_has_guild_permissions(manage_guild = True)
     async def add_rewards(self, ctx, r: str, cost: int, *desc):
         role = ctx.message.role_mentions[0]
+        with open('rewards.json', 'r') as f:
+            rewards = json.load(f)
         if ctx.message.guild.roles.index(ctx.author.roles[-1]) < ctx.message.guild.roles.index(role):
             msg = "You can't add that role, it's higher than your own"
+        elif role.id in [r['role'] for r in rewards[str(ctx.message.guild.id)]]:
+            msg = 'That role is already added as a reward!'
         else:
-            with open('rewards.json', 'r') as f:
-                rewards = json.load(f)
             adding_reward = {}
             adding_reward['role'] = int(role.id)
             adding_reward['desc'] = ' '.join(desc)
@@ -67,6 +69,31 @@ class Rewards(commands.Cog, Utils):
             with open('rewards.json', 'w') as f:
                 json.dump(rewards, f, sort_keys = False, indent = 4)
             msg = 'Ok! Added role "{}" with description "{}" as a reward with the cost of `{}` credits!'.format(role.name, ' '.join(desc), cost)
+        await ctx.send(msg)
+        
+    @rewards.command(
+        name = 'remove',
+        description = 'Unregister a role as a reward',
+        aliases = ['r', 'unregister', 'ur'],
+        brief = 'Remove a role as a reward',
+        help = 'Remove a role as a reward, if you have manage server permissions',
+        usage = '[@role mention]'
+)
+    @commands.has_guild_permissions(manage_guild = True)
+    @commands.bot_has_guild_permissions(manage_guild = True)
+    async def remove_rewards(self, ctx, r: str):
+        role = ctx.message.role_mentions[0]
+        with open('rewards.json', 'r') as f:
+            rewards = json.load(f)
+        if not role.id in [r['role'] for r in rewards[str(ctx.message.guild.id)]]: 
+            msg = "That role isn't even registered as a reward in the first place!"
+        else:
+            rew = [r for r in rewards[str(ctx.message.guild.id)] if r['role'] == role.id]
+            for r in rew:
+                rew = r
+            del rewards[str(ctx.message.guild.id)][rewards.index(rew)]
+            with open('rewards.json', 'w') as f:
+                json.dump(rewards, f, sort_keys = False, indent = 4)
         await ctx.send(msg)
         
 def setup(bot):
