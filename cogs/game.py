@@ -241,6 +241,59 @@ class Game(commands.Cog, Utils):
         await ctx.send(msg)
     
     @commands.group(
+        name = "sell",
+        description = "Sells emus",
+        aliases = ["se", "sl"],
+        brief = "Sells emus",
+        help = "Use this command to sell emus from you storage for credits.",
+        usage = "[# of emus]",
+        invoke_without_command = True,
+        case_insensitive = True
+)
+    async def sell(self, ctx, numemus: int):
+        if numemus < 1 or numemus > self.get_stats(ctx.author.id, 'storage'):
+            if numemus < 1:
+                msg = "You can't buy sell than one emu you trickster!"
+            if numemus > self.get_stats(ctx.author.id, 'storage'):
+                msg = "That is more than the number of emus you have in your storage! ({})".format(str(self.get_stats(ctx.author.id, 'storage')))
+        else:
+            self.ASKEDFORSELLEMU = {ctx.author.id: {}}
+            self.ASKEDFORSELLEMU[ctx.author.id]['started'] = True
+            self.ASKEDFORSELLEMU[ctx.author.id]['numemus'] = numemus
+            msg = "You have `{}` emus.\n{} emu(s) sell for `{}` credits. If you would like to sell an emu, say e!sell yes. Say e!sell no to cancel.".format(self.get_stats(ctx.author.id, 'storage'), numemus, self.EMUSELLPRICE * numemus)
+        await ctx.send(msg)
+    
+    @sell.command(
+        name = "yes",
+        aliases = ["y"],
+        hidden = True
+)
+    async def sellconfirm(self, ctx):
+        if not ctx.author.id in self.ASKEDFORSELLEMU or not self.ASKEDFORSELLEMU[ctx.author.id]['started']:
+            msg = "You did not ask to sell an emu yet..."
+        else:
+            numemus = self.ASKEDFORSELLEMU[ctx.author.id]['numemus']
+            self.ASKEDFORSELLEMU[ctx.author.id]['numemus'] = None
+            self.ASKEDFORSELLEMU[ctx.author.id]['started'] = False
+            self.add_stats(ctx.author.id, (self.EMUSELLPRICE * numemus), 'credits')
+            self.add_stats(ctx.author.id, -(numemus), 'storage')
+            msg = '''You sold `''' + str(numemus) + '''` emu(s)! Use e!stats to check your stats.'''
+        await ctx.send(msg)
+    
+    @buy.command(
+        name = "no",
+        aliases = ["n"],
+        hidden = True
+)
+    async def buycancel(self, ctx):
+        if ctx.author.id in self.ASKEDFORSELLEMU and self.ASKEDFORSELLEMU[ctx.author.id]:
+            self.ASKEDFORSELLEMU[ctx.author.id] = False
+            msg = "Canceled"
+        else:
+            msg = "You didn't ask to sell an emu yet..."
+        await ctx.send(msg)
+    
+    @commands.group(
         name = "reset",
         description = "Resets all of your stats",
         aliases = ["r"],
