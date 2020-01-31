@@ -14,7 +14,7 @@ class Rewards(commands.Cog, Utils):
     @commands.group(
         name = 'rewards',
         description = 'Lists rewards in this server',
-        aliases = ['r', 'rs'],
+        aliases = ['reward', 'r', 'rs'],
         brief = 'Lists available rewards',
         help = 'Lists roles available as rewards in this server',
         invoke_without_command = True,
@@ -28,9 +28,13 @@ class Rewards(commands.Cog, Utils):
             rewards = rewards[str(ctx.message.guild.id)]
             embed = discord.Embed(color = ctx.message.guild.roles[-1].color)
             name = 'Rewards for {}'.format(ctx.guild.name)
-            embed.add_field(name = name, value = 'Rewards can be bought with credits earned in the Emu Bot game', inline = False)
+            embed.add_field(name = name, 
+                            value = 'Rewards can be bought with credits earned in the Emu Bot game. \nUse e!rewards buy [reward number] to buy a reward, and for moderators, use e!rewards add [@role mention] [cost] [description] to add a role as a reward and use e!rewards remove [reward number] to remove a role as a reward on your server.', 
+                            inline = False)
+            i = 0
             for r in rewards:
-                embed.add_field(name = ctx.guild.get_role(r['role']).name,
+                i++
+                embed.add_field(name = '{}. {}'.format(i, ctx.guild.get_role(int(r['role'])).name),
                                 value = 'Description: {} \nCost: {} credit(s)'.format(r['desc'], r['cost']),
                                 inline = False)
             await ctx.send(embed=embed)
@@ -47,7 +51,7 @@ class Rewards(commands.Cog, Utils):
         usage = "[@role mention] [cost] [description]\nRole mention: mention the role (roles to add must be mentionable)\nCost: How many credits the reward costs\nDescription: Write why someone would to have this role. It could be as simple as a color role or give special permissions"
 )
     @commands.has_guild_permissions(manage_guild = True)
-    @commands.bot_has_guild_permissions(manage_guild = True)
+    @commands.bot_has_guild_permissions(manage_roles = True)
     async def add_rewards(self, ctx, r: str, cost: int, *desc):
         role = ctx.message.role_mentions[0]
         with open('rewards.json', 'r') as f:
@@ -77,23 +81,22 @@ class Rewards(commands.Cog, Utils):
         aliases = ['r', 'unregister', 'ur'],
         brief = 'Remove a role as a reward',
         help = 'Remove a role as a reward, if you have manage server permissions',
-        usage = '[@role mention]'
+        usage = '[reward number]'
 )
     @commands.has_guild_permissions(manage_guild = True)
-    @commands.bot_has_guild_permissions(manage_guild = True)
-    async def remove_rewards(self, ctx, r: str):
-        role = ctx.message.role_mentions[0]
+    @commands.bot_has_guild_permissions(manage_roles = True)
+    async def remove_rewards(self, ctx, r: int):
         with open('rewards.json', 'r') as f:
             rewards = json.load(f)
-        if not role.id in [r['role'] for r in rewards[str(ctx.message.guild.id)]]: 
-            msg = "That role isn't even registered as a reward in the first place!"
-        else:
-            rew = [r for r in rewards[str(ctx.message.guild.id)] if r['role'] == role.id]
-            for r in rew:
-                rew = r
-            del rewards[str(ctx.message.guild.id)][rewards.index(rew)]
-            with open('rewards.json', 'w') as f:
-                json.dump(rewards, f, sort_keys = False, indent = 4)
+        try:
+            if len(rewards) < r: 
+                msg = "You're trying to remove a reward that isn't even registered in the first place!"
+            else:
+                del rewards[str(ctx.message.guild.id)][r - 1]
+                with open('rewards.json', 'w') as f:
+                    json.dump(rewards, f, sort_keys = False, indent = 4)
+        except KeyError:
+            msg = 'There are no rewards for this server!'
         await ctx.send(msg)
         
     @rewards.command(
@@ -102,22 +105,27 @@ class Rewards(commands.Cog, Utils):
         aliases = ['b'],
         brief = 'Buy a role for credits',
         help = 'Buy a registered role shown using the rewards command with credits',
-        usage = '[@role mention]'
+        usage = '[reward number]'
 )
-    @commands.bot_has_guild_permissions(manage_guild = True)
-    async def buy_rewards(self, ctx, r:str):
+    @commands.bot_has_guild_permissions(manage_roles = True)
+    async def buy_rewards(self, ctx, r: str):
         role = ctx.message.role_mentions[0]
         with open('rewards.json', 'r') as f:
             rewards = json.load(f)
-        if not role.id in [r['role'] for r in rewards[str(ctx.message.guild.id)]]:
-            msg = "That role isn't registered as a reward."
-        elif ? > get_value(message.author.id, 'credits'):
-            msg = "You don't have enough credits to buy that role!" 
-        else:
-            user_add_value(message.author.id, -?, "credits")
-            msg = "You purchased the role {} for {} credits!".format(?, ?)
-    await ctx.send(msg)
-    
+        try:
+            rewards = rewards[str(ctx.message.guild.id)]
+            reward = rewards[r - 1]
+            if len(rewards) < r:
+                msg = "You're trying to get a reward that isn't even registered in the first place!"
+            elif reward['cost'] > get_value(message.author.id, 'credits'):
+                msg = "You don't have enough credits to buy that role!" 
+            else:
+                self.add_stats(ctx.author.id, -reward['cost'], "credits")
+                ctx.author.add_roles(ctx.message.guild.get_role(int(reward['role']))
+                msg = "You purchased the role {} for {} credits!".format(ctx.message.guild.get_role(int(reward['role'])).name, reward['cost'])
+        except KeyError:
+            msg = 'There are no rewards for this server!'
+        await ctx.send(msg)
     
 def setup(bot):
     bot.add_cog(Rewards(bot))
