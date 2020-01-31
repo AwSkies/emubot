@@ -12,6 +12,7 @@ class Utils(object):
         self.CREDITSPEMUATK = self.EMUPRICE + 200
         self.ALL_VALUE_TYPES = ['credits', 'storage', 'defense']
         self.ASKEDFORBUYEMU = dict()
+        self.ASKEDFORSELLEMU = dict()
         self.ASKEDFORRESET = dict()
         self.SPAMCATCH = dict()
         self.ATTACKED = dict()
