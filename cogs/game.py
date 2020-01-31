@@ -280,12 +280,12 @@ class Game(commands.Cog, Utils):
             msg = '''You sold `''' + str(numemus) + '''` emu(s)! Use e!stats to check your stats.'''
         await ctx.send(msg)
     
-    @buy.command(
+    @sell.command(
         name = "no",
         aliases = ["n"],
         hidden = True
 )
-    async def buycancel(self, ctx):
+    async def sellcancel(self, ctx):
         if ctx.author.id in self.ASKEDFORSELLEMU and self.ASKEDFORSELLEMU[ctx.author.id]:
             self.ASKEDFORSELLEMU[ctx.author.id] = False
             msg = "Canceled"
