@@ -115,13 +115,18 @@ class Rewards(commands.Cog, Utils):
         try:
             rewards = rewards[str(ctx.message.guild.id)]
             reward = rewards[r - 1]
+            role = ctx.message.guild.get_role(int(rewards['role']))
             if len(rewards) < r:
                 msg = "You're trying to get a reward that isn't even registered in the first place!"
-            elif reward['cost'] > get_value(message.author.id, 'credits'):
+            elif reward['cost'] > self.get_value(message.author.id, 'credits'):
                 msg = "You don't have enough credits to buy that role!" 
+            elif role in ctx.author.roles:
+                msg = 'You already have that role!'
+            elif ctx.message.guild.roles.index(ctx.author.roles[-1]) > ctx.message.guild.roles.index(ctx.message.guild.get_member(self.bot.id).roles[-1]):
+                msg = "I can't edit your roles, as you have a higher role than me. Please contact the moderators of the server and ask them to make my role higher so I can opertate to my full capacity."
             else:
                 self.add_stats(ctx.author.id, -reward['cost'], "credits")
-                ctx.author.add_roles(ctx.message.guild.get_role(int(reward['role']))
+                ctx.author.add_roles(role)
                 msg = "You purchased the role {} for {} credits!".format(ctx.message.guild.get_role(int(reward['role'])).name, reward['cost'])
         except KeyError:
             msg = 'There are no rewards for this server!'
