@@ -204,7 +204,7 @@ class Game(commands.Cog, Utils):
             if self.get_stats(ctx.author.id, 'credits') < self.EMUPRICE * numemus:
                 msg = "You have `{}` credits.\nThe number of emus you want to buy cost `".format(val) + str(self.EMUPRICE * numemus) + "` credits. You do not have enough credits to buy those emus."
             else:
-                self.ASKEDFORBUYEMU = {ctx.author.id: {}}
+                self.ASKEDFORBUYEMU[ctx.author.id] = {}
                 self.ASKEDFORBUYEMU[ctx.author.id]['started'] = True
                 self.ASKEDFORBUYEMU[ctx.author.id]['numemus'] = numemus
                 msg = "You have `{}` credits.\n{} emu(s) costs `{}` credits. If you would like to buy an emu, say e!buy yes. Say e!buy no to cancel.".format(val, numemus, self.EMUPRICE * numemus)
@@ -257,7 +257,7 @@ class Game(commands.Cog, Utils):
             if numemus > self.get_stats(ctx.author.id, 'storage'):
                 msg = "That is more than the number of emus you have in your storage! ({})".format(str(self.get_stats(ctx.author.id, 'storage')))
         else:
-            self.ASKEDFORSELLEMU = {ctx.author.id: {}}
+            self.ASKEDFORSELLEMU[ctx.author.id] = {}
             self.ASKEDFORSELLEMU[ctx.author.id]['started'] = True
             self.ASKEDFORSELLEMU[ctx.author.id]['numemus'] = numemus
             msg = "You have `{}` emus.\n{} emu(s) sell for `{}` credits. If you would like to sell an emu, say e!sell yes. Say e!sell no to cancel.".format(self.get_stats(ctx.author.id, 'storage'), numemus, self.EMUSELLPRICE * numemus)
