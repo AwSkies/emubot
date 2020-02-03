@@ -245,7 +245,7 @@ class Game(commands.Cog, Utils):
         description = "Sells emus",
         aliases = ["se", "sl"],
         brief = "Sells emus",
-        help = "Use this command to sell emus from you storage for credits.",
+        help = "Use this command to sell emus from your storage for credits.",
         usage = "[# of emus]",
         invoke_without_command = True,
         case_insensitive = True
