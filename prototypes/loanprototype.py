@@ -21,7 +21,7 @@ LOAN_INTEREST_RATE = 1.01 #per minute
                 msg = "You already have a loan, and you can't get two at once! If you want to pay it off, say e!returnloan."
                 await client.send_message(message.channel, msg)
             else:
-                loantime = (int(datetime.datetime.now().strftime('%d')) * 1440) + int(datetime.datetime.now().strftime('%H') * 60) + int(datetime.datetime.now().strftime('%H')
+                loantime = (int(datetime.datetime.now().strftime('%d')) * 1440) + int(datetime.datetime.now().strftime('%H') * 60) + int(datetime.datetime.now().strftime('%H'))
                 loaninfo = {message.author.id: {}}
                 loaninfo[message.author.id]['time'] = loantime
                 loaninfo[message.author.id]['principal'] = principal
@@ -37,7 +37,8 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             msg = "You don't have a loan to check on!"    
             await client.send_message(message.channel, msg)
         else:
-            #something thats shows what the loan is                                                                                                                             
+            #something thats shows what the loan is
+                                                                                                                                         
                                                                                                                                          
                                                                                                                                          
     #returnloan command --------------------------------------------------------
@@ -90,15 +91,15 @@ LOAN_INTEREST_RATE = 1.01 #per minute
         elif ctx.author.id in self.REQUESTEDLOAN and self.REQUESTEDLOAN[ctx.author.id]['active']):
             msg = "You already have a loan, and you can't get two at once! If you want to pay it off, say e!returnloan."
         else:
-            self.REQUESTEDLOAN = {ctx.author.id: {}}
+            self.REQUESTEDLOAN[ctx.author.id] = {}
             self.REQUESTEDLOAN[ctx.author.id]['active'] = True
             self.REQUESTEDLOAN[ctx.author.id]['principal'] = principal
             self.REQUESTEDLOAN[ctx.author.id]['current'] = principal
-            self.REQUESTEDLOAN[ctx.author.id]['time'] = time
+            self.REQUESTEDLOAN[ctx.author.id]['time'] = (int(datetime.datetime.now().strftime('%d')) * 1440) + int(datetime.datetime.now().strftime('%H') * 60) + int(datetime.datetime.now().strftime('%H'))
             with open('loans.json', 'w') as fp:
                 json.dump(loaninfo, fp, sort_keys = True, indent = 4)
             self.add_stats(ctx.author.id, principal, 'credits')
-            msg = "You were loaned `{}` credits with a {}% interest rate per minute! You must return your loan by (?). Remember that final amount is calculated using simple interest and if you don't return your loan in time, all of your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.".format(principal, int((self.LOANINTRATE - 1.0) * 100))
+            msg = "You were loaned `{}` credits with a {}% interest rate per minute! You must return your loan by {}. Remember that final amount is calculated using simple interest and if you don't return your loan in time, all of your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.".format(principal, int((self.LOANINTRATE - 1.0) * 100), )
         await ctx.send(msg)
                                                                                                                                          
     @loan.command(
@@ -112,7 +113,7 @@ LOAN_INTEREST_RATE = 1.01 #per minute
         if (not ctx.author.id in self.REQUESTEDLOAN) or (not self.REQUESTEDLOAN[ctx.author.id]['active']):
             msg = "You don't have a loan to check..."
         else:
-            msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan by (?), or all your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.'.format(self.REQUESTEDLOAN[ctx.author.id]['current'], int((self.LOANINTRATE - 1.0) * 100))
+            msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan by (?), or all your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.'.format(self.REQUESTEDLOAN[ctx.author.id]['current'], int((self.LOANINTRATE - 1.0) * 100), )
         await ctx.send(msg)
         
     @loan.command(
