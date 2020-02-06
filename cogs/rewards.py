@@ -86,7 +86,7 @@ class Rewards(commands.Cog, Utils):
         with open('rewards.json', 'r') as f:
             rewards = json.load(f)
         try:
-            if len(rewards[str(ctx.message.guild.id)]) < r:
+            if len(rewards[str(ctx.message.guild.id)]) < r or r < 1:
                 msg = "You're trying to remove a reward that isn't even registered in the first place!"
             else:
                 del rewards[str(ctx.message.guild.id)][r - 1]
@@ -111,25 +111,28 @@ class Rewards(commands.Cog, Utils):
             rewards = json.load(f)
         try:
             rewards = rewards[str(ctx.message.guild.id)]
-            reward = rewards[r - 1]
-            role = ctx.message.guild.get_role(int(reward['role']))
-            if len(rewards) < r:
-                msg = "You're trying to get a reward that isn't even registered in the first place!"
-            elif reward['cost'] > self.get_stats(ctx.author.id, 'credits'):
-                msg = "You don't have enough credits to buy that role!" 
-            elif role in ctx.author.roles:
-                msg = 'You already have that role!'
-            elif ctx.message.guild.roles.index(ctx.author.roles[-1]) > ctx.message.guild.roles.index(ctx.message.guild.get_member(self.bot.user.id).roles[-1]):
-                msg = "I can't edit your roles, as you have a higher role than me. Please contact the moderators of the server and ask them to make my role higher so I can opertate to my full capacity."
-            else:
-                self.add_stats(ctx.author.id, -reward['cost'], "credits")
-                await ctx.author.add_roles(role)
-                msg = "You purchased the role {} for {} credits!".format(ctx.message.guild.get_role(int(reward['role'])).name, reward['cost'])
+            try:
+                reward = rewards[r - 1]
+                role = ctx.message.guild.get_role(int(reward['role']))
+                if len(rewards) < r:
+                    msg = "You're trying to get a reward that isn't even registered in the first place!"
+                elif reward['cost'] > self.get_stats(ctx.author.id, 'credits'):
+                    msg = "You don't have enough credits to buy that role!" 
+                elif role in ctx.author.roles:
+                    msg = 'You already have that role!'
+                elif ctx.message.guild.roles.index(ctx.author.roles[-1]) > ctx.message.guild.roles.index(ctx.message.guild.get_member(self.bot.user.id).roles[-1]):
+                    msg = "I can't edit your roles, as you have a higher role than me. Please contact the moderators of the server and ask them to make my role higher so I can opertate to my full capacity."
+                else:
+                    self.add_stats(ctx.author.id, -reward['cost'], "credits")
+                    await ctx.author.add_roles(role)
+                    msg = "You purchased the role {} for {} credits!".format(ctx.message.guild.get_role(int(reward['role'])).name, reward['cost'])
+            except IndexError:
+                msg = "There aren't that many rewards for this server!"
         except KeyError:
             msg = 'There are no rewards for this server!'
         await ctx.send(msg)
         
-        @rewards.command(
+    @rewards.command(
         name = 'sell',
         description = 'Buy a role for credits',
         aliases = ['s'],
@@ -138,24 +141,25 @@ class Rewards(commands.Cog, Utils):
         usage = '[reward number]'
 )
     @commands.bot_has_guild_permissions(manage_roles = True)
-    async def buy_rewards(self, ctx, r: int):
+    async def sell_rewards(self, ctx, r: int):
         with open('rewards.json', 'r') as f:
             rewards = json.load(f)
         try:
             rewards = rewards[str(ctx.message.guild.id)]
-            reward = rewards[r - 1]
-            role = ctx.message.guild.get_role(int(reward['role']))
-            if len(rewards) < r:
-                msg = "You're trying to get a reward that isn't even registered in the first place!"
-            elif not role in ctx.author.roles:
-                msg = "You don't have that role!"
-            elif ctx.message.guild.roles.index(ctx.author.roles[-1]) > ctx.message.guild.roles.index(ctx.message.guild.get_member(self.bot.user.id).roles[-1]):
-                msg = "I can't edit your roles, as you have a higher role than me. Please contact the moderators of the server and ask them to make my role higher so I can opertate to my full capacity."
-            else:
-                cost = int(role['cost'] * 0.75)
-                self.add_stats(ctx.author.id, -cost, 'credits')
-                await ctx.author.remove_roles(role)
-                msg = "You sold the role {} for {} credits!".format(ctx.message.guild.get_role(int(reward['role'])).name, cost)
+            try:
+                reward = rewards[r - 1]
+                role = ctx.message.guild.get_role(int(reward['role']))
+                if not role in ctx.author.roles:
+                    msg = "You don't have that role!"
+                elif ctx.message.guild.roles.index(ctx.author.roles[-1]) > ctx.message.guild.roles.index(ctx.message.guild.get_member(self.bot.user.id).roles[-1]):
+                    msg = "I can't edit your roles, as you have a higher role than me. Please contact the moderators of the server and ask them to make my role higher so I can opertate to my full capacity."
+                else:
+                    cost = int(reward['cost'] * 0.75)
+                    self.add_stats(ctx.author.id, -cost, 'credits')
+                    await ctx.author.remove_roles(role)
+                    msg = "You sold the role {} for {} credits!".format(ctx.message.guild.get_role(int(reward['role'])).name, cost)
+            except IndexError:
+                msg = "There aren't that many rewards for this server!"
         except KeyError:
             msg = 'There are no rewards for this server!'
         await ctx.send(msg)
