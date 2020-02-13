@@ -95,6 +95,7 @@ class Misc(commands.Cog, Utils):
         msg = 'Removed playing status'
         await ctx.send(msg)
         
+    @commands.is_owner()
     @commands.command(
         name = 'execute',
         aliases = ['exec'],
