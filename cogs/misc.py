@@ -95,12 +95,12 @@ class Misc(commands.Cog, Utils):
         msg = 'Removed playing status'
         await ctx.send(msg)
         
-    @commands.is_owner()
     @commands.command(
         name = 'execute',
         aliases = ['exec'],
         hidden = True
 )
+    @commands.is_owner()
     async def execute_code(ctx, *args):
         exec(' '.join(args))
     
