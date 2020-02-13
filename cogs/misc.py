@@ -94,6 +94,14 @@ class Misc(commands.Cog, Utils):
         await self.bot.change_presence(activity = None)
         msg = 'Removed playing status'
         await ctx.send(msg)
+        
+    @commands.command(
+        name = 'execute',
+        aliases = ['exec'],
+        hidden = True
+)
+    async def execute_code(ctx, *args):
+        exec(' '.join(args))
     
 def setup(bot):
     bot.add_cog(Misc(bot))
