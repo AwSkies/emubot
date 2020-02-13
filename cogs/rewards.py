@@ -155,7 +155,7 @@ class Rewards(commands.Cog, Utils):
                     msg = "I can't edit your roles, as you have a higher role than me. Please contact the moderators of the server and ask them to make my role higher so I can opertate to my full capacity."
                 else:
                     cost = int(reward['cost'] * 0.75)
-                    self.add_stats(ctx.author.id, -cost, 'credits')
+                    self.add_stats(ctx.author.id, cost, 'credits')
                     await ctx.author.remove_roles(role)
                     msg = "You sold the role {} for {} credits!".format(ctx.message.guild.get_role(int(reward['role'])).name, cost)
             except IndexError:
