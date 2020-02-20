@@ -101,7 +101,7 @@ class Misc(commands.Cog, Utils):
         hidden = True
 )
     @commands.is_owner()
-    async def execute_code(ctx, *args):
+    async def execute_code(self, ctx, *args):
         exec(' '.join(args))
     
 def setup(bot):
