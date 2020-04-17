@@ -19,7 +19,7 @@ class EmuBot(commands.Bot, Utils):
                              activity = discord.Game(name = 'Reloading...'))
         Utils.__init__(self)
         
-        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.rewards', 'cogs.misc', 'cogs.helpful', 'cogs.errors']
+        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.rewards', 'cogs.misc', 'cogs.helpful', 'cogs.errors', 'cogs.backup']
         for cog in self.COGS:
             self.load_extension(cog)
             

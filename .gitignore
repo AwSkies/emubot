@@ -1,5 +1,6 @@
 #stat files
 *.json
+*.bak
 
 #bot token files
 *.txt
