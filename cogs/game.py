@@ -16,7 +16,7 @@ class Game(commands.Cog, Utils):
         
     @commands.Cog.listener()
     async def on_message(self, message):
-        if (not message.author.id in self.SPAMCATCH) or (message.author.id in self.SPAMCATCH and not self.SPAMCATCH[message.author.id]):
+        if ((not message.author.id in self.SPAMCATCH) or (message.author.id in self.SPAMCATCH and not self.SPAMCATCH[message.author.id])) and (not self.is_disabled(message.author.id)):
             self.add_stats(message.author.id, 10, 'credits')
             self.SPAMCATCH[message.author.id] = True
             def spamtimer():
@@ -24,13 +24,15 @@ class Game(commands.Cog, Utils):
             t = threading.Timer(10.0, spamtimer)
             t.start()
     
-    @commands.command(
+    @commands.group(
         name = "stats",
         description = "Displays your stats",
         aliases = ["s"],
         brief = "Displays your stats",
         help = "Shows you the amount of credits you have, the number of emus in your storage, and the number of emus you have defense.",
-        usage = "[@user] (if no mention is provided, then it displays your stats)"
+        usage = "[@user] (if no mention is provided, then it displays your stats)",
+        invoke_without_command = True,
+        case_insensitive = True
 )
     async def stats(self, ctx, mention = None):
         if not mention == None:
@@ -45,6 +47,75 @@ class Game(commands.Cog, Utils):
         msg += "\n<:emu:439821394700926976> {} `{}` emu(s) in storage.".format(person, self.get_stats(idfu, 'storage'))
         msg += "\n:shield: {} `{}` emu(s) on defense.".format(person, self.get_stats(idfu, 'defense'))
         await ctx.send(msg)
+        
+    @stats.group(
+        name = "disable",
+        description = "Disable your participation in the Emu Bot game",
+        aliases = ['d'],
+        brief = "Stop being able to use stats",
+        help = "If you disable your stats you will be unable to earn credits by chatting and will be unable to use stats or buy emus. You will not be able to attack other users but you will not be able to be attacked.",
+        invoke_without_command = True,
+        case_insensitive = True
+)
+    async def disable_stats(self, ctx):
+        if self.is_disabled(ctx.author.id):
+            msg = 'Your stats are already disabled!'
+        else:
+            self.ASKEDFORDISABLESTATS[ctx.author.id] = True
+            msg = 'Are you sure you want to disable your stats? This will make you unable to participate in the Emu Bot game or use any commands from the "Game" category. To confirm, use `e!stats disable yes`.'
+        await ctx.send(msg)
+        
+    @disable_stats.command(
+        name = 'yes',
+        aliases = ['y'],
+        hidden = True
+)
+    async def disable_confirm(self, ctx):
+        caid = ctx.author.id
+        if caid in self.ASKEDFORDISABLESTATS and self.ASKEDFORDISABLESTATS[caid]:
+            self.ASKEDFORDISABLESTATS[caid] = False
+            self.add_disabled(caid)
+            msg = 'Your stats are now disabled.'
+        else:
+            msg = 'You did not ask to disable your stats yet!'
+        await ctx.send(msg)
+        
+    @disable_stats.command(
+        name = 'no',
+        aliases = ['n'],
+        hidden = True
+)
+    async def disable_cancel(self, ctx):
+        caid = ctx.author.id
+        if caid in self.ASKEDFORDISABLESTATS and self.ASKEDFORDISABLESTATS[caid]:
+            self.ASKEDFORDISABLESTATS[caid] = False
+            msg = 'Canceled'
+        else:
+            msg = 'You did not ask to disable your stats yet!'
+        await ctx.send(msg)
+        
+    @stats.command(
+        name = "enable",
+        description = "Reenable your participation in the Emu Bot game",
+        aliases = ['e'],
+        brief = "Use stats again",
+        help = "Used to guess a number out of the range you specified using the gamble command. You must have previously specified the number of credits and the range."
+)
+    async def enable_stats(self, ctx):
+        if not self.is_disabled(ctx.author.id):
+            msg = 'Your stats are already enabled!'
+        else:
+            self.remove_disabed(caid)
+            msg = 'Your stats are reenabled. You will now be able to earn credits by chatting, buy emus, and attack and be attacked.'
+        await ctx.send(msg)
+        
+    async def cog_check(ctx):
+        if (self.is_disabled(ctx.author.id)) and (not ctx.command == self.enable_stats):
+            msg = 'You have disabled your stats and your participation in the Emu Bot game. To turn on your stats and be able to use all the commands in the "Game" category, use e!stats enable'
+            await ctx.send(msg)
+            return False
+        else: 
+            return True
     
     @commands.command(
         name = "defend",
@@ -372,7 +443,7 @@ class Game(commands.Cog, Utils):
         aliases = ['g'],
         brief = "Used to guess a number",
         help = "Used to guess a number out of the range you specified using the gamble command. You must have previously specified the number of credits and the range.",
-        usage = 'guess [number]'
+        usage = '[number]'
 )
     async def gambleguess(self, ctx, guessnum: int):
         if (not ctx.author.id in self.GAMBLEINFO) or (not self.GAMBLEINFO[ctx.author.id]['started']):

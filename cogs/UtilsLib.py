@@ -14,10 +14,12 @@ class Utils(object):
         self.ASKEDFORBUYEMU = dict()
         self.ASKEDFORSELLEMU = dict()
         self.ASKEDFORRESET = dict()
+        self.ASKEDFORDISABLESTATS = dict()
         self.SPAMCATCH = dict()
         self.ATTACKED = dict()
         self.GAMBLEINFO = dict()
     
+    #normal stats manipulation -----------------------------------------
     def add_stats(self, user_id: str, amount: int, valuetype: str):
         if not valuetype in self.ALL_VALUE_TYPES:
             raise TypeError("valuetype must be " + ', '.join(self.ALL_VALUE_TYPES))
@@ -64,6 +66,46 @@ class Utils(object):
                 return 0
         else:
             return 0
+            
+    #disabled users manipulation ---------------------------------------
+    def get_disabled():
+        if os.path.isfile('disabled.json'):
+            with open('disabled.json', 'r') as f:
+                return json.load(f)
+        else:
+            return []
+            
+    def is_disabled(user_id: int):
+        if user_id in self.get_disabled():
+            return True
+        else:
+            return False
+            
+    def add_disabled(user_id: int):
+        if self.is_disabled():
+            raise RuntimeError('user is already disabled')
+        else:
+            if os.path.isfile('disabled.json'):
+                with open('disabled.json', 'r') as f:
+                    disabled = json.load(f)
+                    disabled += [user_id]
+                    with open('disabled.json', 'w') as f:
+                        json.dump(disabled, f, sort_keys = True, indent = 4)
+            else:
+                with open('disabled.json', 'w') as f:
+                    json.dump([user_id], f, sort_keys = True, indent = 4)
+                
+    def remove_disabed(user_id: int):
+        if os.path.isfile('disabled.json'):
+            if not self.is_disabled(user_id):
+                raise RuntimeError('user is not disabled')
+            else:
+                with open('disabled.json', 'r') as f:
+                    disabled = json.load(f)
+                disabled.remove(user_id)
+                with open('disabled.json', 'w') as f:
+                    json.dump(disabled, f, sort_keys = True, indent = 4)
         
+    #cooldown switch for earning stats through chatting
     def spamswitch(self, authorid):
         self.SPAMCATCH[authorid] = False
