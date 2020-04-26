@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 from cogs.UtilsLib import Utils
 
-with open('TOKEN.txt', 'r') as f:
+with open('bot.token.txt', 'r') as f:
     TOKEN = f.readline()
 
 class EmuBot(commands.Bot, Utils):

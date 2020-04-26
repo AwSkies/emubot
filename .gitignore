@@ -3,7 +3,7 @@
 *.bak
 
 #bot token files
-*.txt
+*.token.txt
 
 #geany project files
 *.geany
@@ -13,3 +13,4 @@ virtenv/
 
 #cogs pycache
 cogs/__pycache__/
+
