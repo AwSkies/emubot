@@ -14,6 +14,9 @@ class ErrorHandler(commands.Cog, Utils):
         if hasattr(ctx.command, 'on_error'):
             return
             
+        elif isinstance(error, errors.CheckFailure):
+            return
+            
         elif isinstance(error, errors.CommandNotFound):
             msg = "That command doesn't exist!"
             

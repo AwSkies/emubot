@@ -68,21 +68,21 @@ class Utils(object):
             return 0
             
     #disabled users manipulation ---------------------------------------
-    def get_disabled():
+    def get_disabled(self):
         if os.path.isfile('disabled.json'):
             with open('disabled.json', 'r') as f:
                 return json.load(f)
         else:
             return []
             
-    def is_disabled(user_id: int):
+    def is_disabled(self, user_id: int):
         if user_id in self.get_disabled():
             return True
         else:
             return False
             
-    def add_disabled(user_id: int):
-        if self.is_disabled():
+    def add_disabled(self, user_id: int):
+        if self.is_disabled(user_id):
             raise RuntimeError('user is already disabled')
         else:
             if os.path.isfile('disabled.json'):
@@ -95,7 +95,7 @@ class Utils(object):
                 with open('disabled.json', 'w') as f:
                     json.dump([user_id], f, sort_keys = True, indent = 4)
                 
-    def remove_disabed(user_id: int):
+    def remove_disabed(self, user_id: int):
         if os.path.isfile('disabled.json'):
             if not self.is_disabled(user_id):
                 raise RuntimeError('user is not disabled')

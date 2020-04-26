@@ -19,13 +19,14 @@ class Helpful(commands.Cog, Utils):
     async def gamexplain(self, ctx):
         embed = discord.Embed(title='Game Explanation', description='''**In the emu bot game, you gain credits by participating in chat. You can spend these credits on emus and attack your friends with them.**
 -You earn credits by sending messages.
--You can use those credits to buy emus
+-You can use those credits to buy emus with `e!buy`
 -The maximum amount of emus you can have is {} emus
--You can put emus on defense
+-You can put emus on defense with `e!defend`
 -The maximum amount of emus on defense is {} emus
--You can also use emus to attack your friends
+-You can also use emus to attack your friends with `e!attack`
 -The maximum amount of emus you can attack with at a time is {} emus
--The amount of emus you attack someone with that go over the amount of emus they have on defense grants you 700 credits for each emu.'''.format(self.MAXEMUS, self.MAXDEFENSE, self.MAXATTACK), color=0x00ff00)
+-The amount of emus you attack someone with that go over the amount of emus they have on defense grants you 700 credits for each emu.
+-You can also opt out of the game completely by using `e!stats disable`'''.format(self.MAXEMUS, self.MAXDEFENSE, self.MAXATTACK), color=0x00ff00)
         await ctx.send(embed = embed)
 
     @commands.command(
