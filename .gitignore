@@ -14,3 +14,5 @@ virtenv/
 #cogs pycache
 cogs/__pycache__/
 
+#promo message file
+promo.txt

@@ -6,11 +6,17 @@ from cogs.UtilsLib import Utils
 with open('bot.token.txt', 'r') as f:
     TOKEN = f.readline()
 
+with open('promo.txt', 'r') as f:
+    PROMO = f.read()
+    if PROMO.endswith('\n'):
+        PROMO = PROMO[:-1]
+
 class EmuBot(commands.Bot, Utils):
     def __init__(self):
         DESCRIPTION = '''A discord bot to honor our best friends, the emus. 
-        With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.
-        This bot was created by CaptainClumsy#3018 with some help from @Beastkin#9390'''
+With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.
+This bot was created by CaptainClumsy#3018 with some help from Beastkin#9390
+{}'''.format(PROMO)
         
         commands.Bot.__init__(self,
                              command_prefix = ['e!', 'E!'],
