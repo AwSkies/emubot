@@ -173,11 +173,11 @@ LOAN_INTEREST_RATE = 1.01 #per minute
                     self.add_stats(user_id, -current, 'credits')
                     msg = 'The time to return your loan is over, and the amount, `{}` credits, has automatically been collected from you.'.format(current)
                 else:
-                    cred = self.get_stats(caid, 'credits')
-                    store = self.get_stats(caid, 'storage')
-                    defse = self.get_stats(caid, 'defense')
-                    self.add_stats(caid, -cred, 'credits')
-                    self.add_stats(caid, -store, 'storage')
-                    self.add_stats(caid, -defse, 'defense')
+                    cred = self.get_stats(user_id, 'credits')
+                    store = self.get_stats(user_id, 'storage')
+                    defse = self.get_stats(user_id, 'defense')
+                    self.add_stats(user_id, -cred, 'credits')
+                    self.add_stats(user_id, -store, 'storage')
+                    self.add_stats(user_id, -defse, 'defense')
                     msg = 'You have not returned your loan in time. All of your stats have been reset.'
                 self.bot.get_user(str(user_id)).send(msg)
