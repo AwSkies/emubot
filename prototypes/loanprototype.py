@@ -68,40 +68,51 @@ LOAN_INTEREST_RATE = 1.01 #per minute
             msg = "You don't have a loan to return!"
             await client.send_message(messsage.channel, msg)
 
-    #loan command for discord.py rewrite
-    self.LOANINTRATE = 1.01 #per minute
-    self.REQUESTEDLOAN = dict()
-                                                                                                                                  
+    #loan command for discord.py rewrite -------------------------------
+    import time
+    import math
+    from discord.ext import commands, tasks
+
+    LOANINTRATE = 1.10 #per minute
+    self.LOAN_CAP = 10000
+    self.LOAN_CREDS_PER_HOUR = 500 
+    
     @commands.group(
         name = "loan",
         description = "Loans you credits with interest",
         aliases = ["l"],
         brief = "Loans you credits with interest",
-        help = "Loans you however many credits you want for 1% interest per minute.",
+        help = "Loans you however many credits you want for {}% interest per minute.".format(int((Utils.LOANINTRATE - 1.0) * 100)),
         usage = "[principal]",
         invoke_without_command = True,
         case_insensitive = True
 )
     async def loan(self, ctx, principal: int):
-        val = self.get_stats(ctx.author.id, 'credits')
         with open('loans.json', 'r') as f:
             loans = json.load(f)
         if principal < 1:
             msg = "You can't choose a principal less than one, silly!"
-        elif ctx.author.id in self.REQUESTEDLOAN and self.REQUESTEDLOAN[ctx.author.id]['active']):
+        elif principal > self.LOAN_CAP:
+            msg = "You can't take out loans greater than `{}` credits!".format(self.LOAN_CAP)
+        elif ctx.author.id in loans and loans[ctx.author.id]['active']):
             msg = "You already have a loan, and you can't get two at once! If you want to pay it off, say e!loan return."
         else:
-            self.REQUESTEDLOAN[ctx.author.id] = {}
-            self.REQUESTEDLOAN[ctx.author.id]['active'] = True
-            self.REQUESTEDLOAN[ctx.author.id]['principal'] = principal
-            self.REQUESTEDLOAN[ctx.author.id]['current'] = principal
-            self.REQUESTEDLOAN[ctx.author.id]['time'] = (int(datetime.datetime.now().strftime('%d')) * 1440) + int(datetime.datetime.now().strftime('%H') * 60) + int(datetime.datetime.now().strftime('%H'))
-            with open('loans.json', 'w') as fp:
-                json.dump(loaninfo, fp, sort_keys = True, indent = 4)
+            loans[ctx.author.id] = {}
+            loans[ctx.author.id]['active'] = True
+            loans[ctx.author.id]['principal'] = principal
+            loans[ctx.author.id]['user_id'] = ctx.author.id
+            startt = int(time.time())
+            t = int((principal / self.LOAN_CREDS_PER_HOUR) * 3600)   #calculate time for one hour, then convert to seconds
+            loans[ctx.author.id]['time'] = t + startt           #add calculated time to current time to get time at which loan is due
+            with open('loans.json', 'w') as f:
+                json.dump(loans, f, sort_keys = True, indent = 4)
             self.add_stats(ctx.author.id, principal, 'credits')
-            msg = "You were loaned `{}` credits with a {}% interest rate per minute! You must return your loan by {}. Remember that final amount is calculated using simple interest and if you don't return your loan in time, all of your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.".format(principal, int((self.LOANINTRATE - 1.0) * 100), int(self.REQUESTEDLOAN[ctx.author.id]['time']))
+            h = int(math.floor(t / 3600))
+            m = int(math.floor((t - (h * 3600)) / 60))
+            s = int(math.floor(t - ((h * 3600) + (m * 60))))
+            msg = "You were loaned `{}` credits with a {}% interest rate per minute! You must return your loan in `{}` hours `{}` minutes and `{}` seconds. Remember that final amount is calculated using simple interest and if you don't return your loan in time, all of your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.".format(principal, int((Utils.LOANINTRATE - 1.0) * 100), d, h, m, s)
         await ctx.send(msg)
-                                                                                                                                         
+        
     @loan.command(
         name = "check",
         description = "Displays info about your loan",
@@ -110,10 +121,17 @@ LOAN_INTEREST_RATE = 1.01 #per minute
         help = "Checks how much time you have on your loan and how much money its for."
 )
     async def checkloan(self, ctx):
-        if (not ctx.author.id in self.REQUESTEDLOAN) or (not self.REQUESTEDLOAN[ctx.author.id]['active']):
+        with open('loans.json', 'r') as f
+            loans = json.load(f)
+        if (not ctx.author.id in loans) or (not loans[ctx.author.id]['active']):
             msg = "You don't have a loan to check..."
         else:
-            msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan by {}, or all your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.'.format(self.REQUESTEDLOAN[ctx.author.id]['current'], int((self.LOANINTRATE - 1.0) * 100), int(self.REQUESTEDLOAN[ctx.author.id]['time']))
+            now = int(time.time())
+            t = int(loans[ctx.author.id]['time'] - now)
+            h = int(math.floor(t / 3600))
+            m = int(math.floor((t - (h * 3600)) / 60))
+            s = int(math.floor(t - ((h * 3600) + (m * 60))))
+            msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan in `{}` hours, `{}` minutes, and `{]` seconds or all your stats will be reset. You can return your loan at any time with `e!loan return`, as long as you have enough money to.'.format(int(loans[ctx.author.id]['principal'] * (Utils.LOANINTRATE / 60) * now), int((Utils.LOANINTRATE - 1.0) * 100), h, m ,s)
         await ctx.send(msg)
         
     @loan.command(
@@ -124,16 +142,42 @@ LOAN_INTEREST_RATE = 1.01 #per minute
         help = "Gives back the money you borrowed for you loan."
 )
     async def returnloan(self, ctx):
-        if not ctx.author.id in self.REQUESTEDLOAN or not self.REQUESTEDLOAN[ctx.author.id]['active']):
+        with open('loans.json', 'r') as f
+            loans = json.load(f)
+        if not ctx.author.id in loans or not loans[ctx.author.id]['active']):
             msg = "You don't have a loan to return..."
-        elif self.get_value(ctx.author.id, 'credits') < self.REQUESTEDLOAN[ctx.author.id]['current']:
+        elif self.get_value(ctx.author.id, 'credits') < loans[ctx.author.id]['current']:
             msg = "You don't have enough money to pay off your loan!"
         else:
-            msg = "You returned `{}` credits to the emu bank. Your loan is finished".format(self.REQUESTEDLOAN[ctx.author.id]['current']
-            current = self.REQUESTEDLOAN[ctx.author.id]['current']
+            msg = "You returned `{}` credits to the emu bank. Your loan is finished".format(loans[ctx.author.id]['current'])
+            current = loans[ctx.author.id]['current']
             self.add_stats(ctx.author.id, -current, 'credits')
-            self.REQUESTEDLOAN[ctx.author.id]['active'] = False
-            self.REQUESTEDLOAN[ctx.author.id]['principal'] = None
-            self.REQUESTEDLOAN[ctx.author.id]['current'] = None
-            self.REQUESTEDLOAN[ctx.author.id]['time'] = None
+            loans[ctx.author.id]['active'] = False
+            loans[ctx.author.id]['principal'] = None
+            loans[ctx.author.id]['user_id'] = None
+            loans[ctx.author.id]['time'] = None
+            with open('loans.json', 'w'):
+                json.dump(loans, f, sort_keys = True, indent = 4)
         await ctx.send(msg)
+        
+    @tasks.loop(seconds = 5)
+    async def loan_check(self):
+        with open('loans.json', 'r') as f:
+            loans = json.load(f)time.time()
+        for user_id in loans:
+            now = int(time.time())
+            loan = loans[user_id]
+            if loan['time'] <= now:
+                current = int(loan['principal'] * (Utils.LOANINTRATE / 60) * now)
+                if self.get_stats(user_id, 'credits') > current:
+                    self.add_stats(user_id, -current, 'credits')
+                    msg = 'The time to return your loan is over, and the amount, `{}` credits, has automatically been collected from you.'.format(current)
+                else:
+                    cred = self.get_stats(caid, 'credits')
+                    store = self.get_stats(caid, 'storage')
+                    defse = self.get_stats(caid, 'defense')
+                    self.add_stats(caid, -cred, 'credits')
+                    self.add_stats(caid, -store, 'storage')
+                    self.add_stats(caid, -defse, 'defense')
+                    msg = 'You have not returned your loan in time. All of your stats have been reset.'
+                self.bot.get_user(str(user_id)).send(msg)
