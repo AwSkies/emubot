@@ -3,6 +3,7 @@ import os.path
 
 class Utils(object):
     ATTACKCOOLDOWN = 14400.0
+    LOANINTRATE = 1.10 #per minute
     def __init__(self):
         self.EMUPRICE = 500
         self.EMUSELLPRICE = 400
@@ -10,6 +11,8 @@ class Utils(object):
         self.MAXDEFENSE = 5
         self.MAXATTACK = 2 * self.MAXDEFENSE
         self.CREDITSPEMUATK = self.EMUPRICE + 200
+        self.LOAN_CAP = 10000
+        self.LOAN_CREDS_PER_HOUR = 500 
         self.ALL_VALUE_TYPES = ['credits', 'storage', 'defense']
         self.ASKEDFORBUYEMU = dict()
         self.ASKEDFORSELLEMU = dict()

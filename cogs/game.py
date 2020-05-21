@@ -1,10 +1,13 @@
 import asyncio
 import discord
+import json
+import math
 import random
 import threading
+import time
 
 from discord.ext.commands.cooldowns import BucketType
-from discord.ext import commands
+from discord.ext import commands, tasks
 from discord.ext.commands import errors
 from cogs.UtilsLib import Utils
 
@@ -13,6 +16,10 @@ class Game(commands.Cog, Utils):
     def __init__(self, bot):
         Utils.__init__(self)
         self.bot = bot
+        self.loan_check.start()
+        
+    def cog_unload(self):
+        self.loan_check.cancel()
         
     @commands.Cog.listener()
     async def on_message(self, message):
@@ -498,7 +505,126 @@ class Game(commands.Cog, Utils):
             msg = 'Canceled'
             self.GAMBLEINFO[ctx.author.id]['started'] = False
         await ctx.send(msg)
+    
+    def calculate_loan(self, Principal: int, start: int):
+        elapsed = int(time.time()) - start
+        current = int(Principal * (Utils.LOANINTRATE / 60) * elapsed)
+        if current < Principal:
+            return Principal
+        else:
+            return current
+    
+    @commands.has_role('Tester')
+    @commands.group(
+        name = "loan",
+        description = "Loans you credits with interest",
+        aliases = ["l"],
+        brief = "Loans you credits with interest",
+        help = "Loans you however many credits you want for {}% interest per minute.".format(int((Utils.LOANINTRATE - 1.0) * 100)),
+        usage = "[principal]",
+        invoke_without_command = True,
+        case_insensitive = True
+)
+    async def loan(self, ctx, principal: int):
+        with open('loans.json', 'r') as f:
+            loans = json.load(f)
+        if principal < 1:
+            msg = "You can't choose a principal less than one, silly!"
+        elif principal > self.LOAN_CAP:
+            msg = "You can't take out loans greater than `{}` credits!".format(self.LOAN_CAP)
+        elif (str(ctx.author.id) in loans) and loans[str(ctx.author.id)]['active']:
+            msg = "You already have a loan, and you can't get two at once! If you want to pay it off, say e!loan return."
+        else:
+            loans[str(ctx.author.id)] = {}
+            loans[str(ctx.author.id)]['active'] = True
+            loans[str(ctx.author.id)]['principal'] = principal
+            loans[str(ctx.author.id)]['user_id'] = ctx.author.id
+            startt = int(time.time())
+            loans[str(ctx.author.id)]['start'] = startt
+            t = int((principal / self.LOAN_CREDS_PER_HOUR) * 3600)   #calculate time for one hour, then convert to seconds
+            loans[str(ctx.author.id)]['time'] = t + startt           #add calculated time to current time to get time at which loan is due
+            with open('loans.json', 'w') as f:
+                json.dump(loans, f, sort_keys = False, indent = 4)
+            self.add_stats(ctx.author.id, principal, 'credits')
+            h = int(math.floor(t / 3600))
+            m = int(math.floor((t - (h * 3600)) / 60))
+            s = int(math.floor(t - ((h * 3600) + (m * 60))))
+            msg = "You were loaned `{}` credits with a {}% interest rate per minute! You must return your loan in `{}` hours `{}` minutes and `{}` seconds. Remember that final amount is calculated using simple interest and if you don't return your loan in time, all of your stats will be reset. You can return your loan at any time with e!returnloan, as long as you have enough money to.".format(principal, int((Utils.LOANINTRATE - 1.0) * 100), h, m, s)
+        await ctx.send(msg)
         
+    @loan.command(
+        name = "check",
+        description = "Displays info about your loan",
+        aliases = ["c"],
+        brief = "Displays info about your loan",
+        help = "Checks how much time you have on your loan and how much money its for."
+)
+    async def checkloan(self, ctx):
+        with open('loans.json', 'r') as f:
+            loans = json.load(f)
+        if (not str(ctx.author.id) in loans) or (not loans[str(ctx.author.id)]['active']):
+            msg = "You don't have a loan to check..."
+        else:
+            now = int(time.time())
+            t = int(loans[str(ctx.author.id)]['time'] - now)
+            h = int(math.floor(t / 3600))
+            m = int(math.floor((t - (h * 3600)) / 60))
+            s = int(math.floor(t - ((h * 3600) + (m * 60))))
+            msg = 'You owe `{}` credits with a {}% interest rate per minute. You must return your loan in `{}` hours, `{}` minutes, and `{}` seconds or all your stats will be reset. You can return your loan at any time with `e!loan return`, as long as you have enough money to.'.format(self.calculate_loan(loans[str(ctx.author.id)]['principal'], loans[str(ctx.author.id)]['start']), int((Utils.LOANINTRATE - 1.0) * 100), h, m ,s)
+        await ctx.send(msg)
+        
+    @loan.command(
+        name = "return",
+        description = "Returns the money you owe",
+        aliases = ["r"],
+        brief = "Returns the money you owe",
+        help = "Gives back the money you borrowed for you loan."
+)
+    async def returnloan(self, ctx):
+        with open('loans.json', 'r') as f:
+            loans = json.load(f)
+        if (not str(ctx.author.id) in loans) or (not loans[str(ctx.author.id)]['active']):
+            msg = "You don't have a loan to return..."
+        elif self.get_stats(ctx.author.id, 'credits') < self.calculate_loan(loans[str(ctx.author.id)]['principal'], loans[str(ctx.author.id)]['start']):
+            msg = "You don't have enough money to pay off your loan!"
+        else:
+            current = self.calculate_loan(loans[str(ctx.author.id)]['principal'], loans[str(ctx.author.id)]['start'])
+            msg = "You returned `{}` credits to the emu bank. Your loan is finished!".format(current)
+            self.add_stats(ctx.author.id, -current, 'credits')
+            del loans[str(ctx.author.id)]
+            with open('loans.json', 'w') as f:
+                json.dump(loans, f, sort_keys = False, indent = 4)
+        await ctx.send(msg)
+        
+    @tasks.loop(seconds = 5)
+    async def loan_check(self):
+        try:
+            with open('loans.json', 'r') as f:
+                loans = json.load(f)
+            loans_original = loans.copy()
+            for user_id in loans_original:
+                now = int(time.time())
+                loan = loans[user_id]
+                if loan['time'] <= now:
+                    current = self.calculate_loan(loan['principal'], loan['start'])
+                    if self.get_stats(user_id, 'credits') > current:
+                        self.add_stats(user_id, -current, 'credits')
+                        msg = 'The time to return your loan is over, and the amount, `{}` credits, has automatically been collected from you.'.format(current)
+                    else:
+                        cred = self.get_stats(user_id, 'credits')
+                        store = self.get_stats(user_id, 'storage')
+                        defse = self.get_stats(user_id, 'defense')
+                        self.add_stats(user_id, -cred, 'credits')
+                        self.add_stats(user_id, -store, 'storage')
+                        self.add_stats(user_id, -defse, 'defense')
+                        msg = 'You have not returned your loan in time. All of your stats have been reset.'
+                    del loans[str(user_id)]
+                    with open('loans.json', 'w') as f:
+                        json.dump(loans, f, sort_keys = False, indent = 4)
+                    await self.bot.get_user(int(user_id)).send(msg)
+        except Exception as e:
+            print(e)
+    
     @commands.command(
         name = "getcredits",
         aliases = ["gc"],
