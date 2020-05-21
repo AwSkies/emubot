@@ -183,7 +183,11 @@ class Game(commands.Cog, Utils):
 )
     async def give(self, ctx, numcreds: int, mention: str):
         uid = ctx.message.mentions[0].id
-        if not self.get_stats(ctx.author.id, 'credits') > 0:
+        with open('loans.json', 'r') as f:
+                loans = json.load(f)
+        if str(ctx.author.id) in loans and loans[str(ctx.author.id)]['active']:
+            msg = 'You cannot give credits while you have a loan taken out. Use `e!loan check` to check the status of your loan or `e!loan return` to return your loan.'
+        elif not self.get_stats(ctx.author.id, 'credits') > 0:
             msg = 'You have no credits to give!'
         elif numcreds < 1:
             msg = "You can't give less than one credit!"
@@ -407,6 +411,12 @@ class Game(commands.Cog, Utils):
             self.add_stats(caid, -cred, 'credits')
             self.add_stats(caid, -store, 'storage')
             self.add_stats(caid, -defse, 'defense')
+            with open('loans.json', 'r') as f:
+                loans = json.load(f)
+            if str(ctx.author.id) in loans and loans[str(ctx.author.id)]['active']:
+                del loans[str(ctx.author.id)]
+                with open('loans.json', 'w') as f:
+                    json.dump(loans, f, sort_keys = False, indent = 4)
             msg = 'All of your stats have been reset.'
         else:
             msg = 'You did not ask to reset your stats yet!'
@@ -598,32 +608,29 @@ class Game(commands.Cog, Utils):
         
     @tasks.loop(seconds = 5)
     async def loan_check(self):
-        try:
-            with open('loans.json', 'r') as f:
-                loans = json.load(f)
-            loans_original = loans.copy()
-            for user_id in loans_original:
-                now = int(time.time())
-                loan = loans[user_id]
-                if loan['time'] <= now:
-                    current = self.calculate_loan(loan['principal'], loan['start'])
-                    if self.get_stats(user_id, 'credits') > current:
-                        self.add_stats(user_id, -current, 'credits')
-                        msg = 'The time to return your loan is over, and the amount, `{}` credits, has automatically been collected from you.'.format(current)
-                    else:
-                        cred = self.get_stats(user_id, 'credits')
-                        store = self.get_stats(user_id, 'storage')
-                        defse = self.get_stats(user_id, 'defense')
-                        self.add_stats(user_id, -cred, 'credits')
-                        self.add_stats(user_id, -store, 'storage')
-                        self.add_stats(user_id, -defse, 'defense')
-                        msg = 'You have not returned your loan in time. All of your stats have been reset.'
-                    del loans[str(user_id)]
-                    with open('loans.json', 'w') as f:
-                        json.dump(loans, f, sort_keys = False, indent = 4)
-                    await self.bot.get_user(int(user_id)).send(msg)
-        except Exception as e:
-            print(e)
+        with open('loans.json', 'r') as f:
+            loans = json.load(f)
+        loans_original = loans.copy()
+        for user_id in loans_original:
+            now = int(time.time())
+            loan = loans[user_id]
+            if loan['time'] <= now:
+                current = self.calculate_loan(loan['principal'], loan['start'])
+                if self.get_stats(user_id, 'credits') > current:
+                    self.add_stats(user_id, -current, 'credits')
+                    msg = 'The time to return your loan is over, and the amount, `{}` credits, has automatically been collected from you.'.format(current)
+                else:
+                    cred = self.get_stats(user_id, 'credits')
+                    store = self.get_stats(user_id, 'storage')
+                    defse = self.get_stats(user_id, 'defense')
+                    self.add_stats(user_id, -cred, 'credits')
+                    self.add_stats(user_id, -store, 'storage')
+                    self.add_stats(user_id, -defse, 'defense')
+                    msg = 'You have not returned your loan in time. All of your stats have been reset.'
+                del loans[str(user_id)]
+                with open('loans.json', 'w') as f:
+                    json.dump(loans, f, sort_keys = False, indent = 4)
+                await self.bot.get_user(int(user_id)).send(msg)
     
     @commands.command(
         name = "getcredits",
