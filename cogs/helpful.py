@@ -45,6 +45,15 @@ class Helpful(commands.Cog, Utils):
 )
     async def websitelink(self, ctx):
         await ctx.send('Emu Bot website link:\nhttps://sites.google.com/view/emu-bot-habitat/home')
+        
+    @commands.command(
+    name = 'reportbug',
+    description = 'Report a bug, problem, or exploit in the Emu Bot',
+    brief = 'Report a bug',
+    aliases = ['report', 'bug', 'exploit', 'reportexploit', 'problem']
+)
+    async def report_bug(self, ctx):
+        await ctx.send('https://forms.gle/SJokEuA4kHGmCNBm8')
 
     @commands.command(
         name = 'history',
