@@ -1,4 +1,5 @@
 import discord
+import json
 import os
 import shutil
 
@@ -16,7 +17,17 @@ class Backup(commands.Cog, Utils):
         
     @tasks.loop(seconds = 30.0)
     async def backup(self):
+        await self.bot.wait_until_ready()
         if os.path.isfile('users.json'):
+            try:
+                with open('users.json', 'r') as f:
+                    stats = json.load(f)
+            except json.decoder.JSONDecodeError:
+                msg = 'Corrupted stats file, please replace'
+                await self.bot.get_user(369267862050832385).send(msg)
+                print(msg)
+                return
+            
             if os.path.isfile('users.json.bak'):
                 os.rename('users.json.bak', 'users.json.bak.bak')
             shutil.copy('users.json', 'users.json.bak')
