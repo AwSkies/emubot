@@ -21,11 +21,15 @@ class Misc(commands.Cog, Utils):
             msg = "You can't make me send an empty message!"
             await ctx.send(msg)
         else:
-            embed = discord.Embed(color = ctx.author.roles[-1].color)
+            if isinstance(ctx.channel, discord.DMChannel):
+                embed = discord.Embed()
+            else:
+                embed = discord.Embed(color = ctx.author.roles[-1].color)
             name = 'The Emu says:'
             embed.add_field(name = name, value = ' '.join(args), inline=False)
             embed.set_footer(text = "-" + str(ctx.author))
-            await ctx.message.delete()
+            if not isinstance(ctx.channel, discord.DMChannel):
+                await ctx.message.delete()
             await ctx.send(embed=embed)
         
     @commands.group(
