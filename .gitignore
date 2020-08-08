@@ -5,8 +5,8 @@
 #bot token files
 *.token.txt
 
-#geany project files
-*.geany
+#vscode project file
+*.code-workspace
 
 #vitual environments
 virtenv/
