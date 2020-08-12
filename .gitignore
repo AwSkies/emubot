@@ -1,3 +1,18 @@
+#stat files
 *.json
-*.txt
+*.bak
+
+#bot token files
+*.token.txt
+
+#vscode project file
+*.code-workspace
+
+#vitual environments
 virtenv/
+
+#cogs pycache
+cogs/__pycache__/
+
+#promo message file
+promo.txt
