@@ -18,7 +18,6 @@ class Game(commands.Cog, Utils):
         self.bot = bot
         self.loan_check.start()
         self.loans = {}
-        #tracemalloc.start()
         
     def cog_unload(self):
         self.loan_check.cancel()
