@@ -42,9 +42,8 @@ class Game(commands.Cog, Utils):
         invoke_without_command = True,
         case_insensitive = True
 )
-    async def stats(self, ctx, mention = None):
-        if not mention == None:
-            user = ctx.message.mentions[0]
+    async def stats(self, ctx, user: discord.User = None):
+        if not user == None:
             person = "{} has".format(user.name)
         else:
             user = ctx.author
@@ -182,8 +181,8 @@ class Game(commands.Cog, Utils):
         help = "Gifts other users your credits. Only do this if you really want to, because they will not give them back most likely.",
         usage = "[number] [@mention]"
 )
-    async def give(self, ctx, numcreds: int, mention: str):
-        uid = ctx.message.mentions[0].id
+    async def give(self, ctx, numcreds: int, user: discord.User):
+        uid = user.id
         with open('loans.json', 'r') as f:
                 loans = json.load(f)
         if str(ctx.author.id) in loans and loans[str(ctx.author.id)]['active']:
@@ -201,7 +200,7 @@ class Game(commands.Cog, Utils):
         else:
             self.add_stats(ctx.message.mentions[0].id, numcreds, 'credits')
             self.add_stats(ctx.author.id, -numcreds, 'credits')
-            msg = 'You gave `{0}` credits to {1.message.mentions[0].mention}.'.format(numcreds, ctx)
+            msg = 'You gave `{0}` credits to {1.mention}.'.format(numcreds, user)
         await ctx.send(msg)
         
     @commands.command(
@@ -214,8 +213,8 @@ class Game(commands.Cog, Utils):
         cooldown_after_parsing = True
 )
     @commands.cooldown(1, Utils.ATTACKCOOLDOWN, BucketType.user)
-    async def attack(self, ctx, numemus: int, mention: str):
-        uid = ctx.message.mentions[0].id
+    async def attack(self, ctx, numemus: int, user: discord.User):
+        uid = user.id
         if numemus > self.get_stats(ctx.author.id, 'storage'):
             msg = "You don't have that many emus than you have in storage, you silly emu warlord! Remember, you can buy emus with e!buy!"
         elif numemus <= 0:
