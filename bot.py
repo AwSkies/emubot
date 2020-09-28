@@ -22,6 +22,7 @@ class EmuBot(commands.Bot, Utils):
         DESCRIPTION = '''A discord bot to honor our best friends, the emus. 
 With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.
 This bot was created by CaptainClumsy#3018 with some help from Beastkin#9390
+Support the Emu Bot on Patreon: https://patreon.com/emubot
 {}'''.format(PROMO)
 
         self.dummy = args.dummy
@@ -33,7 +34,7 @@ This bot was created by CaptainClumsy#3018 with some help from Beastkin#9390
                              activity = discord.Game(name = 'Reloading...'))
         Utils.__init__(self, self.dummy)
 
-        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.rewards', 'cogs.misc', 'cogs.helpful', 'cogs.errors', 'cogs.backup']
+        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.rewards', 'cogs.misc', 'cogs.helpful', 'cogs.patreon', 'cogs.errors', 'cogs.backup']
         if self.dummy:
             self.COGS.remove('cogs.backup')
         for cog in self.COGS:

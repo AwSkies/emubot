@@ -1,2 +1,3 @@
 discord.py
-fuzzywuzzy
+fuzzywuzzy[speedup]
+patreon
