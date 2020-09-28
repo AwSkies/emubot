@@ -5,7 +5,7 @@ class Utils(object):
     ATTACKCOOLDOWN = 14400.0
     LOANINTRATE = 1.10 #per minute
     def __init__(self, dummy: bool):
-        self.STATSFILE = self.STATSFILE if not dummy else 'dummy.json'
+        self.STATSFILE = 'users.json' if not dummy else 'dummy.json'
         self.EMUPRICE = 500
         self.EMUSELLPRICE = 400
         self.MAXEMUS = 20
