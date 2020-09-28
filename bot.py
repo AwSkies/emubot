@@ -1,9 +1,15 @@
+import argparse
 import discord
 
 from discord.ext import commands
 from cogs.UtilsLib import Utils
 
-with open('bot.token.txt', 'r') as f:
+parser = argparse.ArgumentParser(description = 'run the Emu Bot')
+parser.add_argument('-d', '--dummy', action = 'store_true', help = 'connect the bot to the dummy account, rather than the main Emu Bot account; used for testing')
+args = parser.parse_args()
+file = 'bot.token.txt' if not args.dummy else 'dummy.token.txt'
+
+with open(file, 'r') as f:
     TOKEN = f.readline()
 
 with open('promo.txt', 'r') as f:
