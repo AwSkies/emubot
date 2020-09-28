@@ -6,7 +6,7 @@ from cogs.UtilsLib import Utils
 class Fun(commands.Cog, Utils):
     """Commands that mostly have no point other than to have a good laugh."""
     def __init__(self, bot):
-        Utils.__init__(self)
+        Utils.__init__(self, bot.dummy)
         self.bot = bot
 
     @commands.command(

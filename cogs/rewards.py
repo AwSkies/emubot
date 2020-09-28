@@ -7,7 +7,7 @@ from cogs.UtilsLib import Utils
 class Rewards(commands.Cog, Utils):
     """Ways to view and set (rewards can only be set by server admins) custom rewards that can be bought with credits earned in the Emu Bot game"""
     def __init__(self, bot):
-        Utils.__init__(self)
+        Utils.__init__(self, bot.dummy)
         self.bot = bot
     
     @commands.group(

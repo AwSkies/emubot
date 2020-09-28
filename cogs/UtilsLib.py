@@ -4,7 +4,8 @@ import os.path
 class Utils(object):
     ATTACKCOOLDOWN = 14400.0
     LOANINTRATE = 1.10 #per minute
-    def __init__(self):
+    def __init__(self, dummy: bool):
+        self.STATSFILE = self.STATSFILE if not dummy else 'dummy.json'
         self.EMUPRICE = 500
         self.EMUSELLPRICE = 400
         self.MAXEMUS = 20
@@ -29,40 +30,40 @@ class Utils(object):
         user_id = str(user_id)
         if user_id == str(self.bot.user.id):
             return
-        if os.path.isfile("users.json"):
+        if os.path.isfile(self.STATSFILE):
             try:
-                with open('users.json', 'r') as fp:
+                with open(self.STATSFILE, 'r') as fp:
                     users = json.load(fp)
                 if valuetype in users[user_id]:
                     users[user_id][valuetype] += amount
                 else:
                     users[user_id][valuetype] = amount
-                with open('users.json', 'w') as fp:
+                with open(self.STATSFILE, 'w') as fp:
                     json.dump(users, fp, sort_keys=True, indent=4)
             except KeyError:
-                with open('users.json', 'r') as fp:
+                with open(self.STATSFILE, 'r') as fp:
                     users = json.load(fp)
                 users[user_id] = {}
                 users[user_id][valuetype] = amount
-                with open('users.json', 'w') as fp:
+                with open(self.STATSFILE, 'w') as fp:
                     json.dump(users, fp, sort_keys=True, indent=4)
         else:
             users = {user_id: {}}
             users[user_id][valuetype] = amount
-            with open('users.json', 'w') as fp:
+            with open(self.STATSFILE, 'w') as fp:
                 json.dump(users, fp, sort_keys=True, indent=4)
     
     def get_stats(self, user_id: str, valuetype: str):
         if not valuetype in self.ALL_VALUE_TYPES:
             raise TypeError("valuetype must be " + ', '.join(self.ALL_VALUE_TYPES))
         user_id = str(user_id)
-        if os.path.isfile('users.json'):
+        if os.path.isfile(self.STATSFILE):
             try:
-                with open('users.json', 'r') as fp:
+                with open(self.STATSFILE, 'r') as fp:
                     users = json.load(fp)
                 return users[user_id][valuetype]
             except KeyError:
-                with open('users.json', 'r') as fp:
+                with open(self.STATSFILE, 'r') as fp:
                     users = json.load(fp)
                 users[user_id] = {}
                 users[user_id][valuetype] = 0

@@ -8,7 +8,7 @@ from fuzzywuzzy import process
 
 class ErrorHandler(commands.Cog, Utils):
     def __init__(self, bot):
-        Utils.__init__(self)
+        Utils.__init__(self, bot.dummy)
         self.bot = bot
         self.all_commands = []
         for command in [command for command in self.bot.commands if not command.hidden]:

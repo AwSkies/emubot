@@ -6,7 +6,7 @@ from cogs.UtilsLib import Utils
 class Misc(commands.Cog, Utils):
     """Commands that don't really fit into any other category."""
     def __init__(self, bot):
-        Utils.__init__(self)
+        Utils.__init__(self, bot.dummy)
         self.bot = bot
 
     @commands.command(

@@ -6,7 +6,7 @@ from cogs.UtilsLib import Utils
 class Helpful(commands.Cog, Utils):
     """Commands that give helpful information about emus, the Great Emu War, and the Emu Bot."""
     def __init__(self, bot):
-        Utils.__init__(self)
+        Utils.__init__(self, bot.dummy)
         self.bot = bot
 
     @commands.command(

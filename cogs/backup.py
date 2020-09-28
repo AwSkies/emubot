@@ -8,7 +8,7 @@ from cogs.UtilsLib import Utils
 
 class Backup(commands.Cog, Utils):
     def __init__(self, bot):
-        Utils.__init__(self)
+        Utils.__init__(self, bot.dummy)
         self.bot = bot
         self.backup.start()
         

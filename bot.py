@@ -23,15 +23,19 @@ class EmuBot(commands.Bot, Utils):
 With this bot you can use fun (and pointless) commands, earn credits by chatting, use those credits to buy emus, and use those emus to attack or defend against your friends.
 This bot was created by CaptainClumsy#3018 with some help from Beastkin#9390
 {}'''.format(PROMO)
+
+        self.dummy = args.dummy
         
         commands.Bot.__init__(self,
                              command_prefix = ['e!', 'E!'],
                              description = DESCRIPTION,
                              case_insensitive = True,
                              activity = discord.Game(name = 'Reloading...'))
-        Utils.__init__(self)
-        
+        Utils.__init__(self, self.dummy)
+
         self.COGS = ['cogs.fun', 'cogs.game', 'cogs.rewards', 'cogs.misc', 'cogs.helpful', 'cogs.errors', 'cogs.backup']
+        if self.dummy:
+            self.COGS.remove('cogs.backup')
         for cog in self.COGS:
             self.load_extension(cog)
             
