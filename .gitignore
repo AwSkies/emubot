@@ -5,8 +5,9 @@
 #bot token files
 *.token.txt
 
-#vscode project file
+#project files
 *.code-workspace
+.replit
 
 #vitual environments
 virtenv/
