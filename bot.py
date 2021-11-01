@@ -34,7 +34,7 @@ Support the Emu Bot on Patreon: https://patreon.com/emubot
                              activity = discord.Game(name = 'Reloading...'))
         Utils.__init__(self, self.dummy)
 
-        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.rewards', 'cogs.misc', 'cogs.helpful', 'cogs.errors', 'cogs.backup']
+        self.COGS = ['cogs.fun', 'cogs.game', 'cogs.rewards', 'cogs.misc', 'cogs.helpful', 'cogs.errors', 'cogs.backup', 'cogs.alive']
         if self.dummy:
             self.COGS.remove('cogs.backup')
         for cog in self.COGS:
