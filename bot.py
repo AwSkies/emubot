@@ -14,8 +14,7 @@ with open(file, 'r') as f:
 
 with open('promo.txt', 'r') as f:
     PROMO = f.read()
-    if PROMO.endswith('\n'):
-        PROMO = PROMO[:-1]
+    PROMO = PROMO.strip('\n')
 
 class EmuBot(commands.Bot, Utils):
     def __init__(self):
